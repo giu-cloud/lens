@@ -1,0 +1,50 @@
+# Vento dal radar dei Sentinel-1 (Copernicus Marine), per il banco di Lens.
+# A comando (Actions -> radar -> Run workflow) o modificando banco/dati/lancia_radar.env.
+# Segreti: CMEMS_USER e CMEMS_PASS (account gratuito Copernicus Marine).
+name: radar
+on:
+  workflow_dispatch:
+    inputs:
+      aree: {description: "aree separate da virgole (vuoto = solo l'elenco dei dataset)", default: ""}
+      da: {description: "primo giorno AAAA-MM-GG", default: "2024-04-01"}
+      a: {description: "ultimo giorno AAAA-MM-GG (vuoto = oggi)", default: ""}
+  push:
+    paths: [banco/dati/lancia_radar.env]
+permissions:
+  contents: write
+jobs:
+  radar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -q copernicusmarine numpy xarray netCDF4 h5netcdf
+      - name: Parametri
+        id: p
+        run: |
+          AREE="${{ github.event.inputs.aree }}"; DA="${{ github.event.inputs.da }}"; A="${{ github.event.inputs.a }}"
+          if [ "${{ github.event_name }}" = "push" ]; then . banco/dati/lancia_radar.env; fi
+          echo "aree=$AREE" >> $GITHUB_OUTPUT; echo "da=${DA:-2024-04-01}" >> $GITHUB_OUTPUT; echo "a=${A:-$(date -u +%F)}" >> $GITHUB_OUTPUT
+      - name: Segreti presenti?
+        env: {CMEMS_USER: "${{ secrets.CMEMS_USER }}", CMEMS_PASS: "${{ secrets.CMEMS_PASS }}"}
+        run: |
+          [ -n "$CMEMS_USER" ] && echo "CMEMS_USER presente" || echo "CMEMS_USER MANCA"
+          [ -n "$CMEMS_PASS" ] && echo "CMEMS_PASS presente" || echo "CMEMS_PASS MANCA"
+          { [ -n "$CMEMS_USER" ] && echo "CMEMS_USER presente" || echo "CMEMS_USER MANCA"; [ -n "$CMEMS_PASS" ] && echo "CMEMS_PASS presente" || echo "CMEMS_PASS MANCA"; } > segreti.txt
+      - name: Scarica
+        env: {CMEMS_USER: "${{ secrets.CMEMS_USER }}", CMEMS_PASS: "${{ secrets.CMEMS_PASS }}"}
+        run: |
+          mkdir -p radar; cp segreti.txt radar/
+          if [ -n "${{ steps.p.outputs.aree }}" ]; then
+            python banco/dati/costa.py --area "${{ steps.p.outputs.aree }}" --da "${{ steps.p.outputs.da }}" --a "${{ steps.p.outputs.a }}" --out radar || true
+          else
+            python banco/dati/costa.py --descrivi --out radar || true
+          fi
+          ls -la radar
+      - name: Pubblica
+        env: {GH_TOKEN: "${{ github.token }}"}
+        run: |
+          gh release view radar > /dev/null 2>&1 || gh release create radar --title "Vento dal radar (Sentinel-1)" --notes "E.U. Copernicus Marine Service Information: WIND_MED_PHY_HR_L3_NRT_012_104. Un .npz per area e per dataset, e i registri."
+          gh release upload radar radar/* --clobber

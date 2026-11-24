@@ -1,0 +1,51 @@
+# Le corse ECMWF (dati aperti, CC BY 4.0) per i passaggi del radar, dal 2024: vento a 10 m, passi 3 e 6 h, ritagliato.
+# A comando (Actions -> ecmwf_aperto -> Run workflow) o modificando banco/dati/lancia_ecmwf.env.
+name: ecmwf_aperto
+on:
+  workflow_dispatch:
+    inputs:
+      da: {description: "primo mese AAAA-MM", default: "2024-04"}
+      a: {description: "ultimo mese AAAA-MM", default: "2026-11"}
+  push:
+    paths: [banco/dati/lancia_ecmwf.env]
+permissions:
+  contents: write
+jobs:
+  mesi:
+    runs-on: ubuntu-latest
+    outputs: {mesi: "${{ steps.m.outputs.mesi }}"}
+    steps:
+      - uses: actions/checkout@v4
+      - id: m
+        run: |
+          DA="${{ github.event.inputs.da }}"; A="${{ github.event.inputs.a }}"
+          if [ "${{ github.event_name }}" = "push" ]; then . banco/dati/lancia_ecmwf.env; fi
+          python3 -c "
+          import json,sys
+          da,a='${DA:-2024-04}','${A:-2026-11}'
+          y,m=map(int,da.split('-')); Y,M=map(int,a.split('-')); out=[]
+          while (y,m)<=(Y,M):
+              out.append(f'{y:04d}-{m:02d}'); m+=1
+              if m>12: y,m=y+1,1
+          print('mesi='+json.dumps(out))" >> $GITHUB_OUTPUT
+  scarica:
+    needs: mesi
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix: {mese: "${{ fromJson(needs.mesi.outputs.mesi) }}"}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -q numpy eccodes
+      - run: python banco/dati/ecmwf_aperto.py --mese ${{ matrix.mese }} --out ecmwf
+      - name: Pubblica
+        if: always()
+        env: {GH_TOKEN: "${{ github.token }}"}
+        run: |
+          tag=ecmwf-aperto-${{ matrix.mese }}
+          gh release view $tag > /dev/null 2>&1 || gh release create $tag --title "ECMWF aperto ${{ matrix.mese }}" --notes "ECMWF open data (CC BY 4.0), vento a 10 m, passi 3 e 6 h delle corse delle 00 e 12, ritagliato su 35-45,5 N e 7,5-16,5 E per il banco di Lens."
+          ls ecmwf/* > /dev/null 2>&1 && gh release upload $tag ecmwf/* --clobber || echo "niente da pubblicare"
