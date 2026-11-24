@@ -1,0 +1,200 @@
+scene con Lens: 303 su 303
+
+== palermo: 303 scene, 58582 celle con il modello oltre 3 m/s
+   radar/ECMWF e Lens/ECMWF (mediane) per distanza dalla terra:
+   dove Lens cambia il modello (Lens/ECMWF), che cosa dice il radar (radar/ECMWF), oltre 1,5 km dalla terra:
+      Lens     0-0.6: Lens 0.47  radar 1.27  (4454 celle)
+      Lens   0.6-0.8: Lens 0.72  radar 1.24  (6762 celle)
+      Lens   0.8-0.9: Lens 0.87  radar 1.16  (8421 celle)
+      Lens   0.9-1.0: Lens 0.95  radar 1.05  (35917 celle)
+      Lens   1.0-1.1: Lens 1.02  radar 1.07  (1929 celle)
+      Lens  1.1-1.25: Lens 1.13  radar 1.09  (90 celle)
+      Lens    1.25-9: Lens nan  radar nan  (0 celle)
+   correlazione per scena tra le forme di Lens e del radar: mediana -0.29 su 193 scene
+   tutto                           0-1.5 km 1.37/0.79    1.5-3 km 1.28/0.82      3-5 km 1.22/0.88     5-10 km 1.09/0.93   10-999 km 0.99/0.96
+   mattina (05 UTC)                0-1.5 km 1.33/0.67    1.5-3 km 1.29/0.74      3-5 km 1.24/0.82     5-10 km 1.10/0.92   10-999 km 1.01/0.95
+   sera (17 UTC)                   0-1.5 km 1.39/0.81    1.5-3 km 1.26/0.87      3-5 km 1.20/0.92     5-10 km 1.08/0.94   10-999 km 0.96/0.96
+   aprile-settembre                0-1.5 km 1.45/0.81    1.5-3 km 1.32/0.86      3-5 km 1.24/0.90     5-10 km 1.10/0.94   10-999 km 0.97/0.96
+   ottobre-marzo                   0-1.5 km 1.30/0.75    1.5-3 km 1.26/0.80      3-5 km 1.21/0.86     5-10 km 1.09/0.93   10-999 km 1.01/0.96
+   modello 3-6 m/s (6-12 nodi)     0-1.5 km 1.39/0.73    1.5-3 km 1.30/0.77      3-5 km 1.25/0.84     5-10 km 1.14/0.92   10-999 km 1.03/0.95
+   modello oltre 6 m/s (12 nodi)   0-1.5 km 1.33/0.86    1.5-3 km 1.23/0.90      3-5 km 1.17/0.92     5-10 km 1.03/0.94   10-999 km 0.95/0.96
+scene con Lens: 406 su 406
+
+== egadi: 406 scene, 416543 celle con il modello oltre 3 m/s
+   radar/ECMWF e Lens/ECMWF (mediane) per distanza dalla terra:
+   dove Lens cambia il modello (Lens/ECMWF), che cosa dice il radar (radar/ECMWF), oltre 1,5 km dalla terra:
+      Lens     0-0.6: Lens 0.51  radar 0.91  (646 celle)
+      Lens   0.6-0.8: Lens 0.74  radar 0.98  (2418 celle)
+      Lens   0.8-0.9: Lens 0.87  radar 1.01  (6657 celle)
+      Lens   0.9-1.0: Lens 0.98  radar 1.00  (372865 celle)
+      Lens   1.0-1.1: Lens 1.01  radar 1.08  (29017 celle)
+      Lens  1.1-1.25: Lens 1.11  radar 1.07  (176 celle)
+      Lens    1.25-9: Lens nan  radar nan  (3 celle)
+   correlazione per scena tra le forme di Lens e del radar: mediana 0.09 su 348 scene
+   tutto                           0-1.5 km 1.04/0.97    1.5-3 km 1.04/0.97      3-5 km 1.03/0.98     5-10 km 1.00/0.98   10-999 km 1.00/0.99
+   mattina (05 UTC)                0-1.5 km 1.02/0.97    1.5-3 km 1.03/0.97      3-5 km 1.03/0.97     5-10 km 1.03/0.98   10-999 km 1.04/0.98
+   sera (17 UTC)                   0-1.5 km 1.05/0.96    1.5-3 km 1.05/0.97      3-5 km 1.03/0.98     5-10 km 0.99/0.98   10-999 km 0.98/0.99
+   aprile-settembre                0-1.5 km 1.05/0.97    1.5-3 km 1.04/0.97      3-5 km 1.02/0.98     5-10 km 1.00/0.98   10-999 km 1.00/0.99
+   ottobre-marzo                   0-1.5 km 1.02/0.96    1.5-3 km 1.04/0.97      3-5 km 1.04/0.98     5-10 km 1.00/0.98   10-999 km 1.00/0.99
+   modello 3-6 m/s (6-12 nodi)     0-1.5 km 1.08/0.96    1.5-3 km 1.07/0.97      3-5 km 1.06/0.98     5-10 km 1.03/0.98   10-999 km 1.03/0.99
+   modello oltre 6 m/s (12 nodi)   0-1.5 km 1.01/0.97    1.5-3 km 1.01/0.97      3-5 km 1.01/0.98     5-10 km 0.98/0.98   10-999 km 0.98/0.98
+scene con Lens: 404 su 404
+
+== eolie: 404 scene, 685922 celle con il modello oltre 3 m/s
+   radar/ECMWF e Lens/ECMWF (mediane) per distanza dalla terra:
+   dove Lens cambia il modello (Lens/ECMWF), che cosa dice il radar (radar/ECMWF), oltre 1,5 km dalla terra:
+      Lens     0-0.6: Lens 0.47  radar 0.99  (15604 celle)
+      Lens   0.6-0.8: Lens 0.73  radar 1.01  (24036 celle)
+      Lens   0.8-0.9: Lens 0.87  radar 0.99  (37016 celle)
+      Lens   0.9-1.0: Lens 0.98  radar 0.97  (541198 celle)
+      Lens   1.0-1.1: Lens 1.01  radar 1.05  (54850 celle)
+      Lens  1.1-1.25: Lens 1.13  radar 1.11  (1496 celle)
+      Lens    1.25-9: Lens 1.29  radar 1.18  (71 celle)
+   correlazione per scena tra le forme di Lens e del radar: mediana 0.06 su 288 scene
+   tutto                           0-1.5 km 1.01/0.90    1.5-3 km 1.00/0.93      3-5 km 0.98/0.95     5-10 km 0.98/0.97   10-999 km 0.97/0.98
+   mattina (05 UTC)                0-1.5 km 1.01/0.89    1.5-3 km 1.02/0.92      3-5 km 1.00/0.94     5-10 km 1.01/0.96   10-999 km 1.01/0.98
+   sera (17 UTC)                   0-1.5 km 1.01/0.91    1.5-3 km 0.99/0.93      3-5 km 0.97/0.95     5-10 km 0.96/0.97   10-999 km 0.95/0.98
+   aprile-settembre                0-1.5 km 1.02/0.89    1.5-3 km 1.00/0.93      3-5 km 0.98/0.95     5-10 km 0.98/0.97   10-999 km 0.97/0.98
+   ottobre-marzo                   0-1.5 km 1.01/0.91    1.5-3 km 1.00/0.93      3-5 km 0.98/0.95     5-10 km 0.98/0.97   10-999 km 0.97/0.98
+   modello 3-6 m/s (6-12 nodi)     0-1.5 km 1.06/0.88    1.5-3 km 1.03/0.92      3-5 km 1.01/0.94     5-10 km 1.02/0.96   10-999 km 1.01/0.98
+   modello oltre 6 m/s (12 nodi)   0-1.5 km 0.96/0.94    1.5-3 km 0.97/0.95      3-5 km 0.95/0.95     5-10 km 0.95/0.97   10-999 km 0.94/0.98
+scene con Lens: 404 su 404
+
+== napoli: 404 scene, 306747 celle con il modello oltre 3 m/s
+   radar/ECMWF e Lens/ECMWF (mediane) per distanza dalla terra:
+   dove Lens cambia il modello (Lens/ECMWF), che cosa dice il radar (radar/ECMWF), oltre 1,5 km dalla terra:
+      Lens     0-0.6: Lens 0.46  radar 1.01  (11889 celle)
+      Lens   0.6-0.8: Lens 0.72  radar 1.04  (20220 celle)
+      Lens   0.8-0.9: Lens 0.86  radar 1.03  (28180 celle)
+      Lens   0.9-1.0: Lens 0.97  radar 1.00  (199988 celle)
+      Lens   1.0-1.1: Lens 1.02  radar 1.15  (31890 celle)
+      Lens  1.1-1.25: Lens 1.13  radar 1.14  (1385 celle)
+      Lens    1.25-9: Lens 1.31  radar 1.17  (102 celle)
+   correlazione per scena tra le forme di Lens e del radar: mediana 0.05 su 348 scene
+   tutto                           0-1.5 km 1.07/0.87    1.5-3 km 1.08/0.93      3-5 km 1.06/0.95     5-10 km 1.03/0.96   10-999 km 0.99/0.97
+   mattina (05 UTC)                0-1.5 km 1.09/0.85    1.5-3 km 1.08/0.91      3-5 km 1.06/0.94     5-10 km 1.05/0.95   10-999 km 1.03/0.97
+   sera (17 UTC)                   0-1.5 km 1.05/0.90    1.5-3 km 1.07/0.94      3-5 km 1.06/0.95     5-10 km 1.01/0.96   10-999 km 0.96/0.97
+   aprile-settembre                0-1.5 km 1.05/0.86    1.5-3 km 1.06/0.92      3-5 km 1.04/0.95     5-10 km 1.01/0.96   10-999 km 0.96/0.97
+   ottobre-marzo                   0-1.5 km 1.10/0.88    1.5-3 km 1.10/0.93      3-5 km 1.08/0.95     5-10 km 1.05/0.96   10-999 km 1.01/0.97
+   modello 3-6 m/s (6-12 nodi)     0-1.5 km 1.08/0.86    1.5-3 km 1.09/0.92      3-5 km 1.08/0.94     5-10 km 1.05/0.96   10-999 km 1.01/0.97
+   modello oltre 6 m/s (12 nodi)   0-1.5 km 1.06/0.91    1.5-3 km 1.06/0.94      3-5 km 1.03/0.95     5-10 km 0.99/0.96   10-999 km 0.96/0.97
+scene con Lens: 505 su 505
+
+== toscano: 505 scene, 1505413 celle con il modello oltre 3 m/s
+   radar/ECMWF e Lens/ECMWF (mediane) per distanza dalla terra:
+   dove Lens cambia il modello (Lens/ECMWF), che cosa dice il radar (radar/ECMWF), oltre 1,5 km dalla terra:
+      Lens     0-0.6: Lens 0.52  radar 0.95  (5649 celle)
+      Lens   0.6-0.8: Lens 0.74  radar 1.01  (23643 celle)
+      Lens   0.8-0.9: Lens 0.87  radar 1.02  (61244 celle)
+      Lens   0.9-1.0: Lens 0.97  radar 0.99  (1240333 celle)
+      Lens   1.0-1.1: Lens 1.01  radar 1.13  (154088 celle)
+      Lens  1.1-1.25: Lens 1.12  radar 1.33  (4085 celle)
+      Lens    1.25-9: Lens 1.32  radar 1.52  (115 celle)
+   correlazione per scena tra le forme di Lens e del radar: mediana 0.10 su 383 scene
+   tutto                           0-1.5 km 1.06/0.92    1.5-3 km 1.05/0.95      3-5 km 1.04/0.96     5-10 km 1.01/0.97   10-999 km 0.99/0.98
+   mattina (05 UTC)                0-1.5 km 1.04/0.91    1.5-3 km 1.04/0.95      3-5 km 1.03/0.96     5-10 km 1.01/0.97   10-999 km 0.99/0.98
+   sera (17 UTC)                   0-1.5 km 1.07/0.92    1.5-3 km 1.06/0.95      3-5 km 1.04/0.96     5-10 km 1.01/0.97   10-999 km 0.98/0.98
+   aprile-settembre                0-1.5 km 1.04/0.91    1.5-3 km 1.01/0.95      3-5 km 1.00/0.96     5-10 km 0.97/0.97   10-999 km 0.95/0.98
+   ottobre-marzo                   0-1.5 km 1.07/0.92    1.5-3 km 1.08/0.95      3-5 km 1.07/0.96     5-10 km 1.05/0.97   10-999 km 1.02/0.98
+   modello 3-6 m/s (6-12 nodi)     0-1.5 km 1.10/0.91    1.5-3 km 1.10/0.95      3-5 km 1.09/0.96     5-10 km 1.06/0.97   10-999 km 1.02/0.98
+   modello oltre 6 m/s (12 nodi)   0-1.5 km 0.98/0.94    1.5-3 km 0.99/0.96      3-5 km 0.97/0.96     5-10 km 0.95/0.97   10-999 km 0.95/0.98
+scene con Lens: 307 su 307
+
+== maddalena-bonifacio: 307 scene, 358218 celle con il modello oltre 3 m/s
+   radar/ECMWF e Lens/ECMWF (mediane) per distanza dalla terra:
+   dove Lens cambia il modello (Lens/ECMWF), che cosa dice il radar (radar/ECMWF), oltre 1,5 km dalla terra:
+      Lens     0-0.6: Lens nan  radar nan  (5 celle)
+      Lens   0.6-0.8: Lens 0.76  radar 0.99  (299 celle)
+      Lens   0.8-0.9: Lens 0.88  radar 1.02  (4344 celle)
+      Lens   0.9-1.0: Lens 0.97  radar 0.98  (314524 celle)
+      Lens   1.0-1.1: Lens 1.01  radar 1.11  (30983 celle)
+      Lens  1.1-1.25: Lens 1.13  radar 1.29  (1069 celle)
+      Lens    1.25-9: Lens 1.28  radar 2.03  (94 celle)
+   correlazione per scena tra le forme di Lens e del radar: mediana 0.19 su 235 scene
+   tutto                           0-1.5 km 1.02/0.94    1.5-3 km 1.01/0.95      3-5 km 0.99/0.96     5-10 km 0.97/0.97   10-999 km 0.99/0.98
+   mattina (05 UTC)                0-1.5 km 1.02/0.94    1.5-3 km 1.03/0.95      3-5 km 1.01/0.96     5-10 km 0.98/0.97   10-999 km 0.99/0.98
+   sera (17 UTC)                   0-1.5 km 1.01/0.95    1.5-3 km 1.01/0.96      3-5 km 0.99/0.96     5-10 km 0.97/0.97   10-999 km 0.99/0.98
+   aprile-settembre                0-1.5 km 0.99/0.94    1.5-3 km 0.99/0.96      3-5 km 0.97/0.96     5-10 km 0.95/0.97   10-999 km 0.97/0.98
+   ottobre-marzo                   0-1.5 km 1.04/0.94    1.5-3 km 1.04/0.95      3-5 km 1.02/0.96     5-10 km 1.00/0.97   10-999 km 1.00/0.98
+   modello 3-6 m/s (6-12 nodi)     0-1.5 km 1.06/0.94    1.5-3 km 1.08/0.95      3-5 km 1.05/0.96     5-10 km 1.03/0.97   10-999 km 1.04/0.98
+   modello oltre 6 m/s (12 nodi)   0-1.5 km 1.00/0.95    1.5-3 km 0.99/0.96      3-5 km 0.97/0.96     5-10 km 0.95/0.97   10-999 km 0.97/0.98
+scene con Lens: 304 su 304
+
+== messina: 304 scene, 83933 celle con il modello oltre 3 m/s
+   radar/ECMWF e Lens/ECMWF (mediane) per distanza dalla terra:
+   dove Lens cambia il modello (Lens/ECMWF), che cosa dice il radar (radar/ECMWF), oltre 1,5 km dalla terra:
+      Lens     0-0.6: Lens 0.47  radar 1.10  (7568 celle)
+      Lens   0.6-0.8: Lens 0.73  radar 1.11  (14064 celle)
+      Lens   0.8-0.9: Lens 0.87  radar 1.16  (26598 celle)
+      Lens   0.9-1.0: Lens 0.93  radar 1.16  (30625 celle)
+      Lens   1.0-1.1: Lens 1.02  radar 1.43  (2038 celle)
+      Lens  1.1-1.25: Lens 1.14  radar 1.63  (119 celle)
+      Lens    1.25-9: Lens nan  radar nan  (2 celle)
+   correlazione per scena tra le forme di Lens e del radar: mediana 0.08 su 260 scene
+   tutto                           0-1.5 km 1.37/0.80    1.5-3 km 1.32/0.85      3-5 km 1.22/0.88     5-10 km 1.06/0.89   10-999 km 1.01/0.91
+   mattina (05 UTC)                0-1.5 km 1.26/0.80    1.5-3 km 1.26/0.85      3-5 km 1.17/0.88     5-10 km 1.02/0.88   10-999 km 0.93/0.91
+   sera (17 UTC)                   0-1.5 km 1.56/0.81    1.5-3 km 1.49/0.86      3-5 km 1.33/0.88     5-10 km 1.15/0.90   10-999 km 1.15/0.92
+   aprile-settembre                0-1.5 km 1.32/0.80    1.5-3 km 1.28/0.86      3-5 km 1.18/0.88     5-10 km 1.01/0.88   10-999 km 0.94/0.91
+   ottobre-marzo                   0-1.5 km 1.43/0.80    1.5-3 km 1.38/0.85      3-5 km 1.29/0.88     5-10 km 1.14/0.90   10-999 km 1.12/0.92
+   modello 3-6 m/s (6-12 nodi)     0-1.5 km 1.48/0.80    1.5-3 km 1.45/0.85      3-5 km 1.36/0.87     5-10 km 1.17/0.88   10-999 km 1.12/0.90
+   modello oltre 6 m/s (12 nodi)   0-1.5 km 1.14/0.81    1.5-3 km 1.13/0.87      3-5 km 1.07/0.89     5-10 km 0.96/0.90   10-999 km 0.90/0.92
+scene con Lens: 303 su 303
+
+== malta: 303 scene, 425260 celle con il modello oltre 3 m/s
+   radar/ECMWF e Lens/ECMWF (mediane) per distanza dalla terra:
+   dove Lens cambia il modello (Lens/ECMWF), che cosa dice il radar (radar/ECMWF), oltre 1,5 km dalla terra:
+      Lens     0-0.6: Lens nan  radar nan  (0 celle)
+      Lens   0.6-0.8: Lens 0.78  radar 1.01  (38 celle)
+      Lens   0.8-0.9: Lens 0.88  radar 1.00  (745 celle)
+      Lens   0.9-1.0: Lens 0.98  radar 1.00  (374527 celle)
+      Lens   1.0-1.1: Lens 1.01  radar 1.18  (46480 celle)
+      Lens  1.1-1.25: Lens 1.12  radar 1.53  (340 celle)
+      Lens    1.25-9: Lens nan  radar nan  (6 celle)
+   correlazione per scena tra le forme di Lens e del radar: mediana 0.44 su 90 scene
+   tutto                           0-1.5 km 1.16/0.98    1.5-3 km 1.14/0.99      3-5 km 1.10/0.99     5-10 km 1.04/0.98   10-999 km 0.99/0.98
+   mattina (05 UTC)                0-1.5 km 1.16/0.97    1.5-3 km 1.15/0.99      3-5 km 1.13/0.99     5-10 km 1.08/0.98   10-999 km 1.04/0.98
+   sera (17 UTC)                   0-1.5 km 1.16/0.98    1.5-3 km 1.12/0.99      3-5 km 1.07/0.99     5-10 km 1.01/0.98   10-999 km 0.96/0.98
+   aprile-settembre                0-1.5 km 1.16/0.97    1.5-3 km 1.13/0.99      3-5 km 1.08/0.99     5-10 km 1.03/0.98   10-999 km 1.00/0.98
+   ottobre-marzo                   0-1.5 km 1.16/0.98    1.5-3 km 1.14/0.99      3-5 km 1.11/0.99     5-10 km 1.04/0.98   10-999 km 0.99/0.98
+   modello 3-6 m/s (6-12 nodi)     0-1.5 km 1.22/0.98    1.5-3 km 1.19/0.99      3-5 km 1.14/0.99     5-10 km 1.07/0.98   10-999 km 1.02/0.98
+   modello oltre 6 m/s (12 nodi)   0-1.5 km 1.09/0.98    1.5-3 km 1.09/0.99      3-5 km 1.06/0.99     5-10 km 1.01/0.98   10-999 km 0.98/0.98
+scene con Lens: 408 su 408
+
+== cagliari: 408 scene, 279578 celle con il modello oltre 3 m/s
+   radar/ECMWF e Lens/ECMWF (mediane) per distanza dalla terra:
+   dove Lens cambia il modello (Lens/ECMWF), che cosa dice il radar (radar/ECMWF), oltre 1,5 km dalla terra:
+      Lens     0-0.6: Lens 0.55  radar 0.82  (321 celle)
+      Lens   0.6-0.8: Lens 0.75  radar 1.01  (2924 celle)
+      Lens   0.8-0.9: Lens 0.87  radar 1.06  (9514 celle)
+      Lens   0.9-1.0: Lens 0.97  radar 1.03  (223073 celle)
+      Lens   1.0-1.1: Lens 1.01  radar 1.14  (26766 celle)
+      Lens  1.1-1.25: Lens 1.12  radar 1.63  (271 celle)
+      Lens    1.25-9: Lens nan  radar nan  (6 celle)
+   correlazione per scena tra le forme di Lens e del radar: mediana 0.06 su 326 scene
+   tutto                           0-1.5 km 1.11/0.94    1.5-3 km 1.10/0.95      3-5 km 1.09/0.96     5-10 km 1.06/0.96   10-999 km 1.02/0.98
+   mattina (05 UTC)                0-1.5 km 1.10/0.94    1.5-3 km 1.11/0.95      3-5 km 1.12/0.96     5-10 km 1.07/0.96   10-999 km 1.04/0.98
+   sera (17 UTC)                   0-1.5 km 1.12/0.94    1.5-3 km 1.09/0.95      3-5 km 1.08/0.96     5-10 km 1.04/0.96   10-999 km 0.99/0.98
+   aprile-settembre                0-1.5 km 1.10/0.95    1.5-3 km 1.08/0.96      3-5 km 1.07/0.96     5-10 km 1.06/0.97   10-999 km 1.02/0.98
+   ottobre-marzo                   0-1.5 km 1.13/0.94    1.5-3 km 1.11/0.94      3-5 km 1.11/0.95     5-10 km 1.06/0.96   10-999 km 1.02/0.98
+   modello 3-6 m/s (6-12 nodi)     0-1.5 km 1.16/0.94    1.5-3 km 1.16/0.95      3-5 km 1.15/0.96     5-10 km 1.13/0.97   10-999 km 1.08/0.98
+   modello oltre 6 m/s (12 nodi)   0-1.5 km 1.03/0.94    1.5-3 km 1.02/0.95      3-5 km 1.01/0.96     5-10 km 0.98/0.96   10-999 km 0.98/0.98
+scene con Lens: 406 su 406
+
+== genova: 406 scene, 525034 celle con il modello oltre 3 m/s
+   radar/ECMWF e Lens/ECMWF (mediane) per distanza dalla terra:
+   dove Lens cambia il modello (Lens/ECMWF), che cosa dice il radar (radar/ECMWF), oltre 1,5 km dalla terra:
+      Lens     0-0.6: Lens 0.44  radar 1.10  (57049 celle)
+      Lens   0.6-0.8: Lens 0.71  radar 1.11  (69252 celle)
+      Lens   0.8-0.9: Lens 0.86  radar 1.06  (63304 celle)
+      Lens   0.9-1.0: Lens 0.96  radar 0.99  (298216 celle)
+      Lens   1.0-1.1: Lens 1.02  radar 1.19  (34755 celle)
+      Lens  1.1-1.25: Lens 1.13  radar 1.56  (1939 celle)
+      Lens    1.25-9: Lens 1.31  radar 1.50  (207 celle)
+   correlazione per scena tra le forme di Lens e del radar: mediana -0.03 su 339 scene
+   tutto                           0-1.5 km 1.29/0.16    1.5-3 km 1.24/0.37      3-5 km 1.17/0.48     5-10 km 1.08/0.69   10-999 km 1.02/0.95
+   mattina (05 UTC)                0-1.5 km 1.25/0.12    1.5-3 km 1.25/0.32      3-5 km 1.16/0.43     5-10 km 1.07/0.64   10-999 km 1.03/0.95
+   sera (17 UTC)                   0-1.5 km 1.33/0.33    1.5-3 km 1.22/0.49      3-5 km 1.18/0.60     5-10 km 1.09/0.79   10-999 km 1.00/0.96
+   aprile-settembre                0-1.5 km 1.25/0.20    1.5-3 km 1.20/0.44      3-5 km 1.13/0.56     5-10 km 1.04/0.79   10-999 km 0.95/0.96
+   ottobre-marzo                   0-1.5 km 1.33/0.13    1.5-3 km 1.25/0.34      3-5 km 1.19/0.44     5-10 km 1.10/0.65   10-999 km 1.06/0.95
+   modello 3-6 m/s (6-12 nodi)     0-1.5 km 1.29/0.15    1.5-3 km 1.25/0.34      3-5 km 1.20/0.47     5-10 km 1.11/0.69   10-999 km 1.06/0.95
+   modello oltre 6 m/s (12 nodi)   0-1.5 km 1.31/0.17    1.5-3 km 1.22/0.43      3-5 km 1.13/0.50     5-10 km 1.02/0.69   10-999 km 0.98/0.95
