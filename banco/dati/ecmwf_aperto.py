@@ -1,4 +1,4 @@
-"""Le corse ECMWF dei dati aperti per i passaggi del radar: archivio su cloud pubblico, dal 2024.
+"""Le corse ECMWF dei dati aperti per i passaggi del radar: copia pubblica su Google Cloud, dal 2024.
 
 Il radar dei Sentinel-1 passa verso le 05 e le 17 UTC. La corsa più recente prima del passaggio è quella delle 00 o
 delle 12, con 4-6 ore di anticipo: bastano i passi a 3 e 6 ore. Per ogni giorno del mese si scaricano, dal file
@@ -7,7 +7,7 @@ sul riquadro delle aree di Lens e si scrive ecmwf_<AAAAMMGGHH>.grb2, come i file
 
   python ecmwf_aperto.py --mese 2025-07 --out ecmwf [--box 35,45.5,7.5,16.5] [--passi 3,6]
 
-Dati: ECMWF open data, CC BY 4.0 (copia pubblica su AWS, registro Open Data).
+Dati: ECMWF open data, CC BY 4.0 (copia pubblica su Google Cloud).
 Il ritaglio è lo stesso di shift-grib (tools/build_gribs.py, crop_message).
 """
 import argparse
@@ -22,9 +22,10 @@ import urllib.request
 import eccodes as ec
 import numpy as np
 
+# Copia su Google Cloud: risponde e ha tutto dal 2024 (sonda del 24/11). AWS dai runner di GitHub risponde "SlowDown";
+# la copia su Azure non è più pubblica; data.ecmwf.int tiene solo gli ultimi giorni.
 FONTI = [
-    "https://ecmwf-forecasts.s3.eu-central-1.amazonaws.com",
-    "https://ai4edataeuwest.blob.core.windows.net/ecmwf",
+    "https://storage.googleapis.com/ecmwf-open-data",
     "https://data.ecmwf.int/forecasts",
 ]
 
@@ -36,7 +37,7 @@ def get(url, rng=None, tries=3):
             with urllib.request.urlopen(req, timeout=120) as r:
                 return r.read()
         except urllib.error.HTTPError as e:
-            if e.code in (403, 404):
+            if e.code in (403, 404, 409):
                 return None
             time.sleep(2 + 3 * k)
         except Exception:
