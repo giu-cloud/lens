@@ -1,0 +1,67 @@
+Celle entro 10 km dalla terra, modello letto dal mare oltre 6 nodi: 538505
+Tutte: radar/modello 1.01, errore -0.31 kn
+Vento che arriva da terra (entro 30 km sopravvento): 40% delle celle
+  da terra: radar/modello 1.02, errore -0.29 kn
+  dal mare: radar/modello 1.01, errore -0.32 kn
+
+Vento da terra, per quota massima sopravvento entro 15 km dalla costa (m)
+       0-100       celle   69787   radar/modello 1.05   errore -0.63 kn
+     100-300       celle   61230   radar/modello 1.02   errore -0.28 kn
+     300-600       celle   52539   radar/modello 0.98   errore +0.09 kn
+     600-900       celle   22107   radar/modello 1.02   errore -0.24 kn
+     900-1300      celle    9294   radar/modello 1.00   errore -0.04 kn
+
+Vento da terra, per angolo sotto cui si vede il rilievo (gradi)
+       0-1         celle  119919   radar/modello 1.04   errore -0.50 kn
+       1-2         celle   46839   radar/modello 0.99   errore -0.03 kn
+       2-4         celle   36707   radar/modello 1.00   errore -0.13 kn
+       4-7         celle    9955   radar/modello 0.94   errore +0.35 kn
+       7-12        celle    1576   radar/modello 0.88   errore +0.71 kn
+
+Vento da terra, per distanza dalla prima terra sopravvento (km)
+       0-1         celle    1063   radar/modello 1.01   errore -1.09 kn
+       1-2         celle    5519   radar/modello 0.95   errore +0.23 kn
+       2-4         celle   23924   radar/modello 0.98   errore +0.05 kn
+       4-8         celle   58095   radar/modello 1.01   errore -0.15 kn
+       8-15        celle   69358   radar/modello 1.03   errore -0.38 kn
+      15-30        celle   57253   radar/modello 1.04   errore -0.48 kn
+
+Vento da terra, valle o passo sopravvento (m: rilievo ai lati sopra la linea del vento)
+   -2000--100      celle    6673   radar/modello 0.97   errore +0.15 kn
+    -100-0         celle   23255   radar/modello 1.00   errore -0.04 kn
+       0-100       celle   98391   radar/modello 1.03   errore -0.33 kn
+     100-250       celle   53938   radar/modello 1.02   errore -0.21 kn
+     250-500       celle   27823   radar/modello 1.04   errore -0.57 kn
+     500-3000      celle    5132   radar/modello 1.02   errore -0.30 kn
+
+Vento da terra, per forza del modello (nodi)
+       6-10        celle  112062   radar/modello 1.08   errore -0.80 kn
+      10-14        celle   62786   radar/modello 0.98   errore +0.15 kn
+      14-18        celle   22303   radar/modello 0.92   errore +1.00 kn
+      18-25        celle   10281   radar/modello 0.99   errore +0.58 kn
+      25-60        celle    1309   radar/modello 1.08   errore -2.71 kn
+
+Vento dal mare, per forza del modello (nodi)
+       6-10        celle  177539   radar/modello 1.06   errore -0.64 kn
+      10-14        celle   82507   radar/modello 0.97   errore +0.07 kn
+      14-18        celle   37644   radar/modello 0.93   errore +0.63 kn
+      18-25        celle   14253   radar/modello 0.99   errore -0.15 kn
+      25-60        celle    2098   radar/modello 1.08   errore -4.08 kn
+
+Per area (vento da terra | dal mare): radar/modello, errore in nodi
+  egadi                0.98 +0.31 | 1.04 -0.45   (14691 | 50579 celle)
+  eolie                0.99 +0.17 | 1.02 -0.31   (13746 | 43729 celle)
+  palermo              1.00 -0.84 | 1.09 -1.55   (3728 | 6249 celle)
+  messina              1.12 -1.55 | 1.06 -1.18   (17301 | 5680 celle)
+  malta                1.07 -0.78 | 1.07 -0.63   (9119 | 23855 celle)
+  napoli               1.08 -1.09 | 1.03 -0.34   (25635 | 26924 celle)
+  cagliari             0.93 +1.05 | 0.98 +0.24   (18338 | 16770 celle)
+  maddalena-bonifacio  1.02 -0.16 | 1.00 -0.04   (25864 | 28856 celle)
+  toscano              1.00 -0.05 | 0.97 -0.18   (67027 | 109845 celle)
+  genova               1.07 -0.77 | 1.08 -0.90   (19763 | 10806 celle)
+
+Per ora del passaggio (UTC) e stagione, vento da terra: radar/modello
+  ore 05: 1.00 (115657 celle)
+  ore 16: 1.13 (21167 celle)
+  ore 17: 1.01 (71806 celle)
+  giu-set: 1.03   nov-mar: 1.08
