@@ -187,12 +187,13 @@ def _combinata(cols, extra=()):
     return fit
 
 
-def m_atlante(T, tr, y, w, k_shr=10.0):
+def m_atlante(T, tr, y, w, k_shr=10.0, blocco=1):
     """Carta imparata dal radar per area, cella e ottante (solo prova nel tempo): rapporto pesato, tirato verso la media
     di area e ottante quando i passaggi sono pochi (k_shr passaggi equivalenti), e quella verso la media generale."""
     def chiavi(ix):
         a = T["area"][ix].astype("i8"); o = T["ott"][ix].astype("i8")
-        return ((a * 1000 + T["j"][ix]) * 1000 + T["i"][ix]) * 8 + o, a * 8 + o
+        jj = T["j"][ix].astype("i8") // blocco; ii = T["i"][ix].astype("i8") // blocco
+        return ((a * 1000 + jj) * 1000 + ii) * 8 + o, a * 8 + o
     kc, ko = chiavi(tr)
     glob = np.sum(w * y) / np.sum(w)
     def media(k):
@@ -229,6 +230,9 @@ def costruisci_metodi(T):
     sw = [k for k in ("sw_loc", "sw_lett", "sw_spess") if k in T and np.isfinite(T[k]).all()]
     METODI.update({
         "atlante": m_atlante,
+        "atlante_k30": lambda T_, tr, y, w: m_atlante(T_, tr, y, w, k_shr=30.0),
+        "atlante_b2": lambda T_, tr, y, w: m_atlante(T_, tr, y, w, k_shr=10.0, blocco=2),
+        "atlante_b3k20": lambda T_, tr, y, w: m_atlante(T_, tr, y, w, k_shr=20.0, blocco=3),
         "modello": m_modello, "lens054": m_lens054, "costante": m_costante, "distanza": m_distanza,
         "dist_rilievo": m_dist_rilievo, "lineare": m_lineare,
         "alberi_rilievo": _hgb(st),
@@ -237,6 +241,7 @@ def costruisci_metodi(T):
     })
     for k in fis:
         METODI["potenza_" + k[2:]] = _potenza(k)
+        METODI["diretto_" + k[2:]] = (lambda col: (lambda T_, tr, y, w: (lambda te: T_[col][te].astype("f4"))))(k)
     fis_ok = [k for k in ["q_lens054"] + fis if k in T]
     METODI["combinata"] = _combinata(fis_ok)
     if fis:
