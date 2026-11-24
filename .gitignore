@@ -5,6 +5,6 @@ __pycache__/
 *.grb2
 *.grib
 *.bin
-dati/
+/dati/
 uscita/
 shiftsar.jar
