@@ -6,6 +6,9 @@ globale a 0,25 gradi, solo il vento a 10 m (10u, 10v) con una richiesta a pezzi 
 sul riquadro delle aree di Lens e si scrive ecmwf_<AAAAMMGGHH>.grb2, come i file dell'archivio di shift-grib.
 
   python ecmwf_aperto.py --mese 2025-07 --out ecmwf [--box 35,45.5,7.5,16.5] [--passi 3,6]
+        [--campi 10u,10v] [--prefisso ecmwf]
+--campi: param oppure param@livello in hPa, per esempio 2t,skt,msl,t@925,u@850 (per lo studio della stabilità).
+Il primo giorno di ogni mese il log tiene anche l'elenco dei campi che il file .index offre.
 
 Dati: ECMWF open data, CC BY 4.0 (copia pubblica su Google Cloud).
 Il ritaglio è lo stesso di shift-grib (tools/build_gribs.py, crop_message).
@@ -100,7 +103,19 @@ def crop_bytes(data, box):
         pos = i + max(int(n), 4)
 
 
-def corsa(t, passi, box, log):
+def voluto(rec, campi):
+    p = rec.get("param"); lt = rec.get("levtype", "sfc"); lv = str(rec.get("levelist", ""))
+    for c in campi:
+        if "@" in c:
+            q, l = c.split("@")
+            if p == q and lt == "pl" and lv == l:
+                return True
+        elif p == c and lt == "sfc":
+            return True
+    return False
+
+
+def corsa(t, passi, box, log, campi=("10u", "10v"), elenca=False):
     for root in FONTI:
         msgs = []
         for step in passi:
@@ -108,9 +123,13 @@ def corsa(t, passi, box, log):
             if not idx:
                 msgs = None
                 break
-            for line in idx.decode().splitlines():
-                rec = json.loads(line)
-                if rec.get("param") in ("10u", "10v") and rec.get("levtype", "sfc") == "sfc":
+            recs = [json.loads(line) for line in idx.decode().splitlines()]
+            if elenca and step == passi[0]:
+                offerti = sorted({f"{r.get('param')}@{r.get('levelist')}" if r.get("levtype") == "pl" else str(r.get("param"))
+                                  for r in recs})
+                log.append(f"{t:%Y%m%d%H} offre: " + " ".join(offerti))
+            for rec in recs:
+                if voluto(rec, campi):
                     a, n = int(rec["_offset"]), int(rec["_length"])
                     raw = get(nome(root, t, step, "grib2"), (a, a + n - 1))
                     if raw is None:
@@ -130,7 +149,10 @@ def main():
     ap.add_argument("--out", default="ecmwf")
     ap.add_argument("--box", default="35,45.5,7.5,16.5")
     ap.add_argument("--passi", default="3,6")
+    ap.add_argument("--campi", default="10u,10v")
+    ap.add_argument("--prefisso", default="ecmwf")
     a = ap.parse_args()
+    campi = [c.strip() for c in a.campi.split(",") if c.strip()]
     box = [float(x) for x in a.box.split(",")]
     passi = [int(x) for x in a.passi.split(",")]
     os.makedirs(a.out, exist_ok=True)
@@ -140,10 +162,10 @@ def main():
     for d in range(1, calendar.monthrange(y, m)[1] + 1):
         for h in (0, 12):
             t = dt.datetime(y, m, d, h)
-            dst = os.path.join(a.out, f"ecmwf_{t:%Y%m%d%H}.grb2")
+            dst = os.path.join(a.out, f"{a.prefisso}_{t:%Y%m%d%H}.grb2")
             if os.path.exists(dst):
                 continue
-            msgs, root = corsa(t, passi, box, log)
+            msgs, root = corsa(t, passi, box, log, campi, elenca=(d == 1 and h == 0))
             if not msgs:
                 log.append(f"{t:%Y%m%d%H}: non trovata")
                 continue
@@ -151,7 +173,7 @@ def main():
             fatte += 1
             log.append(f"{t:%Y%m%d%H}: {len(msgs)} campi da {root.split('/')[2]}, {os.path.getsize(dst)} byte")
             print(log[-1], flush=True)
-    open(os.path.join(a.out, f"log_ecmwf_{a.mese}.txt"), "w").write("\n".join(log) + "\n")
+    open(os.path.join(a.out, f"log_{a.prefisso}_{a.mese}.txt"), "w").write("\n".join(log) + "\n")
     print(f"{a.mese}: {fatte} corse")
     if fatte == 0:
         sys.exit(1)

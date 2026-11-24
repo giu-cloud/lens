@@ -1,4 +1,4 @@
-# Le corse ECMWF (dati aperti, CC BY 4.0) per i passaggi del radar, dal 2024: vento a 10 m, passi 3 e 6 h, ritagliato.
+# Le corse ECMWF (dati aperti, CC BY 4.0) per i passaggi del radar, dal 2024: vento a 10 m (o altri campi), passi 3 e 6 h, ritagliato.
 # A comando (Actions -> ecmwf_aperto -> Run workflow) o modificando banco/dati/lancia_ecmwf.env.
 name: ecmwf_aperto
 on:
@@ -6,6 +6,8 @@ on:
     inputs:
       da: {description: "primo mese AAAA-MM", default: "2024-04"}
       a: {description: "ultimo mese AAAA-MM", default: "2026-11"}
+      campi: {description: "campi: param o param@hPa, separati da virgola", default: "10u,10v"}
+      prefisso: {description: "nome dei file e della release (ecmwf, stab)", default: "ecmwf"}
   push:
     paths: [banco/dati/lancia_ecmwf.env]
 permissions:
@@ -41,11 +43,12 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
       - run: pip install -q numpy eccodes
-      - run: python banco/dati/ecmwf_aperto.py --mese ${{ matrix.mese }} --out ecmwf
+      - run: python banco/dati/ecmwf_aperto.py --mese ${{ matrix.mese }} --out ecmwf --campi "${{ github.event.inputs.campi || '10u,10v' }}" --prefisso "${{ github.event.inputs.prefisso || 'ecmwf' }}"
       - name: Pubblica
         if: always()
         env: {GH_TOKEN: "${{ github.token }}"}
         run: |
-          tag=ecmwf-aperto-${{ matrix.mese }}
-          gh release view $tag > /dev/null 2>&1 || gh release create $tag --title "ECMWF aperto ${{ matrix.mese }}" --notes "ECMWF open data (CC BY 4.0), vento a 10 m, passi 3 e 6 h delle corse delle 00 e 12, ritagliato su 35-45,5 N e 7,5-16,5 E per il banco di Lens."
+          pre="${{ github.event.inputs.prefisso || 'ecmwf' }}"
+          tag=$pre-aperto-${{ matrix.mese }}
+          gh release view $tag > /dev/null 2>&1 || gh release create $tag --title "ECMWF aperto $pre ${{ matrix.mese }}" --notes "ECMWF open data (CC BY 4.0), campi ${{ github.event.inputs.campi || '10u,10v' }}, passi 3 e 6 h delle corse delle 00 e 12, ritagliato su 35-45,5 N e 7,5-16,5 E per il banco di Lens."
           ls ecmwf/* > /dev/null 2>&1 && gh release upload $tag ecmwf/* --clobber || echo "niente da pubblicare"
