@@ -1,7 +1,7 @@
 """Tabella delle celle per lo studio statistico di Lens: una riga per cella del radar e per passaggio.
 
   python3 tabella_celle.py <cartella del metro (campi_*.npz, sho_*.bin)> <rilievo di Shift .rgr> <uscita.npz>
-        [cartella con Lens 0.54] [altre cartelle di varianti nome=cartella ...]
+        [cartella con Lens 0.54] [altre cartelle di varianti nome=cartella ...] [strato=cartella] [stab=cartella]
 
 Per ogni cella e per 16 direzioni di provenienza si misura il rilievo intorno (sul rilievo di Shift a 464 m):
   sopravvento   terra (km alla prima terra, 30 = mare aperto), h15 (quota massima entro 15 km dalla costa), ang (angolo
@@ -10,6 +10,8 @@ Per ogni cella e per 16 direzioni di provenienza si misura il rilievo intorno (s
                 la linea entro 5 e 15 km), angw (angolo massimo nel ventaglio di ±22,5°), fw15 (terra nel ventaglio)
   sottovento    sotto (km alla prima terra davanti), hsotto (quota massima entro 10 km da lì), angsotto (angolo)
   ai lati       lsx, ldx (km alla prima terra a sinistra e a destra, guardando dove va il vento), canale = lsx + ldx
+  passi         cresta (quota massima entro 25 km sopravvento), passo (creste delle linee parallele a 4-12 km di lato meno
+                quella sulla linea: positivo = sella), tsx, tdx (terra entro 10 km sopravvento sulle linee a ±3 km di lato)
   intorno       h10 (quota massima entro 10 km), hm10 (quota media della terra entro 10 km), terra10 (frazione di terra)
 Le caratteristiche si interpolano tra i due settori vicini secondo la direzione del modello letto dal mare nella cella.
 Della scena: forza e direzione del modello al largo (celle a più di 8 km da terra), rapporto radar/modello al largo,
@@ -100,6 +102,34 @@ def statiche(lat, lon, ril):
         out["lsx"][k] = prima(raggio(py, px))
         out["ldx"][k] = prima(raggio(-py, -px))
         del hr, hs
+    # creste e passi sopravvento: la quota massima lungo il raggio sopravvento (25 km) su una griglia larga, poi la si
+    # legge sulle linee parallele spostate di lato. passo = creste ai lati (4-12 km) meno la cresta sulla linea: positivo
+    # se il vento arriva dalla cella attraverso una sella più bassa del rilievo intorno (getti delle valli e dei passi).
+    out["cresta"] = np.zeros((NSET,) + LA.shape, dtype="f4")
+    out["passo"] = np.zeros((NSET,) + LA.shape, dtype="f4")
+    out["tsx"] = np.zeros((NSET,) + LA.shape, dtype="f4")
+    out["tdx"] = np.zeros((NSET,) + LA.shape, dtype="f4")
+    ge = 0.01
+    lae = np.arange(lat.min() - 0.15, lat.max() + 0.15 + 1e-9, ge); loe = np.arange(lon.min() - 0.19, lon.max() + 0.19 + 1e-9, ge)
+    LAE, LOE = np.meshgrid(lae, loe, indexing="ij")
+    from scipy.interpolate import RegularGridInterpolator
+    for k in range(NSET):
+        a = np.radians(k * 360.0 / NSET)
+        dy, dx = np.cos(a), np.sin(a); py, px = -dx, dy
+        cr = np.zeros(LAE.shape, dtype="f4"); f10 = np.zeros(LAE.shape, dtype="f4")
+        for r in np.arange(0.5, 25.01, 0.5):
+            q = quota(LAE + r * dy / kmy, LOE + r * dx / kmx)
+            cr = np.maximum(cr, q)
+            if r <= 10:
+                f10 += (q > 0) / 20.0
+        fc = RegularGridInterpolator((lae, loe), cr, bounds_error=False, fill_value=None)
+        ff = RegularGridInterpolator((lae, loe), f10, bounds_error=False, fill_value=None)
+        c0 = fc((LA, LO))
+        lati = [fc((LA + q * py / kmy, LO + q * px / kmx)) for q in (-12, -10, -8, -6, -4, 4, 6, 8, 10, 12)]
+        out["cresta"][k] = c0
+        out["passo"][k] = np.mean(lati, axis=0) - c0
+        out["tsx"][k] = ff((LA + 3 * py / kmy, LO + 3 * px / kmx))
+        out["tdx"][k] = ff((LA - 3 * py / kmy, LO - 3 * px / kmx))
     # ventaglio ±22,5°: i tre settori vicini
     out["angw"] = np.max([np.roll(out["ang"], s, axis=0) for s in (-1, 0, 1)], axis=0)
     out["fw15"] = np.mean([np.roll(out["f15"], s, axis=0) for s in (-1, 0, 1)], axis=0)
@@ -127,6 +157,8 @@ def main():
     cart, ril_p, usc = sys.argv[1:4]
     lens_cart = sys.argv[4] if len(sys.argv) > 4 and sys.argv[4] != "-" else None
     varianti = dict(a.split("=", 1) for a in sys.argv[5:])
+    strato = varianti.pop("strato", None)
+    stab = varianti.pop("stab", None)
     ril = Rilievo(ril_p)
     righe = {}
     nscena = 0
@@ -195,6 +227,28 @@ def main():
             assert np.array_equal(zv["t"], z["t"])
             L = np.hypot(rv[:, 6], rv[:, 7])
             metti("q_" + nome, (L[si, sj, sk] / M[si, sj, sk]).astype("f4"))
+        if stab:
+            P = np.load(os.path.join(stab, f"stab_{area}.npz"))
+            assert np.array_equal(P["t"], z["t"])
+            for nome in P.files:
+                if nome != "t":
+                    metti(nome, P[nome][si].astype("f4"))
+        if strato:
+            ps = os.path.join(strato, f"strato_{area}.npz")
+            ds = da[si, sj, sk]
+            x = ds / 45.0; k0_ = np.floor(x).astype(int) % 8; w_ = (x - np.floor(x)).astype("f4"); k1_ = (k0_ + 1) % 8
+            if os.path.exists(ps):
+                A = np.load(ps)
+                def dir8(f):
+                    return (1 - w_) * f[k0_, sj, sk] + w_ * f[k1_, sj, sk]
+                loc, lett, lettf = dir8(A["loc"]), dir8(A["lett"]), dir8(A["lettf"])
+                metti("sw_loc", loc.astype("f4")); metti("sw_lett", lett.astype("f4"))
+                metti("sw_spess", dir8(A["spess"]).astype("f4"))
+                metti("q_sw", (loc / np.maximum(lett, 0.05)).astype("f4"))
+                metti("q_swf", (loc / np.maximum(lettf, 0.05)).astype("f4"))
+            else:
+                for nome in ("sw_loc", "sw_lett", "sw_spess", "q_sw", "q_swf"):
+                    metti(nome, np.full(len(si), np.nan, dtype="f4"))
         nscena += ns
         del raw, R, M, da
     T = {k: np.concatenate(v) for k, v in righe.items()}
