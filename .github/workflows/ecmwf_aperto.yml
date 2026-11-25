@@ -45,8 +45,16 @@ jobs:
         with: {python-version: "3.12"}
       - run: pip install -q numpy eccodes
       - run: python banco/dati/ecmwf_aperto.py --mese ${{ matrix.mese }} --out ecmwf --campi "${{ github.event.inputs.campi || '10u,10v' }}" --prefisso "${{ github.event.inputs.prefisso || 'ecmwf' }}" --box "${{ github.event.inputs.box || '35,45.5,7.5,16.5' }}"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ${{ github.event.inputs.prefisso || 'ecmwf' }}-${{ matrix.mese }}
+          path: ecmwf/
+          retention-days: 90
+          if-no-files-found: ignore
       - name: Pubblica
         if: always()
+        continue-on-error: true
         env: {GH_TOKEN: "${{ github.token }}"}
         run: |
           pre="${{ github.event.inputs.prefisso || 'ecmwf' }}"

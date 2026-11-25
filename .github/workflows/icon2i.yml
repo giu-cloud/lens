@@ -36,7 +36,13 @@ jobs:
           A="${{ github.event.inputs.a }}"
           python banco/dati/icon2i_storia.py --aree ${{ matrix.area }} --da ${{ github.event.inputs.da }} --a ${A:-$(date -u +%F)} --ore "${{ github.event.inputs.ore }}" --out icon2i
           ls -la icon2i
+      - uses: actions/upload-artifact@v4
+        with:
+          name: icon2i-${{ strategy.job-index }}
+          path: icon2i/
+          retention-days: 90
       - env: {GH_TOKEN: "${{ github.token }}"}
+        continue-on-error: true
         run: |
           gh release view icon2i-storia > /dev/null 2>&1 || gh release create icon2i-storia --title "Storia di ICON-2I per il banco" --notes "Open-Meteo (CC BY 4.0), modello ItaliaMeteo-Arpae ICON-2I: vento a 10 m nelle ore dei passaggi del radar, ritagliato sulle aree del banco di Lens." || true
           n=$(echo "${{ matrix.area }}" | cut -c1-40 | tr ',' '_')
