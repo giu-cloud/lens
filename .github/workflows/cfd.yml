@@ -35,7 +35,7 @@ jobs:
             gh release download lens-atlante -p "atlante_${{ github.event.inputs.sito }}.lna" -D atl
             cp atl/atlante_${{ github.event.inputs.sito }}.lna atl/terreno.lna
           else
-            pip install -q numpy rasterio
+            pip install -q numpy scipy pyamg rasterio
             python3 - <<'PY' > raggio.txt
           x0, x1 = (abs(float(v)) for v in "${{ github.event.inputs.x }}".split(","))
           y0, y1 = (abs(float(v)) for v in "${{ github.event.inputs.y }}".split(","))
