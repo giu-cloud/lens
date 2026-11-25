@@ -13,6 +13,10 @@ AREE = {
     "maddalena-bonifacio": (41.00, 41.50, 8.95, 9.75),
     "toscano": (42.20, 43.35, 9.75, 11.30),
     "genova": (44.00, 44.47, 8.40, 9.50),
+    # Giano, 25/11: le aree di Lens 2 per una Palermo-Monte Carlo, con gli stessi riquadri delle librerie del radar
+    "pontine": (40.70, 41.32, 12.70, 13.65),
+    "corsica-nord": (42.45, 43.10, 8.25, 9.65),
+    "monaco": (43.45, 43.85, 7.15, 8.00),
     # Giano, 21/11
     "venezia": (45.15, 45.60, 12.10, 12.75),
     "kvarner": (44.40, 45.35, 14.00, 15.05),

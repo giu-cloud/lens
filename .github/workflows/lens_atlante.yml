@@ -1,0 +1,73 @@
+name: Lens atlante
+
+# Atlante di Lens (lens/atlante.py): la risposta del rilievo di un'area, calcolata una volta sola. Con l'atlante il
+# tablet fa Lens da solo, in pochi secondi, con qualsiasi GRIB. Circa 10-15 minuti per area, un'area per macchina.
+# Gli atlanti vanno nella release "lens-atlante" del deposito lens: atlante_<area>.lna. Copia del flusso di Shift, per costruire e controllare gli atlanti delle aree nuove prima di passarle a Shift.
+on:
+  workflow_dispatch:
+    inputs:
+      aree:
+        description: "Aree pronte, separate da virgole (vuoto o tutte = tutte)"
+        required: false
+        default: "tutte"
+      area:
+        description: "Oppure un riquadro S,N,O,E (per un'area tracciata nell'app)"
+        required: false
+        default: ""
+      id:
+        description: "Nome dell'area tracciata"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  elenco:
+    runs-on: ubuntu-latest
+    outputs:
+      matrice: ${{ steps.m.outputs.matrice }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: m
+        env:
+          IN_AREE: ${{ inputs.aree }}
+          IN_AREA: ${{ inputs.area }}
+          IN_ID: ${{ inputs.id }}
+        run: |
+          pulito() { printf '%s' "$1" | tr -cd 'A-Za-z0-9 .,:_-' | cut -c1-200; }
+          if [ "${{ github.event_name }}" = "push" ]; then
+            AREE=$(grep -E '^AREE=' lens/atlante.env | cut -d= -f2- | tr -cd 'a-z0-9,-')
+            AREA=""; ID=""
+          else
+            AREE=$(pulito "$IN_AREE"); AREA=$(pulito "$IN_AREA"); ID=$(pulito "$IN_ID")
+          fi
+          echo "matrice=$(AREE="$AREE" AREA="$AREA" ID="$ID" python3 lens/aree.py)" >> "$GITHUB_OUTPUT"
+
+  atlante:
+    needs: elenco
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.elenco.outputs.matrice) }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      LENS_AREA: ${{ matrix.box }}
+      LENS_ATLANTE_ID: ${{ matrix.id }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install --quiet numpy scipy pyamg rasterio pillow
+      - name: Atlante
+        run: python3 lens/atlante.py
+      - name: Nella release "lens-atlante"
+        run: |
+          gh release view lens-atlante >/dev/null 2>&1 || gh release create lens-atlante --title "Lens atlante" --notes "Atlanti di Lens: la risposta del rilievo di ogni area, per il calcolo sul tablet." || true
+          for k in 1 2 3; do gh release upload lens-atlante "lens/uscita/atlante_${LENS_ATLANTE_ID}.lna" --clobber && break; sleep 10; done
+      - name: Se non riesce, il motivo nella release
+        if: failure()
+        run: |
+          echo "L'atlante non e' stato costruito: vedi Actions, Lens atlante." > "atlante_${LENS_ATLANTE_ID}.err.txt"
+          gh release view lens-atlante >/dev/null 2>&1 || gh release create lens-atlante --title "Lens atlante" --notes "Atlanti di Lens." || true
+          gh release upload lens-atlante "atlante_${LENS_ATLANTE_ID}.err.txt" --clobber || true
