@@ -141,8 +141,8 @@ I grandi buchi d'aria del largo, quelli dell'alta stazionaria, vanno studiati a 
 
 ## 6. Prossimi passi
 
-1. **Il motore in Kotlin** in `lens-motore`: la libreria degli analoghi, la ricerca, l'insieme dei modelli. Casi di prova presi da questi numeri.
-2. **Le librerie** per 14 aree con ECMWF e 13 con ICON-2I, nel formato per l'app.
+1. **Fatto il 25/11:** il motore in Kotlin (`lens-motore` 0.55, `LensRadar.kt`, 14 prove) e le librerie per 14 aree con ECMWF e 13 con ICON-2I (release `librerie-lra1`). Consegna a Shift in `lens/lens2_per_shift_25_11.md`.
+2. **Le stazioni sui moli e nei porti** (rete mareografica ISPRA, aeroporti di costa) per provare le correzioni grandi a tutte le ore: Palermo, Messina, Genova.
 3. **youmeteo:** l'accumulo dall'archivio del deposito privato. La prima prova quando ci saranno circa 70 passaggi per area (primavera).
 4. **Bonacce lungo le rotte:** riquadri al largo e ICON-2I completo.
 5. **Altre aree a richiesta:** Corsica ovest, Liguria di ponente, Sardegna nord-est.
