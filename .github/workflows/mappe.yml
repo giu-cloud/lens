@@ -20,3 +20,6 @@ jobs:
           sha256sum mappe/* | tee SHA256SUMS
           gh release view mappe > /dev/null 2>&1 || gh release create mappe --title "Mappe di Shift" --notes "Contorni della costa (europa.rgm, world.rgm, atlantico.rgm) e rilievo (europa-0a8ea255f235.rgr, atlantico.rgr) di Shift, fatti da dati pubblici: servono al flusso di Lens 2 per leggere i modelli dai soli punti di mare come l'app."
           gh release upload mappe mappe/* SHA256SUMS --clobber
+      - name: Cancella il ramo temporaneo
+        env: {GH_TOKEN: "${{ github.token }}"}
+        run: gh api -X DELETE "repos/${{ github.repository }}/git/refs/heads/${{ github.event.inputs.ramo }}" || true
