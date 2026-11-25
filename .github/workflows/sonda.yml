@@ -16,3 +16,5 @@ jobs:
             curl -s -m 30 -o /tmp/r -w "codice %{http_code}, %{size_download} byte, %{time_total} s\n" "$u" || echo "errore curl"
             head -c 1500 /tmp/r; echo
           done
+      - env: {GH_TOKEN: "${{ github.token }}"}
+        run: gh api rate_limit --jq '.resources.core | "richieste rimaste \(.remaining) su \(.limit), si azzera alle \(.reset | todate)"'
