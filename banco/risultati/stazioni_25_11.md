@@ -163,7 +163,7 @@ Il radar vede il vento medio, non la raffica. Ci si poteva chiedere se la raffic
 
 - **Va quindi moltiplicata sempre per il fattore,** come diceva la consegna. La regola prudente che avevo proposto a Shift (non abbassarla mai) è peggiore proprio dove il fattore abbassa il vento.
 - **I limiti:** sono solo stazioni francesi e solo ECMWF. Fuori dall'intervallo provato (fattore sotto 0,70 o sopra 1,36) non è provato.
-- **Le pendenze sopra 1,** per il vento medio e per la raffica, dicono che le stazioni variano più del fattore: la correzione è prudente, non esagerata.
+- **Le pendenze sopra 1,** per il vento medio e per la raffica, dicono che le stazioni variano più del fattore: se mai la correzione è prudente, non esagerata. Può però anche essere la stazione, più sensibile del mare al ridosso e all'accelerazione.
 
 ### La fiducia della media dei due modelli
 
