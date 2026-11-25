@@ -1,0 +1,26 @@
+# Stazioni a terra con il vento vicino alle aree del banco di Lens: aeroporti e sinottiche (NOAA ISD), Météo-France, sonda.
+name: stazioni
+on:
+  workflow_dispatch:
+    inputs:
+      modo: {description: "isd, francia, sonda (anche più di uno, separati da spazi)", default: "sonda isd francia"}
+permissions:
+  contents: write
+jobs:
+  stazioni:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -q numpy
+      - run: |
+          for m in ${{ github.event.inputs.modo }}; do python banco/dati/stazioni.py --$m --out stazioni || true; done
+          ls -la stazioni | head -80; du -sh stazioni
+      - env: {GH_TOKEN: "${{ github.token }}"}
+        continue-on-error: true
+        run: |
+          gh release view stazioni > /dev/null 2>&1 || gh release create stazioni --title "Vento delle stazioni a terra" --notes "Aeroporti e stazioni sinottiche (NOAA Integrated Surface Database), stazioni orarie di Météo-France (data.gouv.fr, Licence Ouverte). Solo le stazioni vicine alle aree del banco di Lens, dal 1/4/2024."
+          nome=$(echo "${{ github.event.inputs.modo }}" | tr ' ' '-')
+          tar cf stazioni-$nome.tar -C stazioni . && gh release upload stazioni stazioni-$nome.tar --clobber
