@@ -181,7 +181,7 @@ Per allargare la prova ho esteso la Corsica nord fino a 8,25° E. Confronti ogni
 
 - **Nei due punti delle boe la correzione è quasi neutra:** lì il radar vede poco da correggere (fattore 1,01-1,08), e la boa di Ponza sente il ridosso dell'isola più fine del chilometro del radar (con la tramontana 0,88 contro 1,01).
 - **Non peggiora a mezzogiorno,** le ore che il radar non vede.
-- **L'insieme dei due modelli migliora molto anche qui, a tutte le ore:** −9% a Ponza e a Calvi. È il guadagno più robusto.
+- **L'insieme dei due modelli migliora molto anche qui, a tutte le ore:** −9% a Ponza, −8% a Calvi. È il guadagno più robusto.
 - **Le due boe non bastano a provare le correzioni grandi** (golfo di Palermo, Stretto, Genova): lì le boe non ci sono. Le stazioni a terra sui moli sono il passo successivo.
 
 **La fiducia.** La dispersione degli analoghi attorno al fattore dice quanto fidarsi. Sulle settimane di prova, divise in cinque parti uguali:
