@@ -137,12 +137,55 @@ La dispersione degli analoghi segue l'errore anche qui, a tutte le ore. Sulle ci
 
 Torna con quanto visto sul radar (da 0,18 a 0,38).
 
+### La raffica
+
+Il radar vede il vento medio, non la raffica. Ci si poteva chiedere se la raffica vada moltiplicata per lo stesso fattore; nel ridosso, per esempio, il vento medio cala ma diventa più rafficato.
+
+**La prova.** Sette stazioni di Météo-France danno la raffica massima di ogni ora: Cap Pertusato, Cap Corse, Ile Rousse, Calvi, Bastia, Antibes-La Garoupe, Nice. Le ho confrontate con la raffica di ECMWF (10fg, massima delle ultime 3 ore) alle 03, 06, 15 e 18 UTC, nelle settimane della cassaforte: 1.843 confronti, con il fattore tra 0,70 e 1,36.
+
+- **La raffica della stazione segue il fattore come il vento medio,** anche dove il fattore abbassa il vento. Dentro ogni stazione e settore, la pendenza del logaritmo del rapporto stazione ÷ modello sul logaritmo del fattore è:
+
+  | | Pendenza | Fattore sotto 1 | Fattore sopra 1 |
+  |---|---|---|---|
+  | vento medio | 1,72 ± 0,20 | 1,74 ± 0,28 | 1,67 ± 0,39 |
+  | raffica | 1,49 ± 0,14 | 1,32 ± 0,19 | 1,76 ± 0,26 |
+
+  Una pendenza di 0 vorrebbe dire che la raffica non segue il fattore, una di 1 che lo segue esattamente.
+
+- **Errore quadratico libero della raffica,** in nodi:
+
+  | Raffica | Tutte | Fattore sotto 0,95 | Fattore sopra 1,05 |
+  |---|---|---|---|
+  | del modello | 6,08 | 5,98 | 5,69 |
+  | **× fattore** | **5,98** | **5,87** | 5,50 |
+  | × fattore solo sopra 1 | 6,02 | 5,97 | 5,49 |
+  | × radice del fattore | 6,00 | 5,89 | 5,56 |
+
+- **Va quindi moltiplicata sempre per il fattore,** come diceva la consegna. La regola prudente che avevo proposto a Shift (non abbassarla mai) è peggiore proprio dove il fattore abbassa il vento.
+- **I limiti:** sono solo stazioni francesi e solo ECMWF. Fuori dall'intervallo provato (fattore sotto 0,70 o sopra 1,36) non è provato.
+- **Le pendenze sopra 1,** per il vento medio e per la raffica, dicono che le stazioni variano più del fattore: la correzione è prudente, non esagerata.
+
+### La fiducia della media dei due modelli
+
+Ho cercato quale misura dice meglio quanto fidarsi della media corretta di ECMWF e ICON-2I. Sono 6.069 confronti a tutte le ore, contro l'errore relativo della media.
+
+| Misura | Correlazione di rango | Errore relativo, dal quinto più sicuro al meno sicuro |
+|---|---|---|
+| dispersione di ECMWF | 0,217 | 0,18 → 0,34 |
+| dispersione di ICON-2I | 0,164 | 0,19 → 0,32 |
+| **media delle due, 0,6/0,4** | **0,222** | 0,17 → 0,33 |
+| media più disaccordo tra i due modelli corretti | 0,247 | 0,17 → 0,33 |
+
+- **La media delle due dispersioni va bene,** con le stesse soglie della carta. Sotto 0,22 l'errore relativo è 0,19; tra 0,22 e 0,33 è 0,26; sopra 0,33 è 0,33.
+- **Il disaccordo tra i modelli aggiunge poco** e cambia la scala delle soglie: per ora non serve.
+
 ## 5. Che cosa vuol dire
 
 1. **Lens 2 si può passare a Shift così com'è.** Nessuna libreria va spenta.
 2. **Le correzioni grandi (Stretto, Malta, Trapani) sono confermate a tutte le ore.** Quelle che abbassano il vento sono meno sicure, e lo sono di più nel pomeriggio.
 3. **Un termine per il pomeriggio non serve sul mare aperto:** le boe non vedono lo scarto che vedono le stazioni a terra. Resta da misurare la brezza nel primo chilometro o due dalla spiaggia.
-4. **Per il golfo di Palermo serve una stazione vera sul mare,** in ordine di bontà:
+4. **La raffica si moltiplica sempre per il fattore,** anche dove il fattore abbassa il vento. La fiducia della media dei due modelli è la media delle due dispersioni, 0,6/0,4.
+5. **Per il golfo di Palermo serve una stazione vera sul mare,** in ordine di bontà:
    - l'anemometro del porto di Palermo, chiedendo a ISPRA i dati dal 2024;
    - le stazioni di Meteonetwork sulla costa (Mondello, Arenella, Sferracavallo), se esposte, con una chiave della v3;
    - una stazione Weather Underground, solo se Giano o un amico ne hanno una collegata.
@@ -151,6 +194,7 @@ Torna con quanto visto sul radar (da 0,18 a 0,38).
 
 - **Codice:**
   - `banco/dati/stazioni.py` e il flusso `stazioni.yml`: GHCNh, porti ISPRA, METAR di IEM, Météo-France;
-  - `banco/strumenti/stazioni_elenco.py`, `stazioni_prova.py`, `stazioni_sintesi.py`.
+  - `banco/strumenti/stazioni_elenco.py`, `stazioni_prova.py`, `stazioni_sintesi.py`;
+  - `banco/strumenti/raffiche_prova.py`, `raffiche_sintesi.py`, `fiducia_insieme.py`.
 - **Dati:** release `stazioni` (serie delle stazioni) e `icon2i-storia` (archivi `*_ogni3ore`).
 - **Numeri:** `banco/risultati/stazioni_r8.json` (8 km, 19 stazioni) e `stazioni_r5.json` (5 km, 13 stazioni).

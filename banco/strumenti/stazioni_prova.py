@@ -199,7 +199,7 @@ def main():
                         li = LI.dist >= np.quantile(LI.dist[LI.dist > 0], 0.75)
                     S0i = float(np.median(np.hypot(ui, vi)[li])); D0i = np.arctan2(-ui[li].mean(), -vi[li].mean())
                     dici = (np.degrees(np.arctan2(-ui, -vi)) + 360) % 360
-                    gi = (np.hypot(ui, vi), LI.fattore(S0i * np.sin(D0i), S0i * np.cos(D0i), a925, b925, sera, dici))
+                    gi = (np.hypot(ui, vi),) + tuple(LI.fattore(S0i * np.sin(D0i), S0i * np.cos(D0i), a925, b925, sera, dici, dispersione=True))
             for info, S, cel, celI in attive:
                 tb = info["taratura"][oc]
                 if not tb["buono"]:
@@ -210,9 +210,10 @@ def main():
                 r = {"st": info["fonte"] + "_" + info["codice"], "t": int(tv), "ora": d.hour, "ott": oc, "S0": round(S0, 2),
                      "staz": float(S["vento"][j]), "staz_mare": float(S["vento"][j] / tb["rapporto"]),
                      "ecmwf": float(np.mean(vel[cel])), "ecmwf_c": float(np.mean(vel[cel] * G[cel])),
-                     "disp": float(np.nanmean(SP[cel])), "passo": passo}
+                     "disp": float(np.nanmean(SP[cel])) if np.isfinite(SP[cel]).any() else float("nan"), "passo": passo}
                 if gi is not None and celI is not None and len(celI):
                     r["icon"] = float(np.mean(gi[0][celI])); r["icon_c"] = float(np.mean(gi[0][celI] * gi[1][celI]))
+                    r["disp_i"] = float(np.nanmean(gi[2][celI])) if np.isfinite(gi[2][celI]).any() else float("nan")
                 righe.append(r)
     out = {"area": area, "stazioni": [x[0] for x in stazioni], "righe": righe,
            "regole": dict(R_KM=R_KM, MIN_CELLE=MIN_CELLE, MIN_N=MIN_N, MIN_COR=MIN_COR, RAPP=RAPP, MAX_SCARTO=MAX_SCARTO,
