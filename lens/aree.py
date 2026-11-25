@@ -35,23 +35,24 @@ AREE = {
 
 # 0.57 (Giano, 25/11): le aree fini, a 100 m, dentro le aree grandi (Lens 2 usa le librerie dell'area grande: PADRE).
 FINI = {
-    "egadi-favignana": (37.85, 38.10, 12.20, 12.52),
-    "egadi-marettimo": (37.88, 38.06, 11.95, 12.17),
-    "eolie-lipari": (38.35, 38.60, 14.80, 15.04),
-    "eolie-stromboli": (38.58, 38.86, 15.00, 15.30),
-    "eolie-filicudi": (38.45, 38.68, 14.28, 14.65),
-    "palermo-fine": (38.04, 38.27, 13.15, 13.58),
-    "napoli-capri": (40.50, 40.70, 14.10, 14.45),
-    "napoli-ischia": (40.65, 40.85, 13.82, 14.15),
-    "napoli-golfo": (40.70, 40.88, 14.12, 14.45),
-    "bonifacio-bocche": (41.20, 41.45, 9.00, 9.32),
-    "bonifacio-maddalena": (41.08, 41.33, 9.25, 9.60),
-    "pontine-ponza": (40.82, 41.02, 12.80, 13.12),
-    "pontine-ventotene": (40.72, 40.88, 13.33, 13.55),
-    "pontine-circeo": (41.13, 41.32, 12.95, 13.25),
-    "pontine-gaeta": (41.10, 41.30, 13.40, 13.68),
+    "eolie-ovest": (38.44, 38.67, 14.25, 14.7),
+    "eolie-centro": (38.29, 38.7, 14.72, 15.12),
+    "eolie-est": (38.55, 38.86, 14.97, 15.3),
+    "eolie-milazzo": (38.15, 38.35, 15.05, 15.3),
+    "palermo-fine": (38.0, 38.287, 13.108, 13.612),
+    "egadi-ovest": (37.86, 38.1, 11.95, 12.22),
+    "egadi-est": (37.75, 38.12, 12.18, 12.58),
+    "napoli-ovest": (40.62, 40.9, 13.8, 14.25),
+    "napoli-est": (40.5, 40.86, 14.15, 14.55),
+    "bonifacio-ovest": (41.15, 41.5, 8.95, 9.3),
+    "bonifacio-est": (41.05, 41.42, 9.25, 9.7),
+    "pontine-ponza": (40.8, 41.05, 12.75, 13.15),
+    "pontine-ventotene": (40.7, 40.9, 13.3, 13.58),
+    "pontine-circeo": (41.1, 41.32, 12.9, 13.3),
+    "pontine-gaeta": (41.1, 41.32, 13.25, 13.65),
 }
-PADRE = {"egadi-favignana": "egadi", "egadi-marettimo": "egadi", "eolie-lipari": "eolie", "eolie-stromboli": "eolie", "eolie-filicudi": "eolie", "palermo-fine": "palermo", "napoli-capri": "napoli", "napoli-ischia": "napoli", "napoli-golfo": "napoli", "bonifacio-bocche": "maddalena-bonifacio", "bonifacio-maddalena": "maddalena-bonifacio", "pontine-ponza": "pontine", "pontine-ventotene": "pontine", "pontine-circeo": "pontine", "pontine-gaeta": "pontine"}
+# 0.57.1 (Giano, 25/11 sera): allargate, circa 10 km di mare a 100 m attorno a ogni gruppo di isole, dentro l'area madre.
+PADRE = {"eolie-ovest": "eolie", "eolie-centro": "eolie", "eolie-est": "eolie", "eolie-milazzo": "eolie", "palermo-fine": "palermo", "egadi-ovest": "egadi", "egadi-est": "egadi", "napoli-ovest": "napoli", "napoli-est": "napoli", "bonifacio-ovest": "maddalena-bonifacio", "bonifacio-est": "maddalena-bonifacio", "pontine-ponza": "pontine", "pontine-ventotene": "pontine", "pontine-circeo": "pontine", "pontine-gaeta": "pontine"}
 MAGLIA_FINI = 100
 AREE.update(FINI)
 
