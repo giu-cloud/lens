@@ -1,7 +1,9 @@
 """Stazioni a terra con il vento vicino alle aree del banco: aeroporti e stazioni sinottiche (NOAA ISD),
 Météo-France (Corsica e Alpi Marittime), più una sonda per le altre fonti.
 
-  python stazioni.py --isd --out stazioni          aeroporti e stazioni sinottiche (anche fari e capi dell'Aeronautica)
+  python stazioni.py --isd --out stazioni          elenco ISD (i dati ISD sono stati ritirati nel 2025: serve solo l'elenco)
+  python stazioni.py --ghcnh --out stazioni        aeroporti e stazioni sinottiche da GHCNh (anche fari e capi dell'Aeronautica)
+  python stazioni.py --rmn --out stazioni          anemometri dei porti, Rete Mareografica Nazionale di ISPRA (dati aperti, CC BY 4.0)
   python stazioni.py --francia --out stazioni      stazioni orarie di Météo-France, dipartimenti 20 e 06
   python stazioni.py --sonda --out stazioni        salva le pagine di documentazione delle altre fonti
 
@@ -18,6 +20,7 @@ import os
 import re
 import sys
 import time
+import urllib.parse
 import urllib.request
 
 import numpy as np
@@ -128,15 +131,201 @@ def isd(out):
     json.dump(scelte, open(os.path.join(out, "stazioni_isd.json"), "w"), indent=1, ensure_ascii=False)
 
 
+# ---------------------------------------------------------------- NOAA GHCNh (ha preso il posto di ISD nel 2025)
+
+GH = "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly"
+
+
+def ghcnh(out):
+    testo = scarica(f"{GH}/doc/ghcnh-station-list.csv")
+    if not testo:
+        log("elenco GHCNh non raggiungibile"); return
+    righe = testo.decode("latin-1").splitlines()
+    log(f"GHCNh: {len(righe)} righe nell'elenco; prime: {righe[:2]}")
+    scelte = []
+    for r in csv.reader(righe):
+        if len(r) < 6:
+            continue
+        try:
+            lat, lon = float(r[1]), float(r[2])
+        except ValueError:
+            continue
+        a = area_di(lat, lon)
+        if a:
+            scelte.append(dict(codice=r[0].strip(), nome=r[5].strip(), lat=lat, lon=lon,
+                               quota=float(r[3]) if r[3].strip() else float("nan"), area=a, altro=[x.strip() for x in r[6:]]))
+    log(f"GHCNh: {len(scelte)} stazioni nelle aree")
+    anni = range(int(DA[:4]), time.gmtime().tm_year + 1)
+    t0 = time.mktime(time.strptime(DA, "%Y-%m-%d")) - time.timezone
+    intestazione_vista = False
+    for s in scelte:
+        T, D, V, G, K = [], [], [], [], []
+        scartate = {}
+        for anno in anni:
+            b = None
+            for url in (f"{GH}/access/by-year/{anno}/psv/GHCNh_{s['codice']}_{anno}.psv",
+                        f"{GH}/access/by-year/{anno}/GHCNh_{s['codice']}_{anno}.psv"):
+                b = scarica(url, tentativi=2)
+                if b:
+                    break
+            if not b:
+                continue
+            lettore = csv.DictReader(io.StringIO(b.decode("utf-8", errors="replace")), delimiter="|")
+            if not intestazione_vista:
+                log(f"colonne GHCNh: {lettore.fieldnames}"); intestazione_vista = True
+            for r in lettore:
+                ff = (r.get("wind_speed") or "").strip()
+                if not ff:
+                    continue
+                q = (r.get("wind_speed_Quality_Code") or "").strip()
+                if q:
+                    scartate[q] = scartate.get(q, 0) + 1; continue
+                try:
+                    t = time.mktime((int(r["Year"]), int(r["Month"]), int(r["Day"]), int(r["Hour"]), int(r["Minute"] or 0),
+                                     0, 0, 0, 0)) - time.timezone
+                except (ValueError, KeyError):
+                    continue
+                if t < t0:
+                    continue
+                dd = (r.get("wind_direction") or "").strip()
+                qd = (r.get("wind_direction_Quality_Code") or "").strip()
+                try:
+                    d = float(dd) if dd and not qd else np.nan
+                except ValueError:
+                    d = np.nan
+                if np.isfinite(d) and (d < 0 or d > 360):
+                    d = np.nan
+                gg = (r.get("wind_gust") or "").strip()
+                try:
+                    g = float(gg) if gg and not (r.get("wind_gust_Quality_Code") or "").strip() else np.nan
+                except ValueError:
+                    g = np.nan
+                try:
+                    v = float(ff)
+                except ValueError:
+                    continue
+                T.append(t); D.append(d); V.append(v); G.append(g); K.append((r.get("wind_speed_Report_Type") or "").strip())
+        if not T:
+            log(f"  {s['codice']} {s['nome']}: nessun dato"); s["misure"] = 0; continue
+        s["misure"] = salva(out, "gh", s["codice"], np.array(T, float), np.array(D, np.float32),
+                            np.array(V, np.float32), np.array(G, np.float32), np.array(K))
+        log(f"  {s['codice']} {s['nome']} ({s['area']}): {s['misure']} misure; scartate {scartate}")
+    json.dump(scelte, open(os.path.join(out, "stazioni_gh.json"), "w"), indent=1, ensure_ascii=False)
+
+
+# ---------------------------------------------------------------- ISPRA, Rete Mareografica Nazionale (porti)
+
+SPARQL = "https://dati.isprambiente.it/sparql"
+Q_STAZIONI = """PREFIX ispra-top: <https://w3id.org/italia/env/onto/top/>
+PREFIX ispra-emf: <https://w3id.org/italia/env/onto/inspire-mf/>
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+SELECT DISTINCT str(?network) AS ?network str(?statname) AS ?statname ?stat ?lat ?long WHERE {
+?stat a ispra-emf:Platform; ispra-top:name ?statname; geo:lat ?lat; geo:long ?long; ispra-emf:isPlatformOf / rdfs:label ?network .
+FILTER (langMatches(lang(?network), "en")) } ORDER BY ?network ?statname"""
+Q_VENTO = """PREFIX ispra-top: <https://w3id.org/italia/env/onto/top/>
+PREFIX ispra-emf: <https://w3id.org/italia/env/onto/inspire-mf/>
+SELECT DISTINCT str(?station) AS ?station ?stat str(?placelabel) AS ?place ?starttime ?endtime ?csvUrl WHERE {
+GRAPH <https://w3id.org/italia/env/ld/rmn/> {
+?obseries ispra-emf:hasObservationParameter ?parameter; ispra-top:atTime ?timeinterval; ispra-top:isPartOf ?obscolltop;
+ ispra-emf:isObservationMadeBySensor ?instrument; ispra-top:hasMedia ?media .
+?timeinterval ispra-top:startTime ?starttime; ispra-top:endTime ?endtime .
+?parameter rdfs:label ?labelpar . ?instrument ispra-emf:isHostedBy ?stat . ?stat rdfs:label ?station .
+?media ispra-top:hasDownloadURL ?csvUrl . ?obscolltop ispra-top:isPartOf ?coll .
+?coll ispra-top:isPartOf <https://w3id.org/italia/env/ld/rmn/dataset>; ispra-top:isCollectionOf ?place . }
+?place rdfs:label ?placelabel.
+FILTER (str(?labelpar) = "Wind")
+FILTER (langMatches(lang(?placelabel),"it")) FILTER (langMatches(lang(?station),"it"))
+FILTER (?endtime >= "%s"^^xsd:dateTime) } ORDER BY ?csvUrl"""
+
+
+def sparql(q):
+    url = SPARQL + "?" + urllib.parse.urlencode({"default-graph-uri": "", "query": q, "format": "text/csv"})
+    b = scarica(url, tentativi=3)
+    return list(csv.DictReader(io.StringIO(b.decode("utf-8", errors="replace")))) if b else None
+
+
+def rmn(out):
+    st = sparql(Q_STAZIONI)
+    if st is None:
+        log("SPARQL di ISPRA non raggiungibile"); return
+    open(os.path.join(out, "rmn_stazioni_tutte.json"), "w").write(json.dumps(st, indent=1, ensure_ascii=False))
+    pos = {}
+    for r in st:
+        try:
+            lat, lon = float(r["lat"]), float(r["long"])
+        except (ValueError, KeyError):
+            continue
+        pos[r["stat"]] = (r["statname"], r["network"], lat, lon, area_di(lat, lon))
+    log(f"RMN/RON/RMLV: {len(pos)} piattaforme; nelle aree: "
+        f"{sorted(set((v[0], v[4]) for v in pos.values() if v[4]))}")
+    righe = sparql(Q_VENTO % (DA + "T00:00:00Z"))
+    if righe is None:
+        log("SPARQL del vento non riuscito"); return
+    log(f"file del vento dal {DA}: {len(righe)}; esempio {righe[:2]}")
+    scelte, serie = {}, {}
+    for r in righe:
+        p = pos.get(r["stat"])
+        if not p or not p[4]:
+            continue
+        codice = re.sub(r"\W+", "_", p[0].lower()).strip("_")
+        scelte[codice] = dict(codice=codice, nome=p[0], lat=p[2], lon=p[3], quota=float("nan"), area=p[4], rete=p[1])
+        b = scarica(r["csvUrl"], tentativi=3)
+        if not b:
+            continue
+        testo = b.decode("utf-8", errors="replace")
+        if codice not in serie:
+            log(f"  {codice}: inizio del file {testo[:300]!r}")
+        sep = ";" if testo.count(";") > testo.count(",") else ","
+        for x in csv.DictReader(io.StringIO(testo), delimiter=sep):
+            k = {kk.strip().upper(): (vv or "").strip() for kk, vv in x.items() if kk}
+            ws, wd = k.get("WS", ""), k.get("WD", "")
+            data = k.get("DATE") or k.get("DATA") or k.get("TIME") or k.get("DATETIME") or ""
+            if not ws or not data:
+                continue
+            ora = k.get("TIME", "") if "DATE" in k or "DATA" in k else ""
+            stringa = (data + " " + ora).strip().replace("T", " ").replace("Z", "")
+            t = None
+            for fm in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M", "%d/%m/%Y %H:%M:%S", "%d/%m/%Y %H:%M", "%Y%m%d %H%M"):
+                try:
+                    t = time.mktime(time.strptime(stringa[:19], fm)) - time.timezone; break
+                except ValueError:
+                    pass
+            if t is None:
+                continue
+            try:
+                serie.setdefault(codice, []).append((t, float(wd.replace(",", ".")) if wd else np.nan, float(ws.replace(",", "."))))
+            except ValueError:
+                continue
+    for codice, s in serie.items():
+        a = np.array(s, float)
+        scelte[codice]["misure"] = salva(out, "rmn", codice, a[:, 0], a[:, 1].astype(np.float32), a[:, 2].astype(np.float32),
+                                         np.full(len(a), np.nan, np.float32), np.array(["RMN"] * len(a)))
+        log(f"  {codice} ({scelte[codice]['area']}): {scelte[codice]['misure']} misure")
+    json.dump(list(scelte.values()), open(os.path.join(out, "stazioni_rmn.json"), "w"), indent=1, ensure_ascii=False)
+
+
 # ---------------------------------------------------------------- Météo-France (orarie)
 
 def francia(out, dipartimenti=("20", "06")):
     api = scarica("https://www.data.gouv.fr/api/1/datasets/donnees-climatologiques-de-base-horaires/")
     if not api:
         log("data.gouv non raggiungibile"); return
-    ris = json.loads(api)["resources"]
+    j = json.loads(api)
+    ris = list(j.get("resources", []))
+    log(f"data.gouv: insieme {j.get('id')}, {len(ris)} risorse nella prima risposta; esempi {[r['title'] for r in ris[:5]]}")
+    pagina = 1
+    while True:                                   # l'API 2 elenca tutte le risorse, a pagine
+        b = scarica(f"https://www.data.gouv.fr/api/2/datasets/{j.get('id')}/resources/?page={pagina}&page_size=200")
+        if not b:
+            break
+        d = json.loads(b); nuove = d.get("data", [])
+        ris += [r for r in nuove if r["id"] not in {x["id"] for x in ris}]
+        if not d.get("next_page") or not nuove:
+            break
+        pagina += 1
+    log(f"data.gouv: {len(ris)} risorse in tutto")
     for r in ris:
-        if any(f"H_{d}_" in r["title"] for d in dipartimenti):
+        if any(f"_{d}_" in r["title"] for d in dipartimenti):
             log(f"risorsa: {r['title']}  {r['url']}")
     scelte = [r for r in ris if any(f"H_{d}_" in r["title"] for d in dipartimenti)
               and r["title"].endswith(".csv.gz") and re.search(r"(latest|2024|2025|2026)", r["title"])]
@@ -210,6 +399,8 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--isd", action="store_true")
     ap.add_argument("--francia", action="store_true")
+    ap.add_argument("--ghcnh", action="store_true")
+    ap.add_argument("--rmn", action="store_true")
     ap.add_argument("--sonda", action="store_true")
     ap.add_argument("--out", default="stazioni")
     a = ap.parse_args()
@@ -219,6 +410,10 @@ if __name__ == "__main__":
             sonda(a.out)
         if a.isd:
             isd(a.out)
+        if a.ghcnh:
+            ghcnh(a.out)
+        if a.rmn:
+            rmn(a.out)
         if a.francia:
             francia(a.out)
     finally:

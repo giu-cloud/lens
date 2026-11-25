@@ -3,7 +3,7 @@ name: stazioni
 on:
   workflow_dispatch:
     inputs:
-      modo: {description: "isd, francia, sonda (anche più di uno, separati da spazi)", default: "sonda isd francia"}
+      modo: {description: "isd, francia, sonda (anche più di uno, separati da spazi)", default: "ghcnh rmn francia"}
 permissions:
   contents: write
 jobs:
@@ -21,6 +21,6 @@ jobs:
       - env: {GH_TOKEN: "${{ github.token }}"}
         continue-on-error: true
         run: |
-          gh release view stazioni > /dev/null 2>&1 || gh release create stazioni --title "Vento delle stazioni a terra" --notes "Aeroporti e stazioni sinottiche (NOAA Integrated Surface Database), stazioni orarie di Météo-France (data.gouv.fr, Licence Ouverte). Solo le stazioni vicine alle aree del banco di Lens, dal 1/4/2024."
+          gh release view stazioni > /dev/null 2>&1 || gh release create stazioni --title "Vento delle stazioni a terra" --notes "Aeroporti e stazioni sinottiche (NOAA GHCNh), anemometri dei porti (ISPRA, Rete Mareografica Nazionale, CC BY 4.0), stazioni orarie di Météo-France (data.gouv.fr, Licence Ouverte). Solo le stazioni vicine alle aree del banco di Lens, dal 1/4/2024."
           nome=$(echo "${{ github.event.inputs.modo }}" | tr ' ' '-')
           tar cf stazioni-$nome.tar -C stazioni . && gh release upload stazioni stazioni-$nome.tar --clobber
