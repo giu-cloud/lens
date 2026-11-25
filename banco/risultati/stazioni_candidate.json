@@ -1,0 +1,766 @@
+[
+ {
+  "codice": "06075007",
+  "nome": "LEVENS",
+  "lat": 43.846333,
+  "lon": 7.21,
+  "quota": 691.0,
+  "area": "monaco",
+  "misure": 23235,
+  "fonte": "mf"
+ },
+ {
+  "codice": "20047006",
+  "nome": "CALACUCCIA",
+  "lat": 42.3315,
+  "lon": 9.0215,
+  "quota": 811.0,
+  "area": "corsica-nord",
+  "misure": 23235,
+  "fonte": "mf"
+ },
+ {
+  "codice": "06088001",
+  "nome": "NICE",
+  "lat": 43.648833,
+  "lon": 7.209,
+  "quota": 2.0,
+  "area": "monaco",
+  "misure": 23234,
+  "fonte": "mf",
+  "doppioni": [
+   "iem_LFMN"
+  ]
+ },
+ {
+  "codice": "06088007",
+  "nome": "NICE-RIMIEZ",
+  "lat": 43.738667,
+  "lon": 7.279167,
+  "quota": 238.0,
+  "area": "monaco",
+  "misure": 23234,
+  "fonte": "mf"
+ },
+ {
+  "codice": "06038001",
+  "nome": "CHATEAUNEUF GRASSE",
+  "lat": 43.678333,
+  "lon": 6.996167,
+  "quota": 379.0,
+  "area": "monaco",
+  "misure": 23233,
+  "fonte": "mf"
+ },
+ {
+  "codice": "06152002",
+  "nome": "VALBONNE-SOPHIA",
+  "lat": 43.623167,
+  "lon": 7.0285,
+  "quota": 238.0,
+  "area": "monaco",
+  "misure": 23233,
+  "fonte": "mf"
+ },
+ {
+  "codice": "20050001",
+  "nome": "CALVI",
+  "lat": 42.5295,
+  "lon": 8.7915,
+  "quota": 57.0,
+  "area": "corsica-nord",
+  "misure": 23233,
+  "fonte": "mf",
+  "doppioni": [
+   "gh_FRI0000LFKC",
+   "iem_LFKC"
+  ]
+ },
+ {
+  "codice": "20148001",
+  "nome": "BASTIA",
+  "lat": 42.540667,
+  "lon": 9.485167,
+  "quota": 10.0,
+  "area": "corsica-nord",
+  "misure": 23233,
+  "fonte": "mf",
+  "doppioni": [
+   "gh_FRI0000LFKB",
+   "iem_LFKB"
+  ]
+ },
+ {
+  "codice": "06029001",
+  "nome": "CANNES",
+  "lat": 43.5565,
+  "lon": 6.9505,
+  "quota": 2.0,
+  "area": "monaco",
+  "misure": 23232,
+  "fonte": "mf",
+  "doppioni": [
+   "gh_FRI0000LFMD",
+   "iem_LFMD"
+  ]
+ },
+ {
+  "codice": "20247001",
+  "nome": "LA CHIAPPA",
+  "lat": 41.594833,
+  "lon": 9.363167,
+  "quota": 57.0,
+  "area": "maddalena-bonifacio",
+  "misure": 23232,
+  "fonte": "mf",
+  "doppioni": [
+   "gh_FRM00007768"
+  ]
+ },
+ {
+  "codice": "06005001",
+  "nome": "ASCROS",
+  "lat": 43.922,
+  "lon": 7.013667,
+  "quota": 1173.0,
+  "area": "monaco",
+  "misure": 23230,
+  "fonte": "mf"
+ },
+ {
+  "codice": "06023004",
+  "nome": "BREIL SUR ROYA",
+  "lat": 43.940167,
+  "lon": 7.513667,
+  "quota": 305.0,
+  "area": "monaco",
+  "misure": 23230,
+  "fonte": "mf"
+ },
+ {
+  "codice": "20093002",
+  "nome": "ILE ROUSSE",
+  "lat": 42.633333,
+  "lon": 8.9225,
+  "quota": 140.0,
+  "area": "corsica-nord",
+  "misure": 23230,
+  "fonte": "mf",
+  "doppioni": [
+   "gh_FRM00007753"
+  ]
+ },
+ {
+  "codice": "20096008",
+  "nome": "CORTE",
+  "lat": 42.2885,
+  "lon": 9.193167,
+  "quota": 350.0,
+  "area": "corsica-nord",
+  "misure": 23230,
+  "fonte": "mf"
+ },
+ {
+  "codice": "06077006",
+  "nome": "PEIRA CAVA",
+  "lat": 43.929167,
+  "lon": 7.363333,
+  "quota": 1443.0,
+  "area": "monaco",
+  "misure": 23229,
+  "fonte": "mf"
+ },
+ {
+  "codice": "20114002",
+  "nome": "FIGARI",
+  "lat": 41.505167,
+  "lon": 9.103667,
+  "quota": 20.0,
+  "area": "maddalena-bonifacio",
+  "misure": 23229,
+  "fonte": "mf",
+  "doppioni": [
+   "gh_FRI0000LFKF",
+   "iem_LFKF"
+  ]
+ },
+ {
+  "codice": "20272004",
+  "nome": "SARTENE",
+  "lat": 41.652333,
+  "lon": 8.979333,
+  "quota": 62.0,
+  "area": "maddalena-bonifacio",
+  "misure": 23229,
+  "fonte": "mf"
+ },
+ {
+  "codice": "06004002",
+  "nome": "ANTIBES-GAROUPE",
+  "lat": 43.564667,
+  "lon": 7.133,
+  "quota": 75.0,
+  "area": "monaco",
+  "misure": 23228,
+  "fonte": "mf",
+  "doppioni": [
+   "gh_FRM00007688"
+  ]
+ },
+ {
+  "codice": "06091003",
+  "nome": "PEILLE",
+  "lat": 43.775167,
+  "lon": 7.428333,
+  "quota": 1106.0,
+  "area": "monaco",
+  "misure": 23228,
+  "fonte": "mf"
+ },
+ {
+  "codice": "20223001",
+  "nome": "PIETRALBA",
+  "lat": 42.541,
+  "lon": 9.172,
+  "quota": 510.0,
+  "area": "corsica-nord",
+  "misure": 23227,
+  "fonte": "mf"
+ },
+ {
+  "codice": "06136005",
+  "nome": "SOSPEL",
+  "lat": 43.862833,
+  "lon": 7.433667,
+  "quota": 843.0,
+  "area": "monaco",
+  "misure": 23226,
+  "fonte": "mf"
+ },
+ {
+  "codice": "20046002",
+  "nome": "CAGNANO",
+  "lat": 42.886667,
+  "lon": 9.4395,
+  "quota": 278.0,
+  "area": "corsica-nord",
+  "misure": 23226,
+  "fonte": "mf"
+ },
+ {
+  "codice": "20185003",
+  "nome": "OLETTA",
+  "lat": 42.632333,
+  "lon": 9.3205,
+  "quota": 75.0,
+  "area": "corsica-nord",
+  "misure": 23222,
+  "fonte": "mf"
+ },
+ {
+  "codice": "06083005",
+  "nome": "MENTON",
+  "lat": 43.785833,
+  "lon": 7.488667,
+  "quota": 216.0,
+  "area": "monaco",
+  "misure": 23213,
+  "fonte": "mf"
+ },
+ {
+  "codice": "20303002",
+  "nome": "ALISTRO",
+  "lat": 42.259667,
+  "lon": 9.5415,
+  "quota": 65.0,
+  "area": "corsica-nord",
+  "misure": 23209,
+  "fonte": "mf",
+  "doppioni": [
+   "gh_FRM00007775"
+  ]
+ },
+ {
+  "codice": "20281001",
+  "nome": "CAP SAGRO",
+  "lat": 42.798333,
+  "lon": 9.488667,
+  "quota": 111.0,
+  "area": "corsica-nord",
+  "misure": 23139,
+  "fonte": "mf",
+  "doppioni": [
+   "gh_FRM00007791"
+  ]
+ },
+ {
+  "codice": "20107001",
+  "nome": "CAP CORSE",
+  "lat": 43.003833,
+  "lon": 9.3595,
+  "quota": 72.0,
+  "area": "corsica-nord",
+  "misure": 23035,
+  "fonte": "mf",
+  "doppioni": [
+   "gh_FRM00007785"
+  ]
+ },
+ {
+  "codice": "20041001",
+  "nome": "CAP PERTUSATO",
+  "lat": 41.374833,
+  "lon": 9.178333,
+  "quota": 107.0,
+  "area": "maddalena-bonifacio",
+  "misure": 22598,
+  "fonte": "mf",
+  "doppioni": [
+   "gh_FRM00007770"
+  ]
+ },
+ {
+  "codice": "20007402",
+  "nome": "SPONDE-NIVOSE",
+  "lat": 42.324333,
+  "lon": 8.881667,
+  "quota": 1971.0,
+  "area": "corsica-nord",
+  "misure": 22591,
+  "fonte": "mf"
+ },
+ {
+  "codice": "20314006",
+  "nome": "SANTO PIETRO DI TENDA",
+  "lat": 42.635833,
+  "lon": 9.200667,
+  "quota": 484.0,
+  "area": "corsica-nord",
+  "misure": 19877,
+  "fonte": "mf"
+ },
+ {
+  "codice": "20235001",
+  "nome": "PIOGGIOLA",
+  "lat": 42.517833,
+  "lon": 8.999833,
+  "quota": 995.0,
+  "area": "corsica-nord",
+  "misure": 15790,
+  "fonte": "mf"
+ },
+ {
+  "codice": "20255003",
+  "nome": "QUERCITELLO",
+  "lat": 42.426833,
+  "lon": 9.332333,
+  "quota": 997.0,
+  "area": "corsica-nord",
+  "misure": 14999,
+  "fonte": "mf"
+ },
+ {
+  "codice": "ITI0000LICJ",
+  "nome": "PALERMO",
+  "lat": 38.176,
+  "lon": 13.091,
+  "quota": 19.8,
+  "area": "palermo",
+  "altro": [
+   "",
+   "",
+   "",
+   "LICJ",
+   "IT"
+  ],
+  "misure": 56072,
+  "fonte": "gh",
+  "doppioni": [
+   "iem_LICJ"
+  ]
+ },
+ {
+  "codice": "ITW00034113",
+  "nome": "NAPLES",
+  "lat": 40.8861,
+  "lon": 14.2908,
+  "quota": 89.6,
+  "area": "napoli",
+  "altro": [
+   "",
+   "",
+   "",
+   "LIRN",
+   "IT"
+  ],
+  "misure": 55779,
+  "fonte": "gh",
+  "doppioni": [
+   "iem_LIRN"
+  ]
+ },
+ {
+  "codice": "ITMU0016531",
+  "nome": "OLBIA ITALY (VENAFIORITA)",
+  "lat": 40.87,
+  "lon": 9.5,
+  "quota": 22.0,
+  "area": "maddalena-bonifacio",
+  "altro": [
+   "",
+   "",
+   "",
+   "LIEO",
+   "IT"
+  ],
+  "misure": 55228,
+  "fonte": "gh"
+ },
+ {
+  "codice": "GRI0000LGPA",
+  "nome": "PAROS",
+  "lat": 37.0167,
+  "lon": 25.1333,
+  "quota": 36.0,
+  "area": "cicladi",
+  "altro": [
+   "",
+   "",
+   "",
+   "LGPA",
+   "GR"
+  ],
+  "misure": 51205,
+  "fonte": "gh",
+  "doppioni": [
+   "iem_LGPA"
+  ]
+ },
+ {
+  "codice": "ITMU0016206",
+  "nome": "GROSSETO ITALY",
+  "lat": 42.75,
+  "lon": 11.07,
+  "quota": 7.0,
+  "area": "toscano",
+  "altro": [
+   "",
+   "",
+   "",
+   "LIRS",
+   "IT"
+  ],
+  "misure": 45025,
+  "fonte": "gh",
+  "doppioni": [
+   "iem_LIRS"
+  ]
+ },
+ {
+  "codice": "ITMU0016253",
+  "nome": "GRAZZANISE ITALY",
+  "lat": 41.07,
+  "lon": 14.08,
+  "quota": 8.0,
+  "area": "napoli",
+  "altro": [
+   "",
+   "",
+   "",
+   "LIRM",
+   "IT"
+  ],
+  "misure": 43935,
+  "fonte": "gh"
+ },
+ {
+  "codice": "GRMU0016730",
+  "nome": "SYROS GREECE",
+  "lat": 37.45,
+  "lon": 24.95,
+  "quota": 35.0,
+  "area": "cicladi",
+  "altro": [
+   "",
+   "",
+   "",
+   "LGSO",
+   "GR"
+  ],
+  "misure": 42918,
+  "fonte": "gh"
+ },
+ {
+  "codice": "GRI0000LGMK",
+  "nome": "MIKONOS",
+  "lat": 37.4351,
+  "lon": 25.3481,
+  "quota": 123.4,
+  "area": "cicladi",
+  "altro": [
+   "",
+   "",
+   "",
+   "LGMK",
+   "GR"
+  ],
+  "misure": 41002,
+  "fonte": "gh",
+  "doppioni": [
+   "iem_LGMK"
+  ]
+ },
+ {
+  "codice": "ITMU0016546",
+  "nome": "DECIMONANNU SARDINIA",
+  "lat": 39.35,
+  "lon": 8.97,
+  "quota": 33.0,
+  "area": "cagliari",
+  "altro": [
+   "",
+   "",
+   "",
+   "LIED",
+   "IT"
+  ],
+  "misure": 39783,
+  "fonte": "gh"
+ },
+ {
+  "codice": "ITI0000LIQO",
+  "nome": "MOUNT ARGENTARIO",
+  "lat": 42.3833,
+  "lon": 11.1667,
+  "quota": 632.0,
+  "area": "toscano",
+  "altro": [
+   "",
+   "",
+   "",
+   "LIQO",
+   "IT"
+  ],
+  "misure": 36556,
+  "fonte": "gh"
+ },
+ {
+  "codice": "ITI0000LICF",
+  "nome": "MESSINA",
+  "lat": 38.2,
+  "lon": 15.55,
+  "quota": 51.0,
+  "area": "messina",
+  "altro": [
+   "",
+   "",
+   "",
+   "LICF",
+   "IT"
+  ],
+  "misure": 32506,
+  "fonte": "gh"
+ },
+ {
+  "codice": "ITM00016281",
+  "nome": "PONZA",
+  "lat": 40.9167,
+  "lon": 12.95,
+  "quota": 185.0,
+  "area": "pontine",
+  "altro": [
+   "",
+   "",
+   "",
+   "LIQZ",
+   "IT"
+  ],
+  "misure": 29117,
+  "fonte": "gh"
+ },
+ {
+  "codice": "ITI0000LIEC",
+  "nome": "CAPE CARBONARA",
+  "lat": 39.1,
+  "lon": 9.5167,
+  "quota": 118.0,
+  "area": "cagliari",
+  "altro": [
+   "",
+   "",
+   "",
+   "LIEC",
+   "IT"
+  ],
+  "misure": 25361,
+  "fonte": "gh"
+ },
+ {
+  "codice": "MTM00016599",
+  "nome": "GUDJA",
+  "lat": 35.85,
+  "lon": 14.5,
+  "quota": 78.0,
+  "area": "malta",
+  "altro": [
+   "",
+   "",
+   "16599",
+   "",
+   "MT"
+  ],
+  "misure": 17112,
+  "fonte": "gh",
+  "doppioni": [
+   "iem_LMML"
+  ]
+ },
+ {
+  "codice": "ITMU0016153",
+  "nome": "CAPO MELE ITALY",
+  "lat": 43.95,
+  "lon": 8.17,
+  "quota": 221.0,
+  "area": "monaco",
+  "altro": [
+   "",
+   "",
+   "",
+   "LIMU",
+   "IT"
+  ],
+  "misure": 12605,
+  "fonte": "gh"
+ },
+ {
+  "codice": "GRI0000LGNX",
+  "nome": "CYCLADES ISLANDS",
+  "lat": 37.0833,
+  "lon": 25.3667,
+  "quota": 3.0,
+  "area": "cicladi",
+  "altro": [
+   "",
+   "",
+   "",
+   "LGNX",
+   "GR"
+  ],
+  "misure": 12047,
+  "fonte": "gh",
+  "doppioni": [
+   "iem_LGNX"
+  ]
+ },
+ {
+  "codice": "ITM00016532",
+  "nome": "MONTE LIMBARA",
+  "lat": 40.85,
+  "lon": 9.1667,
+  "quota": 1363.0,
+  "area": "maddalena-bonifacio",
+  "altro": [
+   "",
+   "",
+   "16532",
+   "",
+   "IT"
+  ],
+  "misure": 7670,
+  "fonte": "gh"
+ },
+ {
+  "codice": "ITM00016126",
+  "nome": "PASSO DEI GIOVI",
+  "lat": 44.55,
+  "lon": 8.9333,
+  "quota": 488.0,
+  "area": "genova",
+  "altro": [
+   "",
+   "",
+   "",
+   "LIMV",
+   "IT"
+  ],
+  "misure": 7218,
+  "fonte": "gh"
+ },
+ {
+  "codice": "ITM00016288",
+  "nome": "CASERTA",
+  "lat": 41.0667,
+  "lon": 14.3167,
+  "quota": 62.0,
+  "area": "napoli",
+  "altro": [
+   "",
+   "",
+   "16288",
+   "",
+   "IT"
+  ],
+  "misure": 4136,
+  "fonte": "gh"
+ },
+ {
+  "codice": "LICR",
+  "nome": "LICR",
+  "lat": 38.0719,
+  "lon": 15.6536,
+  "quota": 21.0,
+  "area": "messina",
+  "misure": 46296,
+  "fonte": "iem"
+ },
+ {
+  "codice": "LIMJ",
+  "nome": "LIMJ",
+  "lat": 44.4133,
+  "lon": 8.8375,
+  "quota": 3.0,
+  "area": "genova",
+  "misure": 46197,
+  "fonte": "iem"
+ },
+ {
+  "codice": "LIEO",
+  "nome": "LIEO",
+  "lat": 40.8986,
+  "lon": 9.5178,
+  "quota": 13.0,
+  "area": "maddalena-bonifacio",
+  "misure": 46174,
+  "fonte": "iem"
+ },
+ {
+  "codice": "LIEE",
+  "nome": "LIEE",
+  "lat": 39.2434,
+  "lon": 9.0603,
+  "quota": 4.0,
+  "area": "cagliari",
+  "misure": 45667,
+  "fonte": "iem"
+ },
+ {
+  "codice": "LGSO",
+  "nome": "LGSO",
+  "lat": 37.4228,
+  "lon": 24.9509,
+  "quota": 72.0,
+  "area": "cicladi",
+  "misure": 36742,
+  "fonte": "iem"
+ },
+ {
+  "codice": "LICT",
+  "nome": "LICT",
+  "lat": 37.9142,
+  "lon": 12.4914,
+  "quota": 7.0,
+  "area": "egadi",
+  "misure": 23522,
+  "fonte": "iem"
+ }
+]

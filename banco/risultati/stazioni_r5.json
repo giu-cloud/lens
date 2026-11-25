@@ -1,0 +1,1903 @@
+{
+ "stazioni_usate": [
+  "gh_GRI0000LGNX",
+  "gh_GRMU0016730",
+  "gh_ITI0000LIEC",
+  "gh_ITM00016281",
+  "iem_LGSO",
+  "iem_LICR",
+  "iem_LICT",
+  "iem_LIMJ",
+  "mf_06004002",
+  "mf_06088001",
+  "mf_20041001",
+  "mf_20093002",
+  "mf_20107001"
+ ],
+ "confronti": 10554,
+ "con_icon": 5295,
+ "assoluto": {
+  "tutte le ore": {
+   "ECMWF": {
+    "n": 5295,
+    "medio": -0.61,
+    "quadratico": 5.16
+   },
+   "ECMWF corretto": {
+    "n": 5295,
+    "medio": -0.4,
+    "quadratico": 4.75
+   },
+   "ICON-2I": {
+    "n": 5295,
+    "medio": -1.44,
+    "quadratico": 4.69
+   },
+   "ICON-2I corretto": {
+    "n": 5295,
+    "medio": -1.2,
+    "quadratico": 4.58
+   },
+   "insieme grezzo": {
+    "n": 5295,
+    "medio": -0.94,
+    "quadratico": 4.61
+   },
+   "insieme corretto": {
+    "n": 5295,
+    "medio": -0.72,
+    "quadratico": 4.36
+   }
+  },
+  "notte (00-03)": {
+   "ECMWF": {
+    "n": 1290,
+    "medio": 0.4,
+    "quadratico": 4.7
+   },
+   "ECMWF corretto": {
+    "n": 1290,
+    "medio": 0.47,
+    "quadratico": 4.41
+   },
+   "ICON-2I": {
+    "n": 1290,
+    "medio": -0.98,
+    "quadratico": 4.23
+   },
+   "ICON-2I corretto": {
+    "n": 1290,
+    "medio": -0.72,
+    "quadratico": 4.13
+   },
+   "insieme grezzo": {
+    "n": 1290,
+    "medio": -0.15,
+    "quadratico": 4.15
+   },
+   "insieme corretto": {
+    "n": 1290,
+    "medio": -0.0,
+    "quadratico": 3.99
+   }
+  },
+  "mattina (06-09)": {
+   "ECMWF": {
+    "n": 1273,
+    "medio": -0.37,
+    "quadratico": 5.2
+   },
+   "ECMWF corretto": {
+    "n": 1273,
+    "medio": -0.3,
+    "quadratico": 4.82
+   },
+   "ICON-2I": {
+    "n": 1273,
+    "medio": -1.31,
+    "quadratico": 4.73
+   },
+   "ICON-2I corretto": {
+    "n": 1273,
+    "medio": -1.02,
+    "quadratico": 4.59
+   },
+   "insieme grezzo": {
+    "n": 1273,
+    "medio": -0.74,
+    "quadratico": 4.66
+   },
+   "insieme corretto": {
+    "n": 1273,
+    "medio": -0.59,
+    "quadratico": 4.42
+   }
+  },
+  "pomeriggio (12-15)": {
+   "ECMWF": {
+    "n": 1370,
+    "medio": -2.13,
+    "quadratico": 5.82
+   },
+   "ECMWF corretto": {
+    "n": 1370,
+    "medio": -1.77,
+    "quadratico": 5.14
+   },
+   "ICON-2I": {
+    "n": 1370,
+    "medio": -2.24,
+    "quadratico": 5.04
+   },
+   "ICON-2I corretto": {
+    "n": 1370,
+    "medio": -2.01,
+    "quadratico": 4.91
+   },
+   "insieme grezzo": {
+    "n": 1370,
+    "medio": -2.18,
+    "quadratico": 5.2
+   },
+   "insieme corretto": {
+    "n": 1370,
+    "medio": -1.87,
+    "quadratico": 4.74
+   }
+  },
+  "sera (18-21)": {
+   "ECMWF": {
+    "n": 1362,
+    "medio": -0.27,
+    "quadratico": 4.82
+   },
+   "ECMWF corretto": {
+    "n": 1362,
+    "medio": 0.08,
+    "quadratico": 4.57
+   },
+   "ICON-2I": {
+    "n": 1362,
+    "medio": -1.19,
+    "quadratico": 4.68
+   },
+   "ICON-2I corretto": {
+    "n": 1362,
+    "medio": -1.0,
+    "quadratico": 4.64
+   },
+   "insieme grezzo": {
+    "n": 1362,
+    "medio": -0.64,
+    "quadratico": 4.36
+   },
+   "insieme corretto": {
+    "n": 1362,
+    "medio": -0.35,
+    "quadratico": 4.23
+   }
+  }
+ },
+ "libero": {
+  "tutte le ore": {
+   "ecmwf": 4.894,
+   "ecmwf_c": 4.693,
+   "icon": 4.496,
+   "icon_c": 4.458,
+   "ens": 4.391,
+   "ens_c": 4.269
+  },
+  "notte (00-03)": {
+   "ecmwf": 4.434,
+   "ecmwf_c": 4.267,
+   "icon": 4.059,
+   "icon_c": 4.014,
+   "ens": 4.003,
+   "ens_c": 3.892
+  },
+  "mattina (06-09)": {
+   "ecmwf": 4.91,
+   "ecmwf_c": 4.739,
+   "icon": 4.547,
+   "icon_c": 4.499,
+   "ens": 4.443,
+   "ens_c": 4.338
+  },
+  "pomeriggio (12-15)": {
+   "ecmwf": 5.006,
+   "ecmwf_c": 4.77,
+   "icon": 4.54,
+   "icon_c": 4.512,
+   "ens": 4.419,
+   "ens_c": 4.273
+  },
+  "sera (18-21)": {
+   "ecmwf": 4.554,
+   "ecmwf_c": 4.428,
+   "icon": 4.496,
+   "icon_c": 4.462,
+   "ens": 4.177,
+   "ens_c": 4.097
+  }
+ },
+ "per_stazione": {
+  "gh_GRI0000LGNX": {
+   "nome": "CYCLADES ISLANDS",
+   "area": "cicladi",
+   "ottanti": [
+    0
+   ],
+   "fattore_medio": 1.049,
+   "assoluto": {
+    "ECMWF": {
+     "n": 418,
+     "medio": -0.35,
+     "quadratico": 4.19
+    },
+    "ECMWF corretto": {
+     "n": 418,
+     "medio": 0.35,
+     "quadratico": 4.19
+    }
+   },
+   "libero": {
+    "ecmwf": 4.194,
+    "ecmwf_c": 4.133,
+    "icon": null,
+    "icon_c": null,
+    "ens": null,
+    "ens_c": null
+   }
+  },
+  "gh_GRMU0016730": {
+   "nome": "SYROS GREECE",
+   "area": "cicladi",
+   "ottanti": [
+    0,
+    4,
+    5
+   ],
+   "fattore_medio": 1.071,
+   "assoluto": {
+    "ECMWF": {
+     "n": 1027,
+     "medio": -1.83,
+     "quadratico": 4.5
+    },
+    "ECMWF corretto": {
+     "n": 1027,
+     "medio": -0.63,
+     "quadratico": 3.98
+    }
+   },
+   "libero": {
+    "ecmwf": 4.028,
+    "ecmwf_c": 3.923,
+    "icon": null,
+    "icon_c": null,
+    "ens": null,
+    "ens_c": null
+   }
+  },
+  "gh_ITI0000LIEC": {
+   "nome": "CAPE CARBONARA",
+   "area": "cagliari",
+   "ottanti": [
+    5,
+    6,
+    7
+   ],
+   "fattore_medio": 0.887,
+   "assoluto": {
+    "ECMWF": {
+     "n": 540,
+     "medio": 0.93,
+     "quadratico": 4.82
+    },
+    "ECMWF corretto": {
+     "n": 540,
+     "medio": -0.35,
+     "quadratico": 4.71
+    },
+    "ICON-2I": {
+     "n": 443,
+     "medio": -0.45,
+     "quadratico": 4.34
+    },
+    "ICON-2I corretto": {
+     "n": 443,
+     "medio": -1.22,
+     "quadratico": 4.47
+    },
+    "insieme grezzo": {
+     "n": 443,
+     "medio": 0.36,
+     "quadratico": 4.11
+    },
+    "insieme corretto": {
+     "n": 443,
+     "medio": -0.7,
+     "quadratico": 4.15
+    }
+   },
+   "libero": {
+    "ecmwf": 4.717,
+    "ecmwf_c": 4.697,
+    "icon": 4.339,
+    "icon_c": 4.346,
+    "ens": 4.101,
+    "ens_c": 4.073
+   }
+  },
+  "gh_ITM00016281": {
+   "nome": "PONZA",
+   "area": "pontine",
+   "ottanti": [
+    3,
+    6,
+    7
+   ],
+   "fattore_medio": 0.956,
+   "assoluto": {
+    "ECMWF": {
+     "n": 509,
+     "medio": -0.11,
+     "quadratico": 5.07
+    },
+    "ECMWF corretto": {
+     "n": 509,
+     "medio": -0.49,
+     "quadratico": 5.16
+    },
+    "ICON-2I": {
+     "n": 268,
+     "medio": -1.87,
+     "quadratico": 4.38
+    },
+    "ICON-2I corretto": {
+     "n": 268,
+     "medio": -2.8,
+     "quadratico": 4.82
+    },
+    "insieme grezzo": {
+     "n": 268,
+     "medio": -1.35,
+     "quadratico": 3.98
+    },
+    "insieme corretto": {
+     "n": 268,
+     "medio": -1.95,
+     "quadratico": 4.24
+    }
+   },
+   "libero": {
+    "ecmwf": 5.037,
+    "ecmwf_c": 5.154,
+    "icon": 4.266,
+    "icon_c": 4.37,
+    "ens": 3.899,
+    "ens_c": 4.017
+   }
+  },
+  "iem_LGSO": {
+   "nome": "LGSO",
+   "area": "cicladi",
+   "ottanti": [
+    0,
+    3,
+    4,
+    5
+   ],
+   "fattore_medio": 1.08,
+   "assoluto": {
+    "ECMWF": {
+     "n": 1071,
+     "medio": -1.94,
+     "quadratico": 4.76
+    },
+    "ECMWF corretto": {
+     "n": 1071,
+     "medio": -0.62,
+     "quadratico": 4.14
+    }
+   },
+   "libero": {
+    "ecmwf": 4.249,
+    "ecmwf_c": 4.08,
+    "icon": null,
+    "icon_c": null,
+    "ens": null,
+    "ens_c": null
+   }
+  },
+  "iem_LICR": {
+   "nome": "LICR",
+   "area": "messina",
+   "ottanti": [
+    0,
+    4
+   ],
+   "fattore_medio": 1.29,
+   "assoluto": {
+    "ECMWF": {
+     "n": 839,
+     "medio": -3.89,
+     "quadratico": 6.3
+    },
+    "ECMWF corretto": {
+     "n": 839,
+     "medio": -0.95,
+     "quadratico": 5.06
+    },
+    "ICON-2I": {
+     "n": 571,
+     "medio": -2.79,
+     "quadratico": 5.05
+    },
+    "ICON-2I corretto": {
+     "n": 571,
+     "medio": -1.94,
+     "quadratico": 4.62
+    },
+    "insieme grezzo": {
+     "n": 571,
+     "medio": -3.6,
+     "quadratico": 5.77
+    },
+    "insieme corretto": {
+     "n": 571,
+     "medio": -1.52,
+     "quadratico": 4.74
+    }
+   },
+   "libero": {
+    "ecmwf": 4.998,
+    "ecmwf_c": 4.993,
+    "icon": 4.363,
+    "icon_c": 4.293,
+    "ens": 4.454,
+    "ens_c": 4.483
+   }
+  },
+  "iem_LICT": {
+   "nome": "LICT",
+   "area": "egadi",
+   "ottanti": [
+    0,
+    1,
+    3,
+    4,
+    6,
+    7
+   ],
+   "fattore_medio": 1.082,
+   "assoluto": {
+    "ECMWF": {
+     "n": 1227,
+     "medio": -1.15,
+     "quadratico": 4.98
+    },
+    "ECMWF corretto": {
+     "n": 1227,
+     "medio": -0.36,
+     "quadratico": 4.63
+    },
+    "ICON-2I": {
+     "n": 805,
+     "medio": -0.73,
+     "quadratico": 4.09
+    },
+    "ICON-2I corretto": {
+     "n": 805,
+     "medio": -0.43,
+     "quadratico": 4.07
+    },
+    "insieme grezzo": {
+     "n": 805,
+     "medio": -1.0,
+     "quadratico": 4.37
+    },
+    "insieme corretto": {
+     "n": 805,
+     "medio": -0.4,
+     "quadratico": 4.17
+    }
+   },
+   "libero": {
+    "ecmwf": 4.904,
+    "ecmwf_c": 4.633,
+    "icon": 4.054,
+    "icon_c": 4.07,
+    "ens": 4.274,
+    "ens_c": 4.163
+   }
+  },
+  "iem_LIMJ": {
+   "nome": "LIMJ",
+   "area": "genova",
+   "ottanti": [
+    2,
+    3
+   ],
+   "fattore_medio": 1.041,
+   "assoluto": {
+    "ECMWF": {
+     "n": 255,
+     "medio": -1.49,
+     "quadratico": 6.07
+    },
+    "ECMWF corretto": {
+     "n": 255,
+     "medio": -1.2,
+     "quadratico": 6.0
+    },
+    "ICON-2I": {
+     "n": 190,
+     "medio": -3.21,
+     "quadratico": 5.66
+    },
+    "ICON-2I corretto": {
+     "n": 190,
+     "medio": -1.95,
+     "quadratico": 5.07
+    },
+    "insieme grezzo": {
+     "n": 190,
+     "medio": -1.99,
+     "quadratico": 5.42
+    },
+    "insieme corretto": {
+     "n": 190,
+     "medio": -1.29,
+     "quadratico": 5.14
+    }
+   },
+   "libero": {
+    "ecmwf": 6.007,
+    "ecmwf_c": 5.957,
+    "icon": 4.804,
+    "icon_c": 4.796,
+    "ens": 5.017,
+    "ens_c": 4.958
+   }
+  },
+  "mf_06004002": {
+   "nome": "ANTIBES-GAROUPE",
+   "area": "monaco",
+   "ottanti": [
+    1,
+    2,
+    5,
+    6
+   ],
+   "fattore_medio": 1.112,
+   "assoluto": {
+    "ECMWF": {
+     "n": 875,
+     "medio": -0.46,
+     "quadratico": 4.77
+    },
+    "ECMWF corretto": {
+     "n": 875,
+     "medio": 0.6,
+     "quadratico": 4.62
+    },
+    "ICON-2I": {
+     "n": 540,
+     "medio": -1.75,
+     "quadratico": 4.41
+    },
+    "ICON-2I corretto": {
+     "n": 540,
+     "medio": -0.5,
+     "quadratico": 4.33
+    },
+    "insieme grezzo": {
+     "n": 540,
+     "medio": -0.78,
+     "quadratico": 3.99
+    },
+    "insieme corretto": {
+     "n": 540,
+     "medio": 0.15,
+     "quadratico": 3.78
+    }
+   },
+   "libero": {
+    "ecmwf": 4.765,
+    "ecmwf_c": 4.445,
+    "icon": 4.316,
+    "icon_c": 4.279,
+    "ens": 3.977,
+    "ens_c": 3.725
+   }
+  },
+  "mf_06088001": {
+   "nome": "NICE",
+   "area": "monaco",
+   "ottanti": [
+    1,
+    2,
+    5,
+    6
+   ],
+   "fattore_medio": 0.974,
+   "assoluto": {
+    "ECMWF": {
+     "n": 875,
+     "medio": 0.38,
+     "quadratico": 6.1
+    },
+    "ECMWF corretto": {
+     "n": 875,
+     "medio": -0.13,
+     "quadratico": 5.49
+    },
+    "ICON-2I": {
+     "n": 541,
+     "medio": -2.97,
+     "quadratico": 5.56
+    },
+    "ICON-2I corretto": {
+     "n": 541,
+     "medio": -2.09,
+     "quadratico": 5.25
+    },
+    "insieme grezzo": {
+     "n": 541,
+     "medio": -0.81,
+     "quadratico": 5.17
+    },
+    "insieme corretto": {
+     "n": 541,
+     "medio": -0.96,
+     "quadratico": 4.77
+    }
+   },
+   "libero": {
+    "ecmwf": 5.756,
+    "ecmwf_c": 5.373,
+    "icon": 5.308,
+    "icon_c": 5.218,
+    "ens": 5.163,
+    "ens_c": 4.767
+   }
+  },
+  "mf_20041001": {
+   "nome": "CAP PERTUSATO",
+   "area": "maddalena-bonifacio",
+   "ottanti": [
+    0,
+    1,
+    2,
+    3,
+    6
+   ],
+   "fattore_medio": 1.001,
+   "assoluto": {
+    "ECMWF": {
+     "n": 1055,
+     "medio": 0.1,
+     "quadratico": 4.35
+    },
+    "ECMWF corretto": {
+     "n": 1055,
+     "medio": 0.01,
+     "quadratico": 4.19
+    },
+    "ICON-2I": {
+     "n": 694,
+     "medio": -0.23,
+     "quadratico": 4.25
+    },
+    "ICON-2I corretto": {
+     "n": 694,
+     "medio": -0.46,
+     "quadratico": 4.09
+    },
+    "insieme grezzo": {
+     "n": 694,
+     "medio": -0.01,
+     "quadratico": 4.15
+    },
+    "insieme corretto": {
+     "n": 694,
+     "medio": -0.22,
+     "quadratico": 3.98
+    }
+   },
+   "libero": {
+    "ecmwf": 4.315,
+    "ecmwf_c": 4.178,
+    "icon": 4.239,
+    "icon_c": 4.087,
+    "ens": 4.135,
+    "ens_c": 3.98
+   }
+  },
+  "mf_20093002": {
+   "nome": "ILE ROUSSE",
+   "area": "corsica-nord",
+   "ottanti": [
+    1,
+    2,
+    5,
+    6
+   ],
+   "fattore_medio": 0.962,
+   "assoluto": {
+    "ECMWF": {
+     "n": 931,
+     "medio": 0.14,
+     "quadratico": 5.96
+    },
+    "ECMWF corretto": {
+     "n": 931,
+     "medio": -0.2,
+     "quadratico": 5.79
+    },
+    "ICON-2I": {
+     "n": 621,
+     "medio": -0.82,
+     "quadratico": 5.23
+    },
+    "ICON-2I corretto": {
+     "n": 621,
+     "medio": -0.72,
+     "quadratico": 5.21
+    },
+    "insieme grezzo": {
+     "n": 621,
+     "medio": -0.02,
+     "quadratico": 5.16
+    },
+    "insieme corretto": {
+     "n": 621,
+     "medio": -0.12,
+     "quadratico": 5.06
+    }
+   },
+   "libero": {
+    "ecmwf": 5.957,
+    "ecmwf_c": 5.787,
+    "icon": 5.228,
+    "icon_c": 5.213,
+    "ens": 5.157,
+    "ens_c": 5.06
+   }
+  },
+  "mf_20107001": {
+   "nome": "CAP CORSE",
+   "area": "corsica-nord",
+   "ottanti": [
+    1,
+    2,
+    5,
+    6
+   ],
+   "fattore_medio": 0.958,
+   "assoluto": {
+    "ECMWF": {
+     "n": 932,
+     "medio": -0.61,
+     "quadratico": 4.1
+    },
+    "ECMWF corretto": {
+     "n": 932,
+     "medio": -0.99,
+     "quadratico": 4.05
+    },
+    "ICON-2I": {
+     "n": 622,
+     "medio": -1.46,
+     "quadratico": 4.36
+    },
+    "ICON-2I corretto": {
+     "n": 622,
+     "medio": -1.69,
+     "quadratico": 4.41
+    },
+    "insieme grezzo": {
+     "n": 622,
+     "medio": -1.09,
+     "quadratico": 3.89
+    },
+    "insieme corretto": {
+     "n": 622,
+     "medio": -1.37,
+     "quadratico": 3.87
+    }
+   },
+   "libero": {
+    "ecmwf": 4.052,
+    "ecmwf_c": 3.956,
+    "icon": 4.123,
+    "icon_c": 4.097,
+    "ens": 3.682,
+    "ens_c": 3.601
+   }
+  }
+ },
+ "per_ora": {},
+ "fiducia": [
+  {
+   "fino_a": 0.166,
+   "errore_relativo": 0.154,
+   "n": 2060
+  },
+  {
+   "fino_a": 0.217,
+   "errore_relativo": 0.181,
+   "n": 2059
+  },
+  {
+   "fino_a": 0.28,
+   "errore_relativo": 0.25,
+   "n": 2059
+  },
+  {
+   "fino_a": 0.354,
+   "errore_relativo": 0.286,
+   "n": 2059
+  },
+  {
+   "fino_a": null,
+   "errore_relativo": 0.344,
+   "n": 2060
+  }
+ ],
+ "scartate": {
+  "gh_ITMU0016546": {
+   "nome": "DECIMONANNU SARDINIA",
+   "area": "cagliari",
+   "motivo": "poche celle di mare entro 5 km"
+  },
+  "iem_LIEE": {
+   "nome": "LIEE",
+   "area": "cagliari",
+   "motivo": "poche celle di mare entro 5 km"
+  },
+  "gh_GRI0000LGPA": {
+   "nome": "PAROS",
+   "area": "cicladi",
+   "motivo": "poche celle di mare entro 5 km"
+  },
+  "gh_GRI0000LGMK": {
+   "nome": "MIKONOS",
+   "area": "cicladi",
+   "motivo": "poche celle di mare entro 5 km"
+  },
+  "mf_20047006": {
+   "nome": "CALACUCCIA",
+   "area": "corsica-nord",
+   "motivo": "quota 811 m"
+  },
+  "mf_20050001": {
+   "nome": "CALVI",
+   "area": "corsica-nord",
+   "motivo": "poche celle di mare entro 5 km"
+  },
+  "mf_20148001": {
+   "nome": "BASTIA",
+   "area": "corsica-nord",
+   "motivo": "poche celle di mare entro 5 km"
+  },
+  "mf_20096008": {
+   "nome": "CORTE",
+   "area": "corsica-nord",
+   "motivo": "quota 350 m"
+  },
+  "mf_20223001": {
+   "nome": "PIETRALBA",
+   "area": "corsica-nord",
+   "motivo": "quota 510 m"
+  },
+  "mf_20046002": {
+   "nome": "CAGNANO",
+   "area": "corsica-nord",
+   "motivo": "quota 278 m"
+  },
+  "mf_20185003": {
+   "nome": "OLETTA",
+   "area": "corsica-nord",
+   "motivo": "poche celle di mare entro 5 km"
+  },
+  "mf_20303002": {
+   "nome": "ALISTRO",
+   "area": "corsica-nord",
+   "motivo": "poche celle di mare entro 5 km"
+  },
+  "mf_20281001": {
+   "nome": "CAP SAGRO",
+   "area": "corsica-nord",
+   "motivo": "nessun settore d'accordo con il radar"
+  },
+  "mf_20007402": {
+   "nome": "SPONDE-NIVOSE",
+   "area": "corsica-nord",
+   "motivo": "quota 1971 m"
+  },
+  "mf_20314006": {
+   "nome": "SANTO PIETRO DI TENDA",
+   "area": "corsica-nord",
+   "motivo": "quota 484 m"
+  },
+  "mf_20235001": {
+   "nome": "PIOGGIOLA",
+   "area": "corsica-nord",
+   "motivo": "quota 995 m"
+  },
+  "mf_20255003": {
+   "nome": "QUERCITELLO",
+   "area": "corsica-nord",
+   "motivo": "quota 997 m"
+  },
+  "gh_ITM00016126": {
+   "nome": "PASSO DEI GIOVI",
+   "area": "genova",
+   "motivo": "quota 488 m"
+  },
+  "mf_20247001": {
+   "nome": "LA CHIAPPA",
+   "area": "maddalena-bonifacio",
+   "motivo": "poche celle di mare entro 5 km"
+  },
+  "mf_20114002": {
+   "nome": "FIGARI",
+   "area": "maddalena-bonifacio",
+   "motivo": "poche celle di mare entro 5 km"
+  },
+  "mf_20272004": {
+   "nome": "SARTENE",
+   "area": "maddalena-bonifacio",
+   "motivo": "poche celle di mare entro 5 km"
+  },
+  "gh_ITMU0016531": {
+   "nome": "OLBIA ITALY (VENAFIORITA)",
+   "area": "maddalena-bonifacio",
+   "motivo": "poche celle di mare entro 5 km"
+  },
+  "gh_ITM00016532": {
+   "nome": "MONTE LIMBARA",
+   "area": "maddalena-bonifacio",
+   "motivo": "quota 1363 m"
+  },
+  "iem_LIEO": {
+   "nome": "LIEO",
+   "area": "maddalena-bonifacio",
+   "motivo": "poche celle di mare entro 5 km"
+  },
+  "gh_MTM00016599": {
+   "nome": "GUDJA",
+   "area": "malta",
+   "motivo": "poche celle di mare entro 5 km"
+  },
+  "gh_ITI0000LICF": {
+   "nome": "MESSINA",
+   "area": "messina",
+   "motivo": "nessun settore d'accordo con il radar"
+  },
+  "mf_06075007": {
+   "nome": "LEVENS",
+   "area": "monaco",
+   "motivo": "quota 691 m"
+  },
+  "mf_06088007": {
+   "nome": "NICE-RIMIEZ",
+   "area": "monaco",
+   "motivo": "quota 238 m"
+  },
+  "mf_06038001": {
+   "nome": "CHATEAUNEUF GRASSE",
+   "area": "monaco",
+   "motivo": "quota 379 m"
+  },
+  "mf_06152002": {
+   "nome": "VALBONNE-SOPHIA",
+   "area": "monaco",
+   "motivo": "quota 238 m"
+  },
+  "mf_06029001": {
+   "nome": "CANNES",
+   "area": "monaco",
+   "motivo": "poche celle di mare entro 5 km"
+  },
+  "mf_06005001": {
+   "nome": "ASCROS",
+   "area": "monaco",
+   "motivo": "quota 1173 m"
+  },
+  "mf_06023004": {
+   "nome": "BREIL SUR ROYA",
+   "area": "monaco",
+   "motivo": "quota 305 m"
+  },
+  "mf_06077006": {
+   "nome": "PEIRA CAVA",
+   "area": "monaco",
+   "motivo": "quota 1443 m"
+  },
+  "mf_06091003": {
+   "nome": "PEILLE",
+   "area": "monaco",
+   "motivo": "quota 1106 m"
+  },
+  "mf_06136005": {
+   "nome": "SOSPEL",
+   "area": "monaco",
+   "motivo": "quota 843 m"
+  },
+  "mf_06083005": {
+   "nome": "MENTON",
+   "area": "monaco",
+   "motivo": "quota 216 m"
+  },
+  "gh_ITMU0016153": {
+   "nome": "CAPO MELE ITALY",
+   "area": "monaco",
+   "motivo": "quota 221 m"
+  },
+  "gh_ITW00034113": {
+   "nome": "NAPLES",
+   "area": "napoli",
+   "motivo": "poche celle di mare entro 5 km"
+  },
+  "gh_ITMU0016253": {
+   "nome": "GRAZZANISE ITALY",
+   "area": "napoli",
+   "motivo": "poche celle di mare entro 5 km"
+  },
+  "gh_ITM00016288": {
+   "nome": "CASERTA",
+   "area": "napoli",
+   "motivo": "poche celle di mare entro 5 km"
+  },
+  "gh_ITI0000LICJ": {
+   "nome": "PALERMO",
+   "area": "palermo",
+   "motivo": "poche celle di mare entro 5 km"
+  },
+  "gh_ITMU0016206": {
+   "nome": "GROSSETO ITALY",
+   "area": "toscano",
+   "motivo": "poche celle di mare entro 5 km"
+  },
+  "gh_ITI0000LIQO": {
+   "nome": "MOUNT ARGENTARIO",
+   "area": "toscano",
+   "motivo": "quota 632 m"
+  }
+ },
+ "tenute": {
+  "gh_ITI0000LIEC": {
+   "nome": "CAPE CARBONARA",
+   "area": "cagliari",
+   "celle": 27,
+   "ottanti": [
+    5,
+    6,
+    7
+   ],
+   "taratura": {
+    "0": {
+     "n": 5,
+     "rapporto": 0.856,
+     "cor": 0.896,
+     "scarto": 0.191,
+     "buono": false
+    },
+    "1": {
+     "n": 10,
+     "rapporto": 0.575,
+     "cor": -0.12,
+     "scarto": 0.385,
+     "buono": false
+    },
+    "2": {
+     "n": 25,
+     "rapporto": 0.646,
+     "cor": 0.166,
+     "scarto": 0.278,
+     "buono": false
+    },
+    "3": {
+     "n": 13,
+     "rapporto": 0.662,
+     "cor": 0.492,
+     "scarto": 0.283,
+     "buono": false
+    },
+    "4": {
+     "n": 2,
+     "buono": false
+    },
+    "5": {
+     "n": 14,
+     "rapporto": 1.024,
+     "cor": 0.896,
+     "scarto": 0.223,
+     "buono": true
+    },
+    "6": {
+     "n": 16,
+     "rapporto": 1.11,
+     "cor": 0.683,
+     "scarto": 0.36,
+     "buono": true
+    },
+    "7": {
+     "n": 42,
+     "rapporto": 1.05,
+     "cor": 0.845,
+     "scarto": 0.339,
+     "buono": true
+    }
+   }
+  },
+  "gh_GRMU0016730": {
+   "nome": "SYROS GREECE",
+   "area": "cicladi",
+   "celle": 10,
+   "ottanti": [
+    0,
+    4,
+    5
+   ],
+   "taratura": {
+    "0": {
+     "n": 118,
+     "rapporto": 0.752,
+     "cor": 0.773,
+     "scarto": 0.163,
+     "buono": true
+    },
+    "1": {
+     "n": 6,
+     "rapporto": 0.952,
+     "cor": 0.9,
+     "scarto": 0.159,
+     "buono": false
+    },
+    "2": {
+     "n": 1,
+     "buono": false
+    },
+    "3": {
+     "n": 11,
+     "rapporto": 0.758,
+     "cor": 0.92,
+     "scarto": 0.215,
+     "buono": false
+    },
+    "4": {
+     "n": 17,
+     "rapporto": 0.725,
+     "cor": 0.74,
+     "scarto": 0.227,
+     "buono": true
+    },
+    "5": {
+     "n": 23,
+     "rapporto": 0.862,
+     "cor": 0.944,
+     "scarto": 0.125,
+     "buono": true
+    },
+    "6": {
+     "n": 3,
+     "rapporto": 0.746,
+     "cor": 0.561,
+     "scarto": 0.471,
+     "buono": false
+    },
+    "7": {
+     "n": 8,
+     "rapporto": 0.597,
+     "cor": 0.625,
+     "scarto": 0.291,
+     "buono": false
+    }
+   }
+  },
+  "gh_GRI0000LGNX": {
+   "nome": "CYCLADES ISLANDS",
+   "area": "cicladi",
+   "celle": 8,
+   "ottanti": [
+    0
+   ],
+   "taratura": {
+    "0": {
+     "n": 48,
+     "rapporto": 0.768,
+     "cor": 0.831,
+     "scarto": 0.116,
+     "buono": true
+    },
+    "1": {
+     "n": 4,
+     "rapporto": 0.803,
+     "cor": 0.954,
+     "scarto": 0.133,
+     "buono": false
+    },
+    "2": {
+     "n": 0,
+     "buono": false
+    },
+    "3": {
+     "n": 3,
+     "rapporto": 0.675,
+     "cor": 0.983,
+     "scarto": 0.096,
+     "buono": false
+    },
+    "4": {
+     "n": 1,
+     "buono": false
+    },
+    "5": {
+     "n": 8,
+     "rapporto": 0.929,
+     "cor": 0.79,
+     "scarto": 0.293,
+     "buono": false
+    },
+    "6": {
+     "n": 2,
+     "buono": false
+    },
+    "7": {
+     "n": 4,
+     "rapporto": 0.911,
+     "cor": 0.749,
+     "scarto": 0.176,
+     "buono": false
+    }
+   }
+  },
+  "iem_LGSO": {
+   "nome": "LGSO",
+   "area": "cicladi",
+   "celle": 4,
+   "ottanti": [
+    0,
+    3,
+    4,
+    5
+   ],
+   "taratura": {
+    "0": {
+     "n": 121,
+     "rapporto": 0.74,
+     "cor": 0.78,
+     "scarto": 0.16,
+     "buono": true
+    },
+    "1": {
+     "n": 7,
+     "rapporto": 0.937,
+     "cor": 0.923,
+     "scarto": 0.194,
+     "buono": false
+    },
+    "2": {
+     "n": 1,
+     "buono": false
+    },
+    "3": {
+     "n": 12,
+     "rapporto": 0.778,
+     "cor": 0.957,
+     "scarto": 0.185,
+     "buono": true
+    },
+    "4": {
+     "n": 18,
+     "rapporto": 0.703,
+     "cor": 0.842,
+     "scarto": 0.184,
+     "buono": true
+    },
+    "5": {
+     "n": 25,
+     "rapporto": 0.891,
+     "cor": 0.936,
+     "scarto": 0.146,
+     "buono": true
+    },
+    "6": {
+     "n": 3,
+     "rapporto": 0.874,
+     "cor": 0.787,
+     "scarto": 0.595,
+     "buono": false
+    },
+    "7": {
+     "n": 8,
+     "rapporto": 0.584,
+     "cor": 0.723,
+     "scarto": 0.259,
+     "buono": false
+    }
+   }
+  },
+  "mf_20093002": {
+   "nome": "ILE ROUSSE",
+   "area": "corsica-nord",
+   "celle": 12,
+   "ottanti": [
+    1,
+    2,
+    5,
+    6
+   ],
+   "taratura": {
+    "0": {
+     "n": 7,
+     "rapporto": 0.704,
+     "cor": 0.745,
+     "scarto": 0.337,
+     "buono": false
+    },
+    "1": {
+     "n": 29,
+     "rapporto": 0.723,
+     "cor": 0.834,
+     "scarto": 0.166,
+     "buono": true
+    },
+    "2": {
+     "n": 18,
+     "rapporto": 0.78,
+     "cor": 0.873,
+     "scarto": 0.255,
+     "buono": true
+    },
+    "3": {
+     "n": 1,
+     "buono": false
+    },
+    "4": {
+     "n": 8,
+     "rapporto": 0.559,
+     "cor": 0.475,
+     "scarto": 0.34,
+     "buono": false
+    },
+    "5": {
+     "n": 78,
+     "rapporto": 0.975,
+     "cor": 0.89,
+     "scarto": 0.262,
+     "buono": true
+    },
+    "6": {
+     "n": 18,
+     "rapporto": 0.969,
+     "cor": 0.945,
+     "scarto": 0.148,
+     "buono": true
+    },
+    "7": {
+     "n": 1,
+     "buono": false
+    }
+   }
+  },
+  "mf_20107001": {
+   "nome": "CAP CORSE",
+   "area": "corsica-nord",
+   "celle": 24,
+   "ottanti": [
+    1,
+    2,
+    5,
+    6
+   ],
+   "taratura": {
+    "0": {
+     "n": 7,
+     "rapporto": 1.1,
+     "cor": 0.96,
+     "scarto": 0.205,
+     "buono": false
+    },
+    "1": {
+     "n": 29,
+     "rapporto": 1.212,
+     "cor": 0.85,
+     "scarto": 0.345,
+     "buono": true
+    },
+    "2": {
+     "n": 23,
+     "rapporto": 1.182,
+     "cor": 0.834,
+     "scarto": 0.327,
+     "buono": true
+    },
+    "3": {
+     "n": 4,
+     "rapporto": 1.366,
+     "cor": 0.989,
+     "scarto": 0.327,
+     "buono": false
+    },
+    "4": {
+     "n": 4,
+     "rapporto": 1.275,
+     "cor": 0.964,
+     "scarto": 0.137,
+     "buono": false
+    },
+    "5": {
+     "n": 72,
+     "rapporto": 1.199,
+     "cor": 0.922,
+     "scarto": 0.263,
+     "buono": true
+    },
+    "6": {
+     "n": 16,
+     "rapporto": 1.309,
+     "cor": 0.971,
+     "scarto": 0.273,
+     "buono": true
+    },
+    "7": {
+     "n": 3,
+     "rapporto": 1.065,
+     "cor": 0.978,
+     "scarto": 0.222,
+     "buono": false
+    }
+   }
+  },
+  "iem_LICT": {
+   "nome": "LICT",
+   "area": "egadi",
+   "celle": 4,
+   "ottanti": [
+    0,
+    1,
+    3,
+    4,
+    6,
+    7
+   ],
+   "taratura": {
+    "0": {
+     "n": 40,
+     "rapporto": 0.684,
+     "cor": 0.657,
+     "scarto": 0.245,
+     "buono": true
+    },
+    "1": {
+     "n": 16,
+     "rapporto": 0.588,
+     "cor": 0.756,
+     "scarto": 0.2,
+     "buono": true
+    },
+    "2": {
+     "n": 5,
+     "rapporto": 0.679,
+     "cor": 0.989,
+     "scarto": 0.075,
+     "buono": false
+    },
+    "3": {
+     "n": 25,
+     "rapporto": 0.826,
+     "cor": 0.856,
+     "scarto": 0.256,
+     "buono": true
+    },
+    "4": {
+     "n": 23,
+     "rapporto": 0.75,
+     "cor": 0.693,
+     "scarto": 0.196,
+     "buono": true
+    },
+    "5": {
+     "n": 8,
+     "rapporto": 0.665,
+     "cor": 0.81,
+     "scarto": 0.154,
+     "buono": false
+    },
+    "6": {
+     "n": 28,
+     "rapporto": 0.702,
+     "cor": 0.925,
+     "scarto": 0.182,
+     "buono": true
+    },
+    "7": {
+     "n": 29,
+     "rapporto": 0.724,
+     "cor": 0.776,
+     "scarto": 0.203,
+     "buono": true
+    }
+   }
+  },
+  "iem_LIMJ": {
+   "nome": "LIMJ",
+   "area": "genova",
+   "celle": 36,
+   "ottanti": [
+    2,
+    3
+   ],
+   "taratura": {
+    "0": {
+     "n": 63,
+     "rapporto": 0.739,
+     "cor": 0.442,
+     "scarto": 0.259,
+     "buono": false
+    },
+    "1": {
+     "n": 13,
+     "rapporto": 0.649,
+     "cor": 0.491,
+     "scarto": 0.258,
+     "buono": false
+    },
+    "2": {
+     "n": 18,
+     "rapporto": 0.75,
+     "cor": 0.896,
+     "scarto": 0.19,
+     "buono": true
+    },
+    "3": {
+     "n": 16,
+     "rapporto": 0.734,
+     "cor": 0.656,
+     "scarto": 0.25,
+     "buono": true
+    },
+    "4": {
+     "n": 8,
+     "rapporto": 0.776,
+     "cor": 0.9,
+     "scarto": 0.143,
+     "buono": false
+    },
+    "5": {
+     "n": 2,
+     "buono": false
+    },
+    "6": {
+     "n": 2,
+     "buono": false
+    },
+    "7": {
+     "n": 9,
+     "rapporto": 0.724,
+     "cor": 0.72,
+     "scarto": 0.213,
+     "buono": false
+    }
+   }
+  },
+  "mf_20041001": {
+   "nome": "CAP PERTUSATO",
+   "area": "maddalena-bonifacio",
+   "celle": 17,
+   "ottanti": [
+    0,
+    1,
+    2,
+    3,
+    6
+   ],
+   "taratura": {
+    "0": {
+     "n": 12,
+     "rapporto": 0.755,
+     "cor": 0.912,
+     "scarto": 0.142,
+     "buono": true
+    },
+    "1": {
+     "n": 16,
+     "rapporto": 0.786,
+     "cor": 0.949,
+     "scarto": 0.095,
+     "buono": true
+    },
+    "2": {
+     "n": 27,
+     "rapporto": 0.77,
+     "cor": 0.825,
+     "scarto": 0.164,
+     "buono": true
+    },
+    "3": {
+     "n": 24,
+     "rapporto": 0.849,
+     "cor": 0.891,
+     "scarto": 0.144,
+     "buono": true
+    },
+    "4": {
+     "n": 1,
+     "buono": false
+    },
+    "5": {
+     "n": 22,
+     "rapporto": 0.786,
+     "cor": 0.526,
+     "scarto": 0.383,
+     "buono": false
+    },
+    "6": {
+     "n": 85,
+     "rapporto": 1.056,
+     "cor": 0.886,
+     "scarto": 0.233,
+     "buono": true
+    },
+    "7": {
+     "n": 9,
+     "rapporto": 0.722,
+     "cor": 0.692,
+     "scarto": 0.269,
+     "buono": false
+    }
+   }
+  },
+  "iem_LICR": {
+   "nome": "LICR",
+   "area": "messina",
+   "celle": 13,
+   "ottanti": [
+    0,
+    4
+   ],
+   "taratura": {
+    "0": {
+     "n": 106,
+     "rapporto": 0.613,
+     "cor": 0.669,
+     "scarto": 0.181,
+     "buono": true
+    },
+    "1": {
+     "n": 1,
+     "buono": false
+    },
+    "2": {
+     "n": 4,
+     "rapporto": 0.663,
+     "cor": 0.851,
+     "scarto": 0.189,
+     "buono": false
+    },
+    "3": {
+     "n": 19,
+     "rapporto": 0.526,
+     "cor": 0.45,
+     "scarto": 0.188,
+     "buono": false
+    },
+    "4": {
+     "n": 20,
+     "rapporto": 0.608,
+     "cor": 0.806,
+     "scarto": 0.163,
+     "buono": true
+    },
+    "5": {
+     "n": 1,
+     "buono": false
+    },
+    "6": {
+     "n": 2,
+     "buono": false
+    },
+    "7": {
+     "n": 17,
+     "rapporto": 0.5,
+     "cor": 0.589,
+     "scarto": 0.156,
+     "buono": false
+    }
+   }
+  },
+  "mf_06088001": {
+   "nome": "NICE",
+   "area": "monaco",
+   "celle": 40,
+   "ottanti": [
+    1,
+    2,
+    5,
+    6
+   ],
+   "taratura": {
+    "0": {
+     "n": 5,
+     "rapporto": 0.928,
+     "cor": 0.89,
+     "scarto": 0.157,
+     "buono": false
+    },
+    "1": {
+     "n": 63,
+     "rapporto": 0.698,
+     "cor": 0.731,
+     "scarto": 0.249,
+     "buono": true
+    },
+    "2": {
+     "n": 28,
+     "rapporto": 0.867,
+     "cor": 0.865,
+     "scarto": 0.209,
+     "buono": true
+    },
+    "3": {
+     "n": 2,
+     "buono": false
+    },
+    "4": {
+     "n": 1,
+     "buono": false
+    },
+    "5": {
+     "n": 28,
+     "rapporto": 0.901,
+     "cor": 0.829,
+     "scarto": 0.278,
+     "buono": true
+    },
+    "6": {
+     "n": 23,
+     "rapporto": 0.778,
+     "cor": 0.895,
+     "scarto": 0.225,
+     "buono": true
+    },
+    "7": {
+     "n": 6,
+     "rapporto": 0.873,
+     "cor": 0.434,
+     "scarto": 0.239,
+     "buono": false
+    }
+   }
+  },
+  "mf_06004002": {
+   "nome": "ANTIBES-GAROUPE",
+   "area": "monaco",
+   "celle": 22,
+   "ottanti": [
+    1,
+    2,
+    5,
+    6
+   ],
+   "taratura": {
+    "0": {
+     "n": 4,
+     "rapporto": 0.643,
+     "cor": 0.869,
+     "scarto": 0.119,
+     "buono": false
+    },
+    "1": {
+     "n": 57,
+     "rapporto": 0.683,
+     "cor": 0.922,
+     "scarto": 0.171,
+     "buono": true
+    },
+    "2": {
+     "n": 26,
+     "rapporto": 0.666,
+     "cor": 0.623,
+     "scarto": 0.194,
+     "buono": true
+    },
+    "3": {
+     "n": 0,
+     "buono": false
+    },
+    "4": {
+     "n": 1,
+     "buono": false
+    },
+    "5": {
+     "n": 29,
+     "rapporto": 0.665,
+     "cor": 0.916,
+     "scarto": 0.151,
+     "buono": true
+    },
+    "6": {
+     "n": 22,
+     "rapporto": 0.668,
+     "cor": 0.916,
+     "scarto": 0.147,
+     "buono": true
+    },
+    "7": {
+     "n": 6,
+     "rapporto": 0.703,
+     "cor": 0.962,
+     "scarto": 0.286,
+     "buono": false
+    }
+   }
+  },
+  "gh_ITM00016281": {
+   "nome": "PONZA",
+   "area": "pontine",
+   "celle": 23,
+   "ottanti": [
+    3,
+    6,
+    7
+   ],
+   "taratura": {
+    "0": {
+     "n": 6,
+     "rapporto": 0.755,
+     "cor": 0.899,
+     "scarto": 0.206,
+     "buono": false
+    },
+    "1": {
+     "n": 2,
+     "buono": false
+    },
+    "2": {
+     "n": 8,
+     "rapporto": 0.771,
+     "cor": 0.728,
+     "scarto": 0.206,
+     "buono": false
+    },
+    "3": {
+     "n": 13,
+     "rapporto": 0.963,
+     "cor": 0.774,
+     "scarto": 0.327,
+     "buono": true
+    },
+    "4": {
+     "n": 3,
+     "rapporto": 0.509,
+     "cor": -0.382,
+     "scarto": 0.198,
+     "buono": false
+    },
+    "5": {
+     "n": 2,
+     "buono": false
+    },
+    "6": {
+     "n": 18,
+     "rapporto": 0.655,
+     "cor": 0.616,
+     "scarto": 0.368,
+     "buono": true
+    },
+    "7": {
+     "n": 20,
+     "rapporto": 0.927,
+     "cor": 0.775,
+     "scarto": 0.282,
+     "buono": true
+    }
+   }
+  }
+ }
+}
