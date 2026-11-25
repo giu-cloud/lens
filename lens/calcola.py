@@ -23,7 +23,8 @@ Parametri (variabili d'ambiente, tutte facoltative; senza, calcola i golfi di Pa
   LENS_RILIEVO, LENS_RIDOSSO, LENS_RIDOSSO_S, LENS_COSTA: quanto pesano i pezzi di Lens (0.54, banco col radar dei
                 Sentinel-1, routing/atlante_costa_risultati.md); i valori di prima sono 1, 0.65, 3, 1
   LENS_RIVA     "d1,d2" in km: rilievo pieno entro d1 dalla costa, sfumato fino al peso 0.54 a d2 (vuoto: come la 0.54)
-  LENS_DIR_RILIEVO  quanta rotazione del rilievo pieno sulla direzione, con la forza della 0.54 (0 = come la 0.54, 1 = tutta)"""
+  LENS_DIR_RILIEVO  quanta rotazione del rilievo pieno sulla direzione, con la forza della 0.54 (0 = come la 0.54, 1 = tutta,
+                il default dalla 0.56)"""
 import base64, datetime as dt, gzip, io, json, math, os, sys, time
 import numpy as np
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
@@ -41,10 +42,11 @@ COSTA = float(os.environ.get("LENS_COSTA") or 0.0)
 # Vicino alla riva il radar non vede (i primi 1,5-2 km): lì la taratura 0.54 non ha voce. Con LENS_RIVA "d1,d2" (km) il
 # rilievo torna pieno entro d1 dalla costa e sfuma fino al peso 0.54 a d2 (prova del 25/11, banco/cfd). Vuoto = 0.54.
 RIVA = [float(x) for x in (os.environ.get("LENS_RIVA") or "").split(",") if x.strip()]
-# La direzione del rilievo pieno con la forza della 0.54: il radar non misura la direzione, le stazioni sulla costa
-# (Reggio, Messina, Mentone, Cap Corse) dicono che la rotazione del rilievo pieno la migliora (prova del 25/11,
-# banco/cfd/stazioni_cfd.py). LENS_DIR_RILIEVO = quanta rotazione (0 = come la 0.54, 1 = tutta).
-DIR_RIL = float(os.environ.get("LENS_DIR_RILIEVO") or 0.0)
+# 0.56 (Giano 25/11): la direzione del rilievo pieno con la forza della 0.54. Il radar non misura la direzione; le stazioni
+# sulla costa (Reggio, Messina, Mentone, Cap Corse) dicono che la rotazione del rilievo pieno la migliora (prova del 25/11,
+# banco/cfd/stazioni_cfd.py). Si applica alla fine, dopo ridosso, costa e raffiche: la forza resta quella della 0.54.
+# LENS_DIR_RILIEVO = quanta rotazione (0 = come la 0.54, 1 = tutta, il default). Come LensAtlas.TERRAIN_DIR_WEIGHT.
+DIR_RIL = float(os.environ.get("LENS_DIR_RILIEVO") or 1.0)
 ID = "".join(c for c in (os.environ.get("LENS_ID") or "") if c.isalnum() or c in "-_")[:80]
 os.environ.setdefault("GDAL_DISABLE_READDIR_ON_OPEN", "EMPTY_DIR")
 os.environ.setdefault("AWS_NO_SIGN_REQUEST", "YES")
@@ -671,13 +673,12 @@ def main():
         us, vs = al_suolo(u, v, aria, h, zc, z0)
         del u, v, w, aria
         us, vs = gaussian_filter(us, 1.0), gaussian_filter(vs, 1.0)   # toglie il rumore da gradino della griglia a scalini
+        giro = None
         if RILIEVO != 1.0 or not np.isscalar(peso_ril):
             uf, vf = us, vs                                            # il rilievo pieno
             us, vs = u10 + (us - u10) * peso_ril, v10 + (vs - v10) * peso_ril
-            if DIR_RIL > 0:
-                a0 = np.arctan2(us, vs); d_a = (np.arctan2(uf, vf) - a0 + np.pi) % (2 * np.pi) - np.pi
-                sp = np.hypot(us, vs); a1 = a0 + DIR_RIL * d_a
-                us, vs = sp * np.sin(a1), sp * np.cos(a1)
+            if DIR_RIL > 0:                                            # la rotazione, applicata alla fine
+                giro = DIR_RIL * ((np.arctan2(uf, vf) - np.arctan2(us, vs) + np.pi) % (2 * np.pi) - np.pi)
             del uf, vf
         fatt, sx = scia(h, us, vs, A.dx, fr_b, profondita=RIDOSSO, s_max=RIDOSSO_S)
         c_ibl = 0.9 if fr_b >= 1.0 else (0.6 if fr_b >= 0.5 else 0.35)
@@ -689,6 +690,9 @@ def main():
         # vento del modello. Sulle Eolie del 20/11 riguardava 22 celle su 74.000.
         tetto = np.minimum(1.0, 1.6 * np.maximum(s10, 0.5) / np.maximum(np.hypot(us, vs), 1e-6))
         us, vs = us * tetto, vs * tetto
+        if giro is not None:                                           # la direzione del rilievo pieno, forza invariata
+            cg, sg = np.cos(giro), np.sin(giro)
+            us, vs = us * cg + vs * sg, -us * sg + vs * cg
         vel = np.hypot(us, vs)
         # raffiche: fattore di picco dal modello stesso, sul mare aperto
         gm = np.where(mare, fine(M["g"][:, :, i]), fine(M["gt"][:, :, i]))
