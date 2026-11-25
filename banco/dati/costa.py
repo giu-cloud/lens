@@ -28,6 +28,11 @@ AREE = {
     "maddalena-bonifacio": (41.00, 41.50, 8.95, 9.75),
     "toscano": (42.20, 43.35, 9.75, 11.30),
     "genova": (44.00, 44.47, 8.40, 9.50),
+    # aree nuove del 25/11 (per lo studio, non ancora nell'app)
+    "pontine": (40.70, 41.32, 12.70, 13.65),
+    "corsica-nord": (42.45, 43.10, 8.50, 9.65),
+    "monaco": (43.45, 43.85, 7.15, 8.00),
+    "cicladi": (36.85, 37.70, 24.85, 25.65),
 }
 
 # I prodotti SAR del Mediterraneo (manuale CMEMS-WIND-PUM-012-100); i dataset si cercano dentro.

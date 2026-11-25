@@ -9,9 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - run: |
-          for u in ${{ github.event.inputs.url }}; do
+      - env: {U: "${{ github.event.inputs.url }}"}
+        run: |
+          for u in $U; do
             echo "== $u"
             curl -s -m 30 -o /tmp/r -w "codice %{http_code}, %{size_download} byte, %{time_total} s\n" "$u" || echo "errore curl"
-            head -c 400 /tmp/r; echo
+            head -c 1500 /tmp/r; echo
           done

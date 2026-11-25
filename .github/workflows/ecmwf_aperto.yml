@@ -8,6 +8,7 @@ on:
       a: {description: "ultimo mese AAAA-MM", default: "2026-11"}
       campi: {description: "campi: param o param@hPa, separati da virgola", default: "10u,10v"}
       prefisso: {description: "nome dei file e della release (ecmwf, stab)", default: "ecmwf"}
+      box: {description: "ritaglio sud,nord,ovest,est", default: "35,45.5,7.5,16.5"}
   push:
     paths: [banco/dati/lancia_ecmwf.env]
 permissions:
@@ -43,12 +44,12 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
       - run: pip install -q numpy eccodes
-      - run: python banco/dati/ecmwf_aperto.py --mese ${{ matrix.mese }} --out ecmwf --campi "${{ github.event.inputs.campi || '10u,10v' }}" --prefisso "${{ github.event.inputs.prefisso || 'ecmwf' }}"
+      - run: python banco/dati/ecmwf_aperto.py --mese ${{ matrix.mese }} --out ecmwf --campi "${{ github.event.inputs.campi || '10u,10v' }}" --prefisso "${{ github.event.inputs.prefisso || 'ecmwf' }}" --box "${{ github.event.inputs.box || '35,45.5,7.5,16.5' }}"
       - name: Pubblica
         if: always()
         env: {GH_TOKEN: "${{ github.token }}"}
         run: |
           pre="${{ github.event.inputs.prefisso || 'ecmwf' }}"
           tag=$pre-aperto-${{ matrix.mese }}
-          gh release view $tag > /dev/null 2>&1 || gh release create $tag --title "ECMWF aperto $pre ${{ matrix.mese }}" --notes "ECMWF open data (CC BY 4.0), campi ${{ github.event.inputs.campi || '10u,10v' }}, passi 3 e 6 h delle corse delle 00 e 12, ritagliato su 35-45,5 N e 7,5-16,5 E per il banco di Lens."
+          gh release view $tag > /dev/null 2>&1 || gh release create $tag --title "ECMWF aperto $pre ${{ matrix.mese }}" --notes "ECMWF open data (CC BY 4.0), campi ${{ github.event.inputs.campi || '10u,10v' }}, passi 3 e 6 h delle corse delle 00 e 12, ritagliato su ${{ github.event.inputs.box || '35,45.5,7.5,16.5' }} (sud, nord, ovest, est) per il banco di Lens."
           ls ecmwf/* > /dev/null 2>&1 && gh release upload $tag ecmwf/* --clobber || echo "niente da pubblicare"
