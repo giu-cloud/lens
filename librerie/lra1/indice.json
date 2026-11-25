@@ -6,7 +6,7 @@
   "ecmwf": 0.6,
   "icon-2i": 0.4
  },
- "nota": "una libreria vale solo per il suo modello; vale anche per previsioni a 1-2 giorni (prova del 25/11)",
+ "nota": "una libreria vale solo per il suo modello; vale anche per previsioni a 1-2 giorni (prova del 25/11). Aree del 25/11 pomeriggio: Venezia e Maiorca senza libreria ICON-2I (lì peggiorava).",
  "librerie": [
   {
    "file": "lra1_ecmwf_cagliari.lra",
@@ -137,6 +137,22 @@
    "attiva": true
   },
   {
+   "file": "lra1_ecmwf_ibiza.lra",
+   "area": "ibiza",
+   "modello": "ecmwf",
+   "celle": 2471,
+   "passaggi": 275,
+   "byte": 519922,
+   "sha256": "1fa98c354d1f4c084f5cbd804997fc63beb7bcff0a361379aec7528e900f1518",
+   "riquadro": [
+    38.55,
+    39.1741,
+    1.08,
+    1.776
+   ],
+   "attiva": true
+  },
+  {
    "file": "lra1_ecmwf_ionio.lra",
    "area": "ionio",
    "modello": "ecmwf",
@@ -201,6 +217,22 @@
    "attiva": true
   },
   {
+   "file": "lra1_ecmwf_maiorca.lra",
+   "area": "maiorca",
+   "modello": "ecmwf",
+   "celle": 5099,
+   "passaggi": 372,
+   "byte": 1043091,
+   "sha256": "b1df9f275e49628c3295e45241be53811fa503b40927181a9a2ae9838a7f3b21",
+   "riquadro": [
+    39.054,
+    40.0261,
+    2.22,
+    3.564
+   ],
+   "attiva": true
+  },
+  {
    "file": "lra1_ecmwf_malta.lra",
    "area": "malta",
    "modello": "ecmwf",
@@ -229,6 +261,22 @@
     38.346,
     15.408,
     15.744
+   ],
+   "attiva": true
+  },
+  {
+   "file": "lra1_ecmwf_minorca.lra",
+   "area": "minorca",
+   "modello": "ecmwf",
+   "celle": 2247,
+   "passaggi": 368,
+   "byte": 619742,
+   "sha256": "3b6d6447beaccb5857da6aa034669955f6e8ece797e567dd2f4e7194c044bb65",
+   "riquadro": [
+    39.702,
+    40.146,
+    3.504,
+    4.44
    ],
    "attiva": true
   },
@@ -341,6 +389,22 @@
     43.3501,
     9.756,
     11.292
+   ],
+   "attiva": true
+  },
+  {
+   "file": "lra1_ecmwf_venezia.lra",
+   "area": "venezia",
+   "modello": "ecmwf",
+   "celle": 878,
+   "passaggi": 164,
+   "byte": 136190,
+   "sha256": "22f7b5e44d88544185cd179c76c22ad2e3ab85a7025ca978103331b2b32bf7c5",
+   "riquadro": [
+    45.15,
+    45.5459,
+    12.312,
+    12.744
    ],
    "attiva": true
   },
@@ -533,6 +597,22 @@
     38.346,
     15.408,
     15.744
+   ],
+   "attiva": true
+  },
+  {
+   "file": "lra1_icon-2i_minorca.lra",
+   "area": "minorca",
+   "modello": "icon-2i",
+   "celle": 2246,
+   "passaggi": 273,
+   "byte": 513744,
+   "sha256": "32d0d6194c38f6ffcd81dc1f702da8a1e9377815e81898dca5ae266fe838f829",
+   "riquadro": [
+    39.702,
+    40.146,
+    3.504,
+    4.44
    ],
    "attiva": true
   },
