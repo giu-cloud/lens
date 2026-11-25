@@ -3,7 +3,7 @@
 #   scarica_release.sh <prefisso del tag> <cartella> [rinomina_da rinomina_a]
 pre=$1; out=$2; da=$3; a=$4
 mkdir -p "$out"
-for tag in $(gh api "repos/giu-cloud/lens/releases?per_page=100" --jq ".[] | select(.tag_name|startswith(\"$pre\")) | .tag_name"); do
+for tag in $(gh api --paginate "repos/giu-cloud/lens/releases?per_page=100" --jq ".[] | select(.tag_name|startswith(\"$pre\")) | .tag_name"); do
   gh api "repos/giu-cloud/lens/releases/tags/$tag" --jq '.assets[] | "\(.id) \(.name)"' > /tmp/asset_$tag.txt
   t=$(grep "\.tar$" /tmp/asset_$tag.txt | head -1)
   if [ -n "$t" ]; then

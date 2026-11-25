@@ -1,7 +1,7 @@
 """Lens 2: la libreria degli analoghi del radar per un'area e un modello (formato LRA1) e il calcolo di riferimento.
 
   VERO=<radar_vero.npy> python3 libreria_radar.py scrivi <tabella.npz> <cartella del metro> <modello> <uscita> [aree] [--cassaforte]
-  VERO=<radar_vero.npy> python3 libreria_radar.py prova  <tabella.npz> <cartella librerie>   (giudica le librerie sulla cassaforte)
+  VERO=<radar_vero.npy> [MODELLO=icon-2i] python3 libreria_radar.py prova <tabella.npz> <cartella librerie>   (giudica le librerie sulla cassaforte)
   VERO=<radar_vero.npy> python3 libreria_radar.py casi   <tabella.npz> <cartella librerie> <uscita.json> (casi per le prove in Kotlin)
 
 Con --cassaforte la libreria si costruisce senza le settimane della cassaforte (per giudicarla); senza, con tutto.
@@ -158,11 +158,12 @@ def main():
             print(f"{area}: {nc_} celle, {ns_} passaggi, {os.path.getsize(p) / 1e6:.2f} MB", flush=True)
     elif cmd in ("prova", "casi"):
         tab, cart = sys.argv[2:4]
+        modello = os.environ.get("MODELLO", "ecmwf")      # solo le librerie del modello della tabella
         T = carica(tab)
         pred = np.full(len(T["radar"]), np.nan, "f4")
         casi = []
         for f in sorted(os.listdir(cart)):
-            if not f.endswith(".lra"):
+            if not f.endswith(".lra") or not f.startswith(f"lra1_{modello}_"):
                 continue
             L = Libreria(os.path.join(cart, f))
             ia = AREE.index(L.area)

@@ -22,14 +22,18 @@ NOMI = ["cmems", "shift", "mare", "lens", "lens_mare"]
 
 
 def run_per(t, disponibili):
-    """La corsa più recente partita prima della scena, entro 18 ore."""
+    """La corsa più recente partita prima della scena, entro 18 ore. Con ANTICIPO=<ore> nell'ambiente, la corsa con
+    l'anticipo più vicino a quello (entro 6 ore), per le prove a uno o due giorni."""
     d = dt.datetime.utcfromtimestamp(t)
-    for back in range(0, 4):
+    ant = float(os.environ.get("ANTICIPO", "0"))
+    for back in range(0, 10):
         base = d.replace(minute=0, second=0, microsecond=0)
         h = (base.hour // 12) * 12
         r = base.replace(hour=h) - dt.timedelta(hours=12 * back)
         lead = (d - r).total_seconds() / 3600
-        if lead > 18:
+        if ant and lead < ant - 6:
+            continue
+        if (not ant and lead > 18) or (ant and lead > ant + 6):
             break
         n = f"ecmwf_{r:%Y%m%d%H}.grb2"
         if n in disponibili:

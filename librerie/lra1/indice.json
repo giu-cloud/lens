@@ -3,9 +3,10 @@
  "costruite": "2026-11-25",
  "radar_fino_a": "2026-11-24",
  "pesi_insieme": {
-  "ecmwf": 0.7,
-  "icon-2i": 0.3
+  "ecmwf": 0.6,
+  "icon-2i": 0.4
  },
+ "nota": "una libreria vale solo per il suo modello; vale anche per previsioni a 1-2 giorni (prova del 25/11)",
  "librerie": [
   {
    "file": "lra1_ecmwf_cagliari.lra",
@@ -14,7 +15,7 @@
    "celle": 1462,
    "passaggi": 368,
    "byte": 342678,
-   "sha256": "a024c7c5cf323aa59b28cd3ea10572c076848ec98f1bebd472cf65e2d13dd879",
+   "sha256": "0017705c90d9ae7c27dae412b45a176ebbf640c9d98589dd9c3a875590e00b89",
    "riquadro": [
     38.85,
     39.246,
@@ -29,7 +30,7 @@
    "celle": 3596,
    "passaggi": 390,
    "byte": 925283,
-   "sha256": "a0874c5682cb07dc14d8a014cae464db0ec5f02f28fdca71b2d961abb9ca42cc",
+   "sha256": "eb368d2e1dacc4df6e53ba343fdd937d66ff67d736e525c3e3c33968aa3b5eb1",
    "riquadro": [
     36.858,
     37.6978,
@@ -41,14 +42,14 @@
    "file": "lra1_ecmwf_corsica-nord.lra",
    "area": "corsica-nord",
    "modello": "ecmwf",
-   "celle": 2680,
-   "passaggi": 381,
-   "byte": 690291,
-   "sha256": "931c7074323fd7ed1415e016c0872973d1309979dc4f4894f47c209147ca3e6b",
+   "celle": 2911,
+   "passaggi": 382,
+   "byte": 741685,
+   "sha256": "0d87d8f06865974a8a83689c2ba4f949a42ef77f1a81123aa6a1717b0080feba",
    "riquadro": [
     42.45,
     43.0981,
-    8.508,
+    8.256,
     9.648
    ]
   },
@@ -59,7 +60,7 @@
    "celle": 1587,
    "passaggi": 380,
    "byte": 461421,
-   "sha256": "2d6006a517d089b9789435c08ce52b6b0edd786872321176d51058bcf6a17c6a",
+   "sha256": "20c443200b5f276f4313ad2a00e93bbcdb2966b054cd2b8d4015f6b9d457f485",
    "riquadro": [
     37.71,
     38.142,
@@ -74,7 +75,7 @@
    "celle": 4885,
    "passaggi": 330,
    "byte": 717484,
-   "sha256": "6f80289bd5a3b46603de6310f9438e7c5af930e2e9018c307ea8815b2bb0b6a0",
+   "sha256": "9624432495ebf57c8275ebb5938acc1b825dfc7c21b06a99d535b908f8c43fb3",
    "riquadro": [
     38.01,
     38.8501,
@@ -89,7 +90,7 @@
    "celle": 2047,
    "passaggi": 338,
    "byte": 461582,
-   "sha256": "20089fb37c712e37f9c65c8b04031acd7576c402737f946907727a0c4e5b939c",
+   "sha256": "24215917411eca0e837cf5cf5ff5729eef552e9165f3508e2f3357f8f22705f3",
    "riquadro": [
     44.01,
     44.466,
@@ -104,7 +105,7 @@
    "celle": 1574,
    "passaggi": 296,
    "byte": 405357,
-   "sha256": "1dc47246b20d64b0d0e6c4205d03cfc174a6fa296670c44342020ea2b36ede53",
+   "sha256": "b5a5a06f95579540bf6d112c4fb7da3eb7b33343ded9c07ad53b9326b0fa8969",
    "riquadro": [
     41.01,
     41.49,
@@ -119,7 +120,7 @@
    "celle": 2097,
    "passaggi": 267,
    "byte": 414659,
-   "sha256": "7e9916301dbf1c6fc0ed68dc471bce6afca77a51ac100e5c66c360512d61874a",
+   "sha256": "921bf6516c7d83013bf9ff8bd56b887fd6839ffa26bea83d6fe125404c26a0ad",
    "riquadro": [
     35.682,
     36.198,
@@ -134,7 +135,7 @@
    "celle": 583,
    "passaggi": 279,
    "byte": 135250,
-   "sha256": "70bb327e8ec74ab74729757a900a848d8933efddb131d8360a8d7c20070f716e",
+   "sha256": "41f656dd90772a6b3a1beb846d910d2035dece112072a0cea8bdc214c8f5ba59",
    "riquadro": [
     37.902,
     38.346,
@@ -149,7 +150,7 @@
    "celle": 1406,
    "passaggi": 280,
    "byte": 220533,
-   "sha256": "ab8e7af2d887605084d1717f6f6e103d644e60d2fd5bfa803e22737ac157e14a",
+   "sha256": "6c2cf250ed219afb3be46e64a470fcd717ca81af2b4f9280cb1dcdd82f986c51",
    "riquadro": [
     43.458,
     43.842,
@@ -164,7 +165,7 @@
    "celle": 1504,
    "passaggi": 345,
    "byte": 388168,
-   "sha256": "5280bc94c7e61e3b436ca099697e06139bcdec35f0af06b1a6606b809fa4939d",
+   "sha256": "5a4f88503c53d0f070722d8601a4e248c0f9ab254247e193325431888f303684",
    "riquadro": [
     40.506,
     40.89,
@@ -179,7 +180,7 @@
    "celle": 500,
    "passaggi": 197,
    "byte": 93169,
-   "sha256": "f8e2c0af4b33adca055cfa4ca83092f28a25379e88673ef2978ecd8353b6d4a8",
+   "sha256": "692634a1ff5fb3697536b0b8379ed2e064d4ee064ed2e78809dccadda0edbd5a",
    "riquadro": [
     37.95,
     38.286,
@@ -194,7 +195,7 @@
    "celle": 3675,
    "passaggi": 352,
    "byte": 721787,
-   "sha256": "0e1e45eb46fa98a59702e903eb6807ea1f71ea30deabe534660d078d7fc0f283",
+   "sha256": "c1babca7da6c0ce8e90f05a14bc7a0f16d36db53501c35b279cb903858c8171c",
    "riquadro": [
     40.71,
     41.3101,
@@ -209,7 +210,7 @@
    "celle": 7908,
    "passaggi": 376,
    "byte": 1625504,
-   "sha256": "bb74886dcecbd94739d91cecd87e133280746dee9d74f1295fc151be0b40acc4",
+   "sha256": "1e6f1f28eeefa99e92d2f87adc53fe8f77da770c685fa4d9d2e7fdfa39cb5099",
    "riquadro": [
     42.21,
     43.3501,
@@ -224,7 +225,7 @@
    "celle": 1457,
    "passaggi": 272,
    "byte": 305920,
-   "sha256": "68fdd40614a6c8e34bfb32ea03c6d4cc964d12ee32da5df49fbbcb3957f27c32",
+   "sha256": "6d28a2b96f3c81a1ad1ea6226e50dda594e0a8b63bc336b3858467cbddf7403a",
    "riquadro": [
     38.85,
     39.246,
@@ -236,14 +237,14 @@
    "file": "lra1_icon-2i_corsica-nord.lra",
    "area": "corsica-nord",
    "modello": "icon-2i",
-   "celle": 2663,
+   "celle": 2894,
    "passaggi": 284,
-   "byte": 563973,
-   "sha256": "8f6e92ce75f85154a74d394833a82c41a9aba656ee1e6a29752840065b09c478",
+   "byte": 605300,
+   "sha256": "d49783929d3cf8055aac13d129c800da8f50dd51e53a037e17abfc91e0777d0c",
    "riquadro": [
     42.45,
     43.0981,
-    8.508,
+    8.256,
     9.648
    ]
   },
@@ -254,7 +255,7 @@
    "celle": 1583,
    "passaggi": 284,
    "byte": 403966,
-   "sha256": "787f229efbf329b9bb5b93f4c4e23bdc9e09ec1cdc486e4dd821c10a80250c47",
+   "sha256": "8b16502ea504d5bde3ecbba4a3e8c76e660f3d38c964c7e9b5d72342d64ebb11",
    "riquadro": [
     37.71,
     38.142,
@@ -269,7 +270,7 @@
    "celle": 4876,
    "passaggi": 235,
    "byte": 649131,
-   "sha256": "32fc85bf4ae9bb7f8768e039402eaf7fd87c259fa56be39e84c819f36a039abd",
+   "sha256": "892142d036c3b114aee057c36a68e670ea6bc01f0e1843c712d9ee843b5f955c",
    "riquadro": [
     38.01,
     38.8501,
@@ -284,7 +285,7 @@
    "celle": 2022,
    "passaggi": 251,
    "byte": 410268,
-   "sha256": "52ddc1933f6ebac72047d62c60ec27305cbd58c58cc771b6fe69ecde6ddfcbd4",
+   "sha256": "c8194f317d079b3a8522e4544f28065e238e1e0321b49732c046a5ebb6913c12",
    "riquadro": [
     44.01,
     44.466,
@@ -299,7 +300,7 @@
    "celle": 1568,
    "passaggi": 224,
    "byte": 350054,
-   "sha256": "4a92061b68a32936338d5684beb3f72272014dbb857f007b56d675217dd1214d",
+   "sha256": "e2bff70201660508eec36724445dcfe781dffc8bd80ce6d6e8f56d6600637464",
    "riquadro": [
     41.01,
     41.49,
@@ -314,7 +315,7 @@
    "celle": 2094,
    "passaggi": 206,
    "byte": 371635,
-   "sha256": "90f682947f69cafe037d7f699ff7f0c30ca05b277e1f15b94ea627ad302e85b5",
+   "sha256": "b03bb607591eabb25ab08cb8be8537130859c23ee72d6eef52a9416be8fa7e59",
    "riquadro": [
     35.682,
     36.198,
@@ -329,7 +330,7 @@
    "celle": 580,
    "passaggi": 209,
    "byte": 129825,
-   "sha256": "1a2e722cea7a87900fee3ec0c2f1f9a8efd8f8c0a3e9185660e2d2b22067e55b",
+   "sha256": "9dd6f3565c72491380dc7afdc79e02c91adb495675c9d42f8cba0d8dd94ccd04",
    "riquadro": [
     37.902,
     38.346,
@@ -344,7 +345,7 @@
    "celle": 1389,
    "passaggi": 209,
    "byte": 185877,
-   "sha256": "424bf2e821f1a8ded7b18d262edc1319ddacfc376952add01d36c0358adbfbe8",
+   "sha256": "a30b7a0798b60f193a45d0f62a600a820c3e29407e087bf4f2e45af9701cb3e4",
    "riquadro": [
     43.458,
     43.842,
@@ -359,7 +360,7 @@
    "celle": 1495,
    "passaggi": 263,
    "byte": 344926,
-   "sha256": "3ee9fc4cf467f53bdb319a14eedcfec957aaa4667f35ceb04de1ade11e36c7cb",
+   "sha256": "20367116b9bbe067765d6d9eed79f1464d9c4dde1d04954927dc71987c22eecd",
    "riquadro": [
     40.506,
     40.89,
@@ -374,7 +375,7 @@
    "celle": 498,
    "passaggi": 145,
    "byte": 80606,
-   "sha256": "744e4b968a84ce954e3273bc406aca8563ac53ebeef66fb577ab6d3a3101cdf0",
+   "sha256": "888f25cb58e6912461ebae5304fb26dd6b43f2061bddfb2921972273b6ae31bd",
    "riquadro": [
     37.95,
     38.286,
@@ -389,7 +390,7 @@
    "celle": 3669,
    "passaggi": 265,
    "byte": 635465,
-   "sha256": "ed518eb5f3796ac6fc9384e7a538b393930bee1319ccef7c35be238b2d18c952",
+   "sha256": "d47cbbcb5beb92e6890bfc65410b6183c6ef08e0a5209d3654e2c928e77e7bf7",
    "riquadro": [
     40.71,
     41.3101,
@@ -404,7 +405,7 @@
    "celle": 7859,
    "passaggi": 281,
    "byte": 1426608,
-   "sha256": "77fb72f1599a6bff6b0372a4b03df81e7e44fb397a94a3b2fc9c05105b307c44",
+   "sha256": "7c38303e539425866210a13af829851e184852f7ed0d2a8fde678449cfeac944",
    "riquadro": [
     42.21,
     43.3501,
