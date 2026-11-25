@@ -21,7 +21,7 @@ import time
 import numpy as np
 
 KN = 1.943844
-AREE = ["egadi", "eolie", "palermo", "messina", "malta", "napoli", "cagliari", "maddalena-bonifacio", "toscano", "genova"]
+AREE = ["egadi", "eolie", "palermo", "messina", "malta", "napoli", "cagliari", "maddalena-bonifacio", "toscano", "genova", "pontine", "corsica-nord", "monaco", "cicladi"]
 DBIN = [0, 1.5, 3, 5, 10, 99]
 SETTIMANA = 7 * 86400
 NSUB = int(os.environ.get("NSUB", "500000"))

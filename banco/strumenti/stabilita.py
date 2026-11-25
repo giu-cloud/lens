@@ -25,7 +25,7 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from rilievo import Rilievo
 
-AREE = ["egadi", "eolie", "palermo", "messina", "malta", "napoli", "cagliari", "maddalena-bonifacio", "toscano", "genova"]
+AREE = ["egadi", "eolie", "palermo", "messina", "malta", "napoli", "cagliari", "maddalena-bonifacio", "toscano", "genova", "pontine", "corsica-nord", "monaco", "cicladi"]
 NOMI = ["sst", "dTam", "dT925", "dT850", "terra_mare", "taglio", "raff", "v925", "d925", "v850", "d850", "umid"]
 
 

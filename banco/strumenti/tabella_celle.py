@@ -26,7 +26,7 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from rilievo import Rilievo
 
-AREE_TUTTE = ["egadi", "eolie", "palermo", "messina", "malta", "napoli", "cagliari", "maddalena-bonifacio", "toscano", "genova"]
+AREE_TUTTE = ["egadi", "eolie", "palermo", "messina", "malta", "napoli", "cagliari", "maddalena-bonifacio", "toscano", "genova", "pontine", "corsica-nord", "monaco", "cicladi"]
 AREE = os.environ.get("AREE", " ".join(AREE_TUTTE)).split()
 NSET = 16
 PASSO = 0.25
@@ -214,7 +214,9 @@ def main():
         metti("ora", ((t // 3600) % 24).astype("i1"))
         mese = (np.array(t, dtype="datetime64[s]").astype("datetime64[M]").astype(int) % 12 + 1).astype("i1")
         metti("mese", mese)
-        if lens_cart:
+        if lens_cart and not os.path.exists(os.path.join(lens_cart, f"sho_{area}.bin")):
+            metti("q_lens054", np.full(len(si), np.nan, dtype="f4"))
+        elif lens_cart:
             zl, rl_ = campi(lens_cart, area)
             assert np.array_equal(zl["t"], z["t"])
             L = np.hypot(rl_[:, 6], rl_[:, 7])
@@ -227,7 +229,7 @@ def main():
             assert np.array_equal(zv["t"], z["t"])
             L = np.hypot(rv[:, 6], rv[:, 7])
             metti("q_" + nome, (L[si, sj, sk] / M[si, sj, sk]).astype("f4"))
-        if stab:
+        if stab and os.path.exists(os.path.join(stab, f"stab_{area}.npz")):
             P = np.load(os.path.join(stab, f"stab_{area}.npz"))
             assert np.array_equal(P["t"], z["t"])
             for nome in P.files:

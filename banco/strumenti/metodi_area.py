@@ -24,7 +24,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from confronto_metodi import AREE, KN, carica, misure
 
 PAR = {"k_atl": 10.0, "lam1": 20.0, "lam2": 60.0, "liscia": 0.7, "K": 25, "k_an": 3.0, "sd_dir": 25.0,
-       "sd_v": 2.5, "sd_st": 2.0, "sd_ora": 0.7, "vmin_an": 3.0, "sd_925": 0.0}
+       "sd_v": 2.5, "sd_st": 2.0, "sd_ora": 0.7, "vmin_an": 3.0, "sd_925": 0.0, "sd_tm": 0.0, "sd_mese": 0.0, "frazione": 1.0, "n_pc": 0, "sd_pc": 1.0}
 
 
 class Area:
@@ -48,6 +48,7 @@ class Area:
         self.dTam = np.nan_to_num(g("dTam")); self.dT925 = np.nan_to_num(g("dT925"))
         self.cassa = g("cassa").astype(bool)
         self.v925 = np.nan_to_num(g("v925")); self.d925 = np.nan_to_num(g("d925"))
+        self.tm = np.nan_to_num(g("terra_mare")); self.mese = g("mese").astype("f4")
         self.sett = (self.t // (7 * 86400)).astype(int)
 
     def a_righe(self, G):
@@ -119,15 +120,35 @@ def _vett_scena(A, ix, p):
     a = np.radians(A.D0[ix]); b = np.radians(A.d925[ix])
     col = [A.S0[ix] * np.sin(a) / p["sd_v"], A.S0[ix] * np.cos(a) / p["sd_v"],
            A.dT925[ix] / p["sd_st"], A.dTam[ix] / p["sd_st"], A.sera[ix] / p["sd_ora"]]
+    if p["sd_tm"] > 0:
+        col += [A.tm[ix] / p["sd_tm"]]
+    if p["sd_mese"] > 0:
+        col += [np.sin(2 * np.pi * A.mese[ix] / 12) / p["sd_mese"], np.cos(2 * np.pi * A.mese[ix] / 12) / p["sd_mese"]]
     if p["sd_925"] > 0:
         col += [A.v925[ix] * np.sin(b) / p["sd_925"], A.v925[ix] * np.cos(b) / p["sd_925"]]
     return np.stack(col, axis=1)
+
+
+def _pc_modello(A, tr, ix, p):
+    """Le prime componenti principali della forma del vento del modello sull'area (u, v ÷ vento al largo)."""
+    th = np.radians(np.nan_to_num(A.D)); m = np.nan_to_num(A.M)
+    s0 = np.maximum(A.S0, 1.0)[:, None]
+    X = np.concatenate([m * np.sin(th) / s0, m * np.cos(th) / s0], axis=1)
+    mu = X[tr].mean(0)
+    _, _, Vt = np.linalg.svd(X[tr] - mu, full_matrices=False)
+    k = int(p["n_pc"])
+    sc = (X - mu) @ Vt[:k].T
+    sc /= sc[tr].std(0) + 1e-9
+    return sc[ix] / p["sd_pc"]
 
 
 def analoghi(A, tr, te, p):
     coef = _armoniche(A, tr, p)
     base = armoniche(A, tr, te, p, coef)
     Xtr = _vett_scena(A, tr, p); Xte = _vett_scena(A, te, p)
+    if p["n_pc"] > 0:
+        Xtr = np.concatenate([Xtr, _pc_modello(A, tr, tr, p)], axis=1)
+        Xte = np.concatenate([Xte, _pc_modello(A, tr, te, p)], axis=1)
     R, M = A.R[tr], A.M[tr]
     ok = np.isfinite(R) & np.isfinite(M) & (M > p["vmin_an"])
     wy = np.where(ok, R * M, 0.0); ww = np.where(ok, M * M, 0.0)
@@ -171,6 +192,9 @@ def main():
             tr = np.nonzero(~A.cassa)[0]; te = np.nonzero(A.cassa)[0]
         else:
             tr = np.nonzero(~A.cassa & (A.sett % 2 == 0))[0]; te = np.nonzero(~A.cassa & (A.sett % 2 == 1))[0]
+        if p["frazione"] < 1:
+            rng = np.random.default_rng(int(ia))
+            tr = np.sort(rng.choice(tr, max(int(len(tr) * p["frazione"]), 10), replace=False))
         sel_te = np.isin(A.inv, te)
         pos = np.full(len(A.scene), -1); pos[te] = np.arange(len(te))
         for m in metodi:
@@ -192,6 +216,7 @@ def main():
               f"3-10 {r.get('sis3-10', float('nan')):.3f}) media {r['media']:+.2f}", flush=True)
     nome = f"area_{prova}_" + "_".join(f"{k}{v:g}" for k, v in sorted(p.items()) if v != PAR.get(k))
     json.dump(ris, open(os.path.join(usc, nome.rstrip("_") + ".json"), "w"), indent=1)
+    np.savez_compressed(os.path.join(usc, nome.rstrip("_") + "_previsioni.npz"), **{m: pred[m].astype("f4") for m in metodi})
     print(f"[{time.time() - t0:.0f} s]")
 
 
