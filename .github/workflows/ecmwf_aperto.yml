@@ -52,4 +52,7 @@ jobs:
           pre="${{ github.event.inputs.prefisso || 'ecmwf' }}"
           tag=$pre-aperto-${{ matrix.mese }}
           gh release view $tag > /dev/null 2>&1 || gh release create $tag --title "ECMWF aperto $pre ${{ matrix.mese }}" --notes "ECMWF open data (CC BY 4.0), campi ${{ github.event.inputs.campi || '10u,10v' }}, passi 3 e 6 h delle corse delle 00 e 12, ritagliato su ${{ github.event.inputs.box || '35,45.5,7.5,16.5' }} (sud, nord, ovest, est) per il banco di Lens."
-          ls ecmwf/* > /dev/null 2>&1 && gh release upload $tag ecmwf/* --clobber || echo "niente da pubblicare"
+          # un solo file per mese (le richieste all'API di GitHub sono contate: 60 file per mese le esaurivano)
+          if ls ecmwf/* > /dev/null 2>&1; then
+            tar cf $pre-${{ matrix.mese }}.tar -C ecmwf . && gh release upload $tag $pre-${{ matrix.mese }}.tar --clobber
+          else echo "niente da pubblicare"; fi

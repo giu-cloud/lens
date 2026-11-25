@@ -39,4 +39,5 @@ jobs:
       - env: {GH_TOKEN: "${{ github.token }}"}
         run: |
           gh release view icon2i-storia > /dev/null 2>&1 || gh release create icon2i-storia --title "Storia di ICON-2I per il banco" --notes "Open-Meteo (CC BY 4.0), modello ItaliaMeteo-Arpae ICON-2I: vento a 10 m nelle ore dei passaggi del radar, ritagliato sulle aree del banco di Lens." || true
-          gh release upload icon2i-storia icon2i/* --clobber
+          n=$(echo "${{ matrix.area }}" | cut -c1-40 | tr ',' '_')
+          tar cf icon2i_$n.tar -C icon2i . && gh release upload icon2i-storia icon2i_$n.tar --clobber
