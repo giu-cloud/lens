@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       aree:
-        description: "Aree pronte, separate da virgole (vuoto o tutte = tutte)"
+        description: "Aree pronte, separate da virgole (vuoto o tutte = tutte; fini = le aree fini a 100 m)"
         required: false
         default: "tutte"
       area:
@@ -54,13 +54,13 @@ jobs:
     timeout-minutes: 60
     strategy:
       fail-fast: false
-      max-parallel: 4
+      max-parallel: 8
       matrix: ${{ fromJSON(needs.elenco.outputs.matrice) }}
     env:
       GH_TOKEN: ${{ github.token }}
       LENS_AREA: ${{ matrix.box }}
       LENS_ATLANTE_ID: ${{ matrix.id }}
-      LENS_DX: ${{ inputs.dx }}
+      LENS_DX: ${{ matrix.dx || inputs.dx }}
     steps:
       - uses: actions/checkout@v4
       - run: pip install --quiet numpy scipy pyamg rasterio pillow

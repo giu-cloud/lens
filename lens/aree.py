@@ -33,17 +33,41 @@ AREE = {
     "canarie": (27.70, 28.65, -16.95, -15.30),
 }
 
+# 0.57 (Giano, 25/11): le aree fini, a 100 m, dentro le aree grandi (Lens 2 usa le librerie dell'area grande: PADRE).
+FINI = {
+    "egadi-favignana": (37.85, 38.10, 12.20, 12.52),
+    "egadi-marettimo": (37.88, 38.06, 11.95, 12.17),
+    "eolie-lipari": (38.35, 38.60, 14.80, 15.04),
+    "eolie-stromboli": (38.58, 38.86, 15.00, 15.30),
+    "eolie-filicudi": (38.45, 38.68, 14.28, 14.65),
+    "palermo-fine": (38.04, 38.27, 13.15, 13.58),
+    "napoli-capri": (40.50, 40.70, 14.10, 14.45),
+    "napoli-ischia": (40.65, 40.85, 13.82, 14.15),
+    "napoli-golfo": (40.70, 40.88, 14.12, 14.45),
+    "bonifacio-bocche": (41.20, 41.45, 9.00, 9.32),
+    "bonifacio-maddalena": (41.08, 41.33, 9.25, 9.60),
+    "pontine-ponza": (40.82, 41.02, 12.80, 13.12),
+    "pontine-ventotene": (40.72, 40.88, 13.33, 13.55),
+    "pontine-circeo": (41.13, 41.32, 12.95, 13.25),
+    "pontine-gaeta": (41.10, 41.30, 13.40, 13.68),
+}
+PADRE = {"egadi-favignana": "egadi", "egadi-marettimo": "egadi", "eolie-lipari": "eolie", "eolie-stromboli": "eolie", "eolie-filicudi": "eolie", "palermo-fine": "palermo", "napoli-capri": "napoli", "napoli-ischia": "napoli", "napoli-golfo": "napoli", "bonifacio-bocche": "maddalena-bonifacio", "bonifacio-maddalena": "maddalena-bonifacio", "pontine-ponza": "pontine", "pontine-ventotene": "pontine", "pontine-circeo": "pontine", "pontine-gaeta": "pontine"}
+MAGLIA_FINI = 100
+AREE.update(FINI)
+
 if __name__ == "__main__":
     # per il workflow: l'elenco delle aree chieste come matrice JSON ("tutte", oppure id separati da virgole)
     import json, os, sys
     chieste = (os.environ.get("AREE") or "tutte").replace(" ", "")
+    if chieste == "fini":
+        chieste = ",".join(FINI)
     box = (os.environ.get("AREA") or "").strip()
     if box:
         ident = "".join(c for c in (os.environ.get("ID") or "area") if c.isalnum() or c == "-")[:40] or "area"
-        voci = [{"id": ident, "box": box}]
+        voci = [{"id": ident, "box": box, "dx": ""}]
     else:
         ids = list(AREE) if chieste in ("", "tutte") else [x for x in chieste.split(",") if x in AREE]
-        voci = [{"id": k, "box": ",".join(str(x) for x in AREE[k])} for k in ids]
+        voci = [{"id": k, "box": ",".join(str(x) for x in AREE[k]), "dx": str(MAGLIA_FINI) if k in FINI else ""} for k in ids]
     if not voci:
         sys.exit("nessuna area")
     print(json.dumps({"include": voci}))
