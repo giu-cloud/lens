@@ -36,11 +36,10 @@ def login():
 def indici(out):
     import copernicusmarine as cm
     cred = login()
-    for nome in ("index_platform.txt", "index_history.txt"):
-        try:
-            cm.get(dataset_id=DS, filter=f"*{nome}", output_directory=out, no_directories=True, **cred)
-        except Exception as e:
-            log(f"{nome}: {type(e).__name__} {e}")
+    try:
+        cm.get(dataset_id=DS, index_parts=True, output_directory=out, **cred)
+    except Exception as e:
+        log(f"indici: {type(e).__name__} {e}")
     trovati = glob.glob(os.path.join(out, "**", "index_history.txt"), recursive=True)
     if not trovati:
         log("index_history.txt non trovato"); return []
@@ -76,7 +75,8 @@ def scarica(out, da):
     for x in scelti:
         nome = os.path.basename(x["file"])
         try:
-            cm.get(dataset_id=DS, filter=f"*{nome}", output_directory=os.path.join(out, "nc"), no_directories=True, **cred)
+            cm.get(dataset_id=DS, dataset_part="history", filter=f"*{nome}", output_directory=os.path.join(out, "nc"),
+                   no_directories=True, **cred)
             p = glob.glob(os.path.join(out, "nc", "**", nome), recursive=True)[0]
             d = xr.open_dataset(p, decode_times=True)
             t = d["TIME"].values
