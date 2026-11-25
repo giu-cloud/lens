@@ -87,4 +87,9 @@ jobs:
           python3 banco/cfd/campo_cfd.py $A caso $n --centro ${{ github.event.inputs.centro }} --da ${{ matrix.da }} --raggio-uscita ${{ github.event.inputs.raggio_uscita }} --dx ${{ github.event.inputs.dx }}
           cp caso/log.simpleFoam log_$n.txt
           gh release view cfd-${{ github.event.inputs.sito }} > /dev/null 2>&1 || gh release create cfd-${{ github.event.inputs.sito }} --title "CFD su ${{ github.event.inputs.sito }}" --notes "OpenFOAM, RANS k-epsilon, aria neutra: vento a 10 m per 1 m/s all'ingresso, una direzione per file." || true
-          for k in 1 2 3; do gh release upload cfd-${{ github.event.inputs.sito }} $n log_$n.txt --clobber && break; sleep 15; done
+          ok=0; for k in 1 2 3 4 5; do gh release upload cfd-${{ github.event.inputs.sito }} $n log_$n.txt --clobber && { ok=1; break; }; sleep 30; done
+          mkdir -p uscita && cp $n log_$n.txt uscita/
+          [ $ok = 1 ] || echo "::warning::release non aggiornata: il file resta come artefatto del lavoro"
+      - uses: actions/upload-artifact@v4      # copia di riserva, se la release non risponde
+        if: always()
+        with: {name: "cfd-${{ github.event.inputs.sito }}-${{ matrix.da }}-v${{ github.event.inputs.vento }}", path: uscita/, retention-days: 14, if-no-files-found: ignore}
