@@ -50,9 +50,15 @@ FINI = {
     "pontine-ventotene": (40.7, 40.9, 13.3, 13.58),
     "pontine-circeo": (41.1, 41.32, 12.9, 13.3),
     "pontine-gaeta": (41.1, 41.32, 13.25, 13.65),
+    "toscano-capraia": (42.93, 43.17, 9.75, 10.0),
+    "toscano-elba": (42.66, 42.98, 10.02, 10.58),
+    "toscano-giglio": (42.2, 42.5, 10.78, 11.3),
+    "malta-gozo": (35.88, 36.17, 14.08, 14.5),
+    "malta-valletta": (35.72, 35.96, 14.25, 14.68),
 }
 # 0.57.1 (Giano, 25/11 sera): allargate, circa 10 km di mare a 100 m attorno a ogni gruppo di isole, dentro l'area madre.
-PADRE = {"eolie-ovest": "eolie", "eolie-centro": "eolie", "eolie-est": "eolie", "eolie-milazzo": "eolie", "palermo-fine": "palermo", "egadi-ovest": "egadi", "egadi-est": "egadi", "napoli-ovest": "napoli", "napoli-est": "napoli", "bonifacio-ovest": "maddalena-bonifacio", "bonifacio-est": "maddalena-bonifacio", "pontine-ponza": "pontine", "pontine-ventotene": "pontine", "pontine-circeo": "pontine", "pontine-gaeta": "pontine"}
+# 25/11 notte (Giano): Arcipelago toscano (Capraia, Elba e canale di Piombino, Giglio e Argentario) e Malta (Gozo e Comino, Malta).
+PADRE = {"eolie-ovest": "eolie", "eolie-centro": "eolie", "eolie-est": "eolie", "eolie-milazzo": "eolie", "palermo-fine": "palermo", "egadi-ovest": "egadi", "egadi-est": "egadi", "napoli-ovest": "napoli", "napoli-est": "napoli", "bonifacio-ovest": "maddalena-bonifacio", "bonifacio-est": "maddalena-bonifacio", "pontine-ponza": "pontine", "pontine-ventotene": "pontine", "pontine-circeo": "pontine", "pontine-gaeta": "pontine", "toscano-capraia": "toscano", "toscano-elba": "toscano", "toscano-giglio": "toscano", "malta-gozo": "malta", "malta-valletta": "malta"}
 MAGLIA_FINI = 100
 AREE.update(FINI)
 
