@@ -102,9 +102,9 @@ Il pomeriggio di Reggio Calabria, Trapani e Genova viene dalla prova a 5 km.
 - **Ponza:** la correzione peggiora un po' (insieme da 3,96 a 4,18). Lo diceva anche la boa di Ponza (sezione 7 di `analoghi_25_11.md`): due prove indipendenti dicono la stessa cosa. Non spengo le Pontine, perché la stazione e la boa dicono qualcosa solo dell'isola, non della costa laziale, ma è un punto da tenere d'occhio.
 - **Il golfo di Palermo resta senza prova a tutte le ore.** L'unica stazione utile è Punta Raisi, che vede solo l'angolo ovest della libreria (Isola delle Femmine). Lì la correzione è quasi nulla (fattore 0,99) e neutra. L'anemometro del porto di Palermo (ISPRA) sarebbe quello giusto, ma i suoi dati aperti finiscono nel 2023.
 
-### Il pomeriggio: il limite che resta
+### Il pomeriggio: sotto sulle stazioni, non sul mare
 
-Anche corretti, i modelli sottovalutano il vento vicino alla costa nel pomeriggio: −2 nodi in media, fino a −4 nello Stretto e a Trapani, da −2 a −3 a Genova. È la brezza e il riscaldamento del giorno, che il radar delle 05 e delle 17 non vede.
+Anche corretti, nel pomeriggio i modelli stanno sotto le stazioni: −2 nodi in media, fino a −4 nello Stretto e a Trapani, da −2 a −3 a Genova. Sembrerebbe la brezza e il riscaldamento del giorno, che il radar delle 05 e delle 17 non vede.
 
 C'è però un'avvertenza onesta. Una stazione a terra di giorno sente anche il rimescolamento sopra la terra calda, quindi una parte di quei 2 nodi può essere della stazione e non del mare. I fari e le isole mostrano un errore del pomeriggio molto più piccolo degli aeroporti, dopo la correzione:
 - fari e isole (Cap Pertusato, Cap Corse, Ponza, Capo Carbonara, La Garoupe): da −1,4 a +0,6 nodi;
