@@ -188,6 +188,8 @@ def main():
                                  "direzioni": [float(dirc[k[i]]) for i in sel], "atteso": [float(G[k[i]]) for i in sel],
                                  "dispersione": [float(SP[k[i]]) for i in sel],
                                  "dir_tutte": [round(float(x), 2) for x in dirc]})
+        if os.environ.get("PREV"):
+            np.save(os.environ["PREV"], pred)      # i fattori riga per riga, per le prove dell'insieme
         ix = np.nonzero(np.isfinite(pred))[0]
         r = misure(T, ix, pred[ix], "ass"); r0 = misure(T, ix, np.ones(len(ix), "f4"), "ass")
         print(f"modello   rmse {r0['rmse']:.3f} sistematico {r0['sistematico']:.3f} (0-3 km {r0['sis0-3']:.3f})")

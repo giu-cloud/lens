@@ -26,7 +26,7 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from rilievo import Rilievo
 
-AREE_TUTTE = ["egadi", "eolie", "palermo", "messina", "malta", "napoli", "cagliari", "maddalena-bonifacio", "toscano", "genova", "pontine", "corsica-nord", "monaco", "cicladi"]
+AREE_TUTTE = ["egadi", "eolie", "palermo", "messina", "malta", "napoli", "cagliari", "maddalena-bonifacio", "toscano", "genova", "pontine", "corsica-nord", "monaco", "cicladi", "venezia", "kvarner", "kornati", "dalmazia", "maiorca", "minorca", "ibiza", "pireo", "saronico", "capi", "ionio"]
 AREE = os.environ.get("AREE", " ".join(AREE_TUTTE)).split()
 NSET = 16
 PASSO = 0.25

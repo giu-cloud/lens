@@ -25,7 +25,7 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from rilievo import Rilievo
 
-AREE = ["egadi", "eolie", "palermo", "messina", "malta", "napoli", "cagliari", "maddalena-bonifacio", "toscano", "genova", "pontine", "corsica-nord", "monaco", "cicladi"]
+AREE = ["egadi", "eolie", "palermo", "messina", "malta", "napoli", "cagliari", "maddalena-bonifacio", "toscano", "genova", "pontine", "corsica-nord", "monaco", "cicladi", "venezia", "kvarner", "kornati", "dalmazia", "maiorca", "minorca", "ibiza", "pireo", "saronico", "capi", "ionio"]
 NOMI = ["sst", "dTam", "dT925", "dT850", "terra_mare", "taglio", "raff", "v925", "d925", "v850", "d850", "umid"]
 
 
@@ -81,6 +81,8 @@ def main():
     disp = set(os.listdir(cart))
     cache = {}
     for area in AREE:
+        if not os.path.exists(os.path.join(metro, f"campi_{area}.npz")):
+            continue
         z = np.load(os.path.join(metro, f"campi_{area}.npz"))
         t = z["t"]
         la0, la1, lo0, lo1 = z["lat"].min(), z["lat"].max(), z["lon"].min(), z["lon"].max()
