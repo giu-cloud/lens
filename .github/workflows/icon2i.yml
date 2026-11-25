@@ -31,7 +31,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
-      - run: pip install -q omfiles fsspec aiohttp requests numpy
+      - run: pip install -q omfiles requests numpy
       - run: |
           A="${{ github.event.inputs.a }}"
           python banco/dati/icon2i_storia.py --aree ${{ matrix.area }} --da ${{ github.event.inputs.da }} --a ${A:-$(date -u +%F)} --ore "${{ github.event.inputs.ore }}" --out icon2i

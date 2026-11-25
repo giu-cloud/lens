@@ -3,7 +3,7 @@
   python icon2i_storia.py --aree palermo,egadi --da 2025-04-10 --a 2026-11-25 --out icon2i [--ore 4,5,6,16,17,18]
 
 Open-Meteo tiene ICON-2I in file .om a blocchi di 96 ore (chunk_<k>.om, ore da k*96 dall'epoca), con la griglia
-intera (33,7-48,9 N, 3-22 E). Si leggono solo i pezzi che servono, con richieste a byte (fsspec): vento a 10 m
+intera (33,7-48,9 N, 3-22 E). Si scarica un blocco alla volta, se ne tengono solo le aree e le ore che servono e si cancella: vento a 10 m
 (forza e direzione) nelle ore dei passaggi del radar (di default 4-6 e 16-18 UTC).
 È la serie "storica" di Open-Meteo: per ogni ora le prime ore della corsa più recente (anticipo di poche ore).
 Uscita: icon2i_<area>.npz con lat, lon, t (secondi UTC), u, v (m/s, float16) e un registro.
@@ -16,7 +16,6 @@ import os
 import sys
 import time
 
-import fsspec
 import numpy as np
 from omfiles import OmFileReader
 
@@ -29,8 +28,24 @@ ORA = 3600
 BLOCCO = 96
 
 
-def apri(fs, var, k):
-    return OmFileReader.from_fsspec(fs, f"{BASE}/{var}/chunk_{k}.om")
+def apri(fs, var, k, cartella="/tmp/om"):
+    """Scarica il blocco intero (15-30 MB) e lo apre; a fine uso il file si cancella."""
+    import requests
+    os.makedirs(cartella, exist_ok=True)
+    dst = os.path.join(cartella, f"{var}_{k}.om")
+    for tent in range(4):
+        try:
+            r = requests.get(f"{BASE}/{var}/chunk_{k}.om", timeout=120)
+            if r.status_code == 404:
+                raise FileNotFoundError(f"404 {var} {k}")
+            r.raise_for_status()
+            open(dst, "wb").write(r.content)
+            return OmFileReader.from_path(dst)
+        except FileNotFoundError:
+            raise
+        except Exception as e:
+            err = e; time.sleep(5 * (tent + 1))
+    raise RuntimeError(f"{var} {k}: {err}")
 
 
 def main():
@@ -44,7 +59,7 @@ def main():
     os.makedirs(a.out, exist_ok=True)
     aree = [x for x in a.aree.split(",") if x in AREE]
     ore = {int(x) for x in a.ore.split(",")}
-    fs = fsspec.filesystem("https")
+    fs = None
     t0 = int(dt.datetime.fromisoformat(a.da).replace(tzinfo=dt.timezone.utc).timestamp())
     t1 = int(dt.datetime.fromisoformat(a.a).replace(tzinfo=dt.timezone.utc).timestamp())
     k0, k1 = t0 // (BLOCCO * ORA), t1 // (BLOCCO * ORA)
@@ -55,7 +70,7 @@ def main():
         try:
             rs = apri(fs, "wind_speed_10m", k); rd = apri(fs, "wind_direction_10m", k)
         except Exception as e:
-            log.append(f"chunk {k}: non c'è ({type(e).__name__})")
+            log.append(f"chunk {k}: non c'è ({type(e).__name__}: {e})")
             continue
         sh = rs.shape
         if griglia is None:
@@ -99,6 +114,9 @@ def main():
             jp = int(np.argmin(abs(lat - 38.2))); ip = int(np.argmin(abs(lon - 13.3))); ip_t = int((tp - ts[0]) // ORA)
             log.append(f"punto di prova 38,2 13,3 alle 00 del 1/5/2025: forza {float(rs[jp, ip, ip_t]):.2f}, "
                        f"direzione {float(rd[jp, ip, ip_t]):.0f} (l'API dava 2,5 km/h da 183°)")
+        rs.close(); rd.close()
+        for f in os.listdir("/tmp/om"):
+            os.remove(os.path.join("/tmp/om", f))
     for ar in aree:
         d = acc[ar]
         if not d["t"]:
