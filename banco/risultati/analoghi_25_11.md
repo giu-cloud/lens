@@ -9,7 +9,7 @@ Segue `lens/studio_statistico_25_11.md`. Giano ha scelto di imparare dal radar a
   - Si applica la correzione che il radar aveva misurato in quelle situazioni.
   - Sulle settimane mai viste l'errore sistematico entro 3 km scende del 60-65%.
 - **Le correzioni valgono per un modello solo.** Quella imparata su ECMWF, messa sopra ICON-2I, lo peggiora: l'errore sistematico passa da 0,76 a 1,41 nodi.
-- **ICON-2I da solo, sulle celle del radar, sbaglia più di ECMWF letto dal mare.** Davanti a Palermo, entro 1,5 km dalla costa, sottostima di 4,8 nodi (ECMWF di 3,2), soprattutto con ponente e libeccio. Corretto con i suoi analoghi migliora molto.
+- **ICON-2I da solo, sulle celle del radar, ha un errore quadratico più alto di ECMWF letto dal mare (4,23 contro 3,89 nodi), e sotto costa sbaglia di più.** Davanti a Palermo, entro 1,5 km dalla costa, sottostima di 4,8 nodi (ECMWF di 3,2), soprattutto con ponente e libeccio. Corretto con i suoi analoghi migliora molto.
 - **Il risultato migliore è l'insieme:** 70% ECMWF corretto più 30% ICON-2I corretto. Sulle settimane mai viste:
   - errore quadratico −7% rispetto a ECMWF e −15% rispetto a ICON-2I;
   - errore sistematico entro 3 km da 1,43 (ECMWF) e 1,50 (ICON-2I) a 0,47 nodi.
