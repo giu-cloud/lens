@@ -110,6 +110,19 @@ C'è però un'avvertenza onesta. Una stazione a terra di giorno sente anche il r
 - fari e isole (Cap Pertusato, Cap Corse, Ponza, Capo Carbonara, La Garoupe): da −1,4 a +0,6 nodi;
 - aeroporti (Reggio Calabria, Trapani, Calvi, Mykonos, Malta, Genova): da −2,3 a −4,6 nodi.
 
+**La controprova con le boe, che stanno sul mare.** Ponza (1,7 km dall'isola) e Calvi (10 km al largo), a tutte le ore. Rapporto boa ÷ insieme corretto, diviso per il rapporto medio della boa:
+
+| Boa | Stagione | 00 | 03 | 06 | 09 | 12 | 15 | 18 | 21 UTC |
+|---|---|---|---|---|---|---|---|---|---|
+| Ponza | aprile-settembre | 0,95 | 1,01 | 1,04 | 1,02 | 1,00 | 0,94 | 1,03 | 1,03 |
+| Ponza | ottobre-marzo | 0,98 | 1,01 | 1,03 | 1,03 | 0,96 | 0,94 | 0,97 | 1,05 |
+| Calvi | aprile-settembre | 1,02 | 1,01 | 1,02 | 0,99 | 0,96 | 0,97 | 0,97 | 0,96 |
+| Calvi | ottobre-marzo | 1,03 | 1,02 | 1,02 | 1,06 | 1,03 | 0,99 | 1,00 | 0,99 |
+
+**Sul mare il pomeriggio non è sottovalutato:** alle 12 e alle 15 il rapporto sta tra 0,94 e 1,03, se mai il modello ha un filo di vento in più. Lo scarto del pomeriggio delle stazioni è quindi soprattutto della terra: il rimescolamento sopra il suolo caldo e la brezza che entra sulla costa. Per questo **il termine del pomeriggio non lo aggiungo:** imparato dalle stazioni, correggerebbe il mare con un vento che sul mare non c'è.
+
+Le due boe però non stanno in un golfo con la brezza forte. Nel primo chilometro o due dalla spiaggia, per esempio a Mondello, la brezza del pomeriggio resta da misurare: serve un anemometro su un molo, come quello del porto di Palermo.
+
 ### La fiducia
 
 La dispersione degli analoghi segue l'errore anche qui, a tutte le ore. Sulle cinque parti uguali, l'errore relativo che resta è:
@@ -128,7 +141,7 @@ Torna con quanto visto sul radar (da 0,18 a 0,38).
 
 1. **Lens 2 si può passare a Shift così com'è.** Nessuna libreria va spenta.
 2. **Le correzioni grandi (Stretto, Malta, Trapani) sono confermate a tutte le ore.** Quelle che abbassano il vento sono meno sicure, e lo sono di più nel pomeriggio.
-3. **Il passo naturale dopo è un termine per il pomeriggio,** imparato dalle stazioni dove ci sono, con stagione e differenza di temperatura tra terra e mare. Prima però va separata la parte della stazione da quella del mare, usando i fari e le isole.
+3. **Un termine per il pomeriggio non serve sul mare aperto:** le boe non vedono lo scarto che vedono le stazioni a terra. Resta da misurare la brezza nel primo chilometro o due dalla spiaggia.
 4. **Per il golfo di Palermo serve una stazione vera sul mare,** in ordine di bontà:
    - l'anemometro del porto di Palermo, chiedendo a ISPRA i dati dal 2024;
    - le stazioni di Meteonetwork sulla costa (Mondello, Arenella, Sferracavallo), se esposte, con una chiave della v3;
