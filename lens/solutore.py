@@ -160,7 +160,7 @@ def scia(h, us, vs, dx, froude, profondita=0.65, s_max=3.0):
     d = dx
     while d <= portata + dx:
         # sopravvento: verso ovest se il vento va a est (colonne), verso sud se va a nord (righe crescenti)
-        hm = map_coordinates(h, [jj + ey * d / dx, ii - ex * d / dx], order=1, mode="constant", cval=-1.0e4)  # 0.57.1: fuori dal dominio niente rilievo (prima un muro)
+        hm = map_coordinates(h, [jj + ey * d / dx, ii - ex * d / dx], order=1, mode="nearest")
         sx = np.maximum(sx, np.degrees(np.arctan2(hm - (h + 10.0), d / s)))
         d += dx if d < 5000.0 else 2.0 * dx
     fattore = 1.0 - profondita * np.clip((sx - 1.5) / 10.0, 0.0, 1.0)

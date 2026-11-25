@@ -6,6 +6,7 @@ import java.io.BufferedOutputStream
 // Campi di prova su un atlante: Lens 0.56 di oggi e il primo Lens (fisica piena), per un vento uniforme.
 fun main(args: Array<String>) {
     val atl = LensAtlas.read("prova", File(args[0]).readBytes())
+    System.getProperty("outer")?.let { atl.outer = LensAtlas.read("grande", File(it).readBytes()) }   // 0.57.1: area grande sotto
     val out = DataOutputStream(BufferedOutputStream(File(args[1]).outputStream()))
     out.writeInt(atl.nx); out.writeInt(atl.ny)
     for (v in atl.box) out.writeDouble(v)
