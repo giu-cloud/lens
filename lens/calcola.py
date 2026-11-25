@@ -20,8 +20,8 @@ Parametri (variabili d'ambiente, tutte facoltative; senza, calcola i golfi di Pa
   LENS_DX       maglia in metri (default: la piu' fitta che sta nella memoria, non sotto 150 m)
   LENS_ID       nome del calcolo: il GRIB si chiama lens_<ID>.grb2 (senza, lens.grb2)
   LENS_PAGINA   "1" per fare anche la pagina HTML (carta di base e nomi da OpenStreetMap): Shift non la chiede
-  LENS_RILIEVO, LENS_RIDOSSO, LENS_RIDOSSO_S, LENS_COSTA: quanto pesano i pezzi di Lens (0.54, banco col radar dei
-                Sentinel-1, routing/atlante_costa_risultati.md); i valori di prima sono 1, 0.65, 3, 1
+  LENS_FORZA    la manopola della forza del rilievo: 1 = primo Lens (default dalla 0.57), 0 = la 0.54
+  LENS_RILIEVO, LENS_RIDOSSO, LENS_RIDOSSO_S, LENS_COSTA: i singoli pezzi (primo Lens: 1, 0.65, 3, 1; 0.54: 0, 0.2, 1, 0)
   LENS_RIVA     "d1,d2" in km: rilievo pieno entro d1 dalla costa, sfumato fino al peso 0.54 a d2 (vuoto: come la 0.54)
   LENS_DIR_RILIEVO  quanta rotazione del rilievo pieno sulla direzione, con la forza della 0.54 (0 = come la 0.54, 1 = tutta,
                 il default dalla 0.56)"""
@@ -35,10 +35,14 @@ QUI = os.path.dirname(__file__)
 PAGINA = os.environ.get("LENS_PAGINA") == "1"
 # 0.54: il radar dei Sentinel-1 (10 aree, 2024-26) non vede in media né la frenata del rilievo né il ridosso lungo di
 # Lens; restano più leggeri, come nell'app (LensAtlas: shift.lens.terrain, wake, sfacMax, coast).
-RILIEVO = float(os.environ.get("LENS_RILIEVO") or 0.0)
-RIDOSSO = float(os.environ.get("LENS_RIDOSSO") or 0.2)
-RIDOSSO_S = float(os.environ.get("LENS_RIDOSSO_S") or 1.0)
-COSTA = float(os.environ.get("LENS_COSTA") or 0.0)
+# 0.57 (Giano, 25/11 sera): torna la forza del primo Lens (rilievo 1, ridosso 0,65, allungamento 3, costa 1), su griglie
+# fini; LENS_FORZA è la manopola (1 = primo Lens, 0 = la 0.54), come LensAtlas.RELIEF del motore. I singoli pezzi, se
+# dati, vincono. Dove il radar vede costa circa un terzo di nodo di errore sistematico entro 3 km (studio del 25/11).
+FORZA = min(1.0, max(0.0, float(os.environ.get("LENS_FORZA") or 1.0)))
+RILIEVO = float(os.environ.get("LENS_RILIEVO") or FORZA)
+RIDOSSO = float(os.environ.get("LENS_RIDOSSO") or (0.2 + 0.45 * FORZA))
+RIDOSSO_S = float(os.environ.get("LENS_RIDOSSO_S") or (1.0 + 2.0 * FORZA))
+COSTA = float(os.environ.get("LENS_COSTA") or FORZA)
 # Vicino alla riva il radar non vede (i primi 1,5-2 km): lì la taratura 0.54 non ha voce. Con LENS_RIVA "d1,d2" (km) il
 # rilievo torna pieno entro d1 dalla costa e sfuma fino al peso 0.54 a d2 (prova del 25/11, banco/cfd). Vuoto = 0.54.
 RIVA = [float(x) for x in (os.environ.get("LENS_RIVA") or "").split(",") if x.strip()]
