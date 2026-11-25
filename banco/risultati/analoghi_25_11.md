@@ -10,7 +10,7 @@ Segue `lens/studio_statistico_25_11.md`. Giano ha scelto di imparare dal radar a
   - Sulle settimane mai viste l'errore sistematico entro 3 km scende del 60-65%.
 - **Le correzioni valgono per un modello solo.** Quella imparata su ECMWF, messa sopra ICON-2I, lo peggiora: l'errore sistematico passa da 0,76 a 1,41 nodi.
 - **ICON-2I da solo, sulle celle del radar, ha un errore quadratico più alto di ECMWF letto dal mare (4,23 contro 3,89 nodi), e sotto costa sbaglia di più.** Davanti a Palermo, entro 1,5 km dalla costa, sottostima di 4,8 nodi (ECMWF di 3,2), soprattutto con ponente e libeccio. Corretto con i suoi analoghi migliora molto.
-- **Il risultato migliore è l'insieme:** 70% ECMWF corretto più 30% ICON-2I corretto. Sulle settimane mai viste:
+- **Il risultato migliore è l'insieme:** ECMWF corretto più ICON-2I corretto, oggi con i pesi 0,6 e 0,4 (vedi il punto 7). Sulle settimane mai viste, con 0,7 e 0,3:
   - errore quadratico −7% rispetto a ECMWF e −15% rispetto a ICON-2I;
   - errore sistematico entro 3 km da 1,43 (ECMWF) e 1,50 (ICON-2I) a 0,47 nodi.
 - **youmeteo:** l'archivio ha 10 giorni. Servono 6-12 mesi di passaggi prima di imparare: l'accumulo comincia ora, e resta nel privato.
@@ -116,7 +116,7 @@ Sulle settimane la classifica è la stessa (insieme corretto 2,94 contro 3,30 di
   2. si cercano i 25 passaggi più simili;
   3. si fa la media pesata delle loro carte, tirata verso le armoniche dove i dati sono pochi;
   4. il fattore si applica sopra Lens 0.54 (che resta per i dettagli sotto il chilometro).
-- **Con più modelli caricati,** l'insieme corretto: 0,7 ECMWF + 0,3 ICON-2I. Poi, quando avrà abbastanza storia, youmeteo.
+- **Con più modelli caricati,** l'insieme corretto: 0,6 ECMWF + 0,4 ICON-2I (punto 7). Poi, quando avrà abbastanza storia, youmeteo.
 - **La direzione non si corregge.** Il prodotto del radar prende la direzione da ECMWF, quindi non la misura davvero.
 - **Aggiornamento:** una volta al mese si aggiungono i passaggi nuovi. È lavoro del deposito `lens` e non costa niente.
 
@@ -146,6 +146,63 @@ I grandi buchi d'aria del largo, quelli dell'alta stazionaria, vanno studiati a 
 3. **youmeteo:** l'accumulo dall'archivio del deposito privato. La prima prova quando ci saranno circa 70 passaggi per area (primavera).
 4. **Bonacce lungo le rotte:** riquadri al largo e ICON-2I completo.
 5. **Altre aree a richiesta:** Corsica ovest, Liguria di ponente, Sardegna nord-est.
+
+## 7. Verifiche prima della consegna (25/11, pomeriggio)
+
+Fatte su richiesta di Giano: prima di passare Lens 2 a Shift, che cosa si può ancora migliorare e che cosa va controllato.
+
+**Previsioni a uno e due giorni.** Le librerie sono imparate su corse con 5 ore di anticipo. Ho scaricato le corse ECMWF con 29 e 53 ore di anticipo per tutti i 5.371 passaggi, con il loro vento a 925 hPa. Cassaforte, 14 aree, nodi:
+
+| Anticipo | Libreria imparata a | Errore quadratico (modello → corretto) | Sistematico | Entro 3 km |
+|---|---|---|---|---|
+| 5 ore | 5 ore | 3,92 → 3,74 | 1,03 → 0,42 | 1,60 → 0,57 |
+| 29 ore | 5 ore | 4,08 → 3,94 | 1,10 → 0,51 | 1,57 → 0,69 |
+| 29 ore | 29 ore | 4,08 → 3,94 | 1,10 → 0,56 | 1,57 → 0,70 |
+| 53 ore | 5 ore | 4,28 → 4,21 | 1,06 → 0,50 | 1,48 → 0,58 |
+| 53 ore | 53 ore | 4,28 → 4,20 | 1,06 → 0,50 | 1,48 → 0,53 |
+
+- **La correzione regge a uno e due giorni.** L'errore sistematico vicino alla costa si dimezza o meno ancora.
+- **L'errore quadratico scende meno** (−3% a un giorno, −2% a due): a quegli anticipi pesano gli errori di tempo del modello, che nessuna correzione della costa può togliere.
+- **Librerie per anticipo non servono:** quella imparata a 5 ore va bene uguale. Si tiene una libreria sola per area e modello.
+
+**Le boe, a tutte le ore.** Nel prodotto in situ di Copernicus Marine ci sono solo due boe con il vento dentro o vicino alle nostre aree:
+- **Ponza** (marzo-ottobre 2026, a 1,7 km dall'isola);
+- **Calvi** (Météo-France, marzo 2025 - settembre 2026, al largo: la cella più vicina con il radar è a 10 km).
+
+Per allargare la prova ho esteso la Corsica nord fino a 8,25° E. Confronti ogni 3 ore (corse delle 00 e 12, passi 3-12 ore). Il vento della boa è a pochi metri sul mare, quindi ogni previsione è moltiplicata per un solo numero stimato su tutta la serie. Errore quadratico in nodi:
+
+| | Ponza, tutte | Ponza, 12-15 UTC | Calvi, tutte | Calvi, 12-15 UTC |
+|---|---|---|---|---|
+| ECMWF | 2,76 | 2,34 | 3,24 | 3,07 |
+| ECMWF corretto | 2,80 | 2,39 | 3,21 | 3,03 |
+| ICON-2I | 2,98 | 2,41 | 3,51 | 3,15 |
+| ICON-2I corretto | 3,00 | 2,41 | 3,52 | 3,18 |
+| Insieme corretto (0,6/0,4) | **2,51** | **2,06** | **2,98** | **2,73** |
+
+- **Nei due punti delle boe la correzione è quasi neutra:** lì il radar vede poco da correggere (fattore 1,01-1,08), e la boa di Ponza sente il ridosso dell'isola più fine del chilometro del radar (con la tramontana 0,88 contro 1,01).
+- **Non peggiora a mezzogiorno,** le ore che il radar non vede.
+- **L'insieme dei due modelli migliora molto anche qui, a tutte le ore:** −9% a Ponza e a Calvi. È il guadagno più robusto.
+- **Le due boe non bastano a provare le correzioni grandi** (golfo di Palermo, Stretto, Genova): lì le boe non ci sono. Le stazioni a terra sui moli sono il passo successivo.
+
+**La fiducia.** La dispersione degli analoghi attorno al fattore dice quanto fidarsi. Sulle settimane di prova, divise in cinque parti uguali:
+
+| Dispersione | Errore relativo che resta |
+|---|---|
+| sotto 0,17 | 0,18 |
+| 0,17-0,22 | 0,23 |
+| 0,22-0,26 | 0,26 |
+| 0,26-0,33 | 0,30 |
+| sopra 0,33 | 0,38 |
+
+È nel motore (`fattoreEDispersione`): Shift la può mostrare come carta della fiducia o usare nel routing.
+
+**Provati e non utili:**
+- **analoghi per zone di 15-40 km nelle aree grandi:** uguali agli analoghi sull'area intera;
+- **pesi dell'insieme diversi per area o per distanza dalla costa:** il peso migliore di ECMWF sta tra 0,55 e 0,65 dappertutto.
+
+Si usa 0,6 e 0,4 invece di 0,7 e 0,3: l'errore quadratico è un po' più basso (cassaforte 3,60 contro 3,61; settimane 2,92 contro 2,94).
+
+**Un errore da non fare, visto in prova:** una libreria applicata al modello sbagliato rovina la correzione. Nel motore c'è `valePer(modello)`.
 
 ## File
 
