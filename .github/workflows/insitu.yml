@@ -1,0 +1,28 @@
+# Boe e stazioni in mare con il vento (Copernicus Marine, in situ del Mediterraneo) sulle aree del banco di Lens.
+name: insitu
+on:
+  workflow_dispatch:
+    inputs:
+      modo: {description: "indici oppure scarica", default: "indici"}
+      da: {description: "primo giorno", default: "2024-06-01"}
+permissions:
+  contents: write
+jobs:
+  insitu:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -q copernicusmarine numpy xarray netCDF4 h5netcdf
+      - env: {CMEMS_USER: "${{ secrets.CMEMS_USER }}", CMEMS_PASS: "${{ secrets.CMEMS_PASS }}"}
+        run: |
+          python banco/dati/insitu.py --${{ github.event.inputs.modo }} --da ${{ github.event.inputs.da }} --out insitu || true
+          rm -rf insitu/nc; ls -la insitu | head -50
+      - env: {GH_TOKEN: "${{ github.token }}"}
+        continue-on-error: true
+        run: |
+          gh release view insitu > /dev/null 2>&1 || gh release create insitu --title "Vento delle boe (Copernicus Marine in situ)" --notes "E.U. Copernicus Marine Service Information: INSITU_MED_PHYBGCWAV_DISCRETE_MYNRT_013_035. Vento, direzione e raffica delle piattaforme nelle aree del banco di Lens."
+          find insitu -name "index_*.txt" -delete
+          tar cf insitu-${{ github.event.inputs.modo }}.tar -C insitu . && gh release upload insitu insitu-${{ github.event.inputs.modo }}.tar --clobber
