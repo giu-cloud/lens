@@ -24,7 +24,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from confronto_metodi import AREE, KN, carica, misure
 
 PAR = {"k_atl": 10.0, "lam1": 20.0, "lam2": 60.0, "liscia": 0.7, "K": 25, "k_an": 3.0, "sd_dir": 25.0,
-       "sd_v": 2.5, "sd_st": 2.0, "sd_ora": 0.7, "vmin_an": 3.0, "sd_925": 0.0, "sd_tm": 0.0, "sd_mese": 0.0, "frazione": 1.0, "n_pc": 0, "sd_pc": 1.0}
+       "sd_v": 2.5, "sd_st": 2.0, "sd_ora": 0.7, "vmin_an": 3.0, "sd_925": 0.0, "sd_tm": 0.0, "sd_mese": 0.0, "frazione": 1.0, "n_pc": 0, "sd_pc": 1.0, "tessera": 20}
 
 
 class Area:
@@ -165,7 +165,43 @@ def analoghi(A, tr, te, p):
     return G
 
 
+def analoghi_locali(A, tr, te, p):
+    """Come analoghi, ma per tessere di circa p["tessera"] celle di lato: la situazione è il vento medio del modello
+    nella tessera (più 925 hPa e ora), così nelle aree grandi le zone lontane non si mescolano."""
+    coef = _armoniche(A, tr, p)
+    base = armoniche(A, tr, te, p, coef)
+    th = np.radians(np.nan_to_num(A.D)); m = np.nan_to_num(A.M)
+    U = m * np.sin(th); V = m * np.cos(th); val = np.isfinite(A.M)
+    R, M = A.R[tr], A.M[tr]
+    ok = np.isfinite(R) & np.isfinite(M) & (M > p["vmin_an"])
+    wy = np.where(ok, R * M, 0.0); ww = np.where(ok, M * M, 0.0)
+    wbar = np.sum(ww) / max(ok.sum(), 1)
+    G = base.copy()
+    ts = int(p["tessera"]); K = int(p["K"])
+    jj, ii = np.divmod(np.arange(A.ny * A.nx), A.nx)
+    tes = (jj // ts) * 1000 + (ii // ts)
+    b = np.radians(A.d925)
+    extra = [A.sera / p["sd_ora"], A.v925 * np.sin(b) / p["sd_925"], A.v925 * np.cos(b) / p["sd_925"]]
+    for tt in np.unique(tes):
+        cel = np.nonzero(tes == tt)[0]
+        n = val[:, cel].sum(1)
+        if (n[tr] > 0).sum() < 30:
+            continue
+        um = np.where(n > 0, (U[:, cel] * val[:, cel]).sum(1) / np.maximum(n, 1), 0)
+        vm = np.where(n > 0, (V[:, cel] * val[:, cel]).sum(1) / np.maximum(n, 1), 0)
+        X = np.stack([um / p["sd_v"], vm / p["sd_v"]] + extra, axis=1)
+        Xtr = X[tr]; Xte = X[te]
+        lam = p["k_an"] * wbar
+        for s in range(len(te)):
+            d2 = np.sum((Xtr - Xte[s]) ** 2, axis=1)
+            idx = np.argpartition(d2, min(K, len(d2) - 1))[:K]
+            pk = np.exp(-0.5 * d2[idx] / max(np.median(d2[idx]), 1e-6))
+            G[s, cel] = ((pk[:, None] * wy[idx][:, cel]).sum(0) + lam * base[s, cel]) / ((pk[:, None] * ww[idx][:, cel]).sum(0) + lam)
+    return G
+
+
 METODI = {"modello": lambda A, tr, te, p: np.ones((len(te), A.R.shape[1])),
+          "analoghi_locali": analoghi_locali,
           "atlante": atlante, "armoniche": armoniche, "analoghi": analoghi}
 
 

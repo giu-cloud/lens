@@ -105,8 +105,10 @@ class Libreria:
         self.X = np.stack([self.a0 / self.sd_v, self.b0 / self.sd_v, self.sera / self.sd_ora,
                            self.a925 / self.sd_925, self.b925 / self.sd_925], axis=1).astype("f8")
 
-    def fattore(self, a0, b0, a925, b925, sera, dir_celle):
-        """Fattore per cella (nc) per un'ora: dati della situazione e direzione del modello nelle celle (gradi)."""
+    def fattore(self, a0, b0, a925, b925, sera, dir_celle, dispersione=False):
+        """Fattore per cella (nc) per un'ora: dati della situazione e direzione del modello nelle celle (gradi).
+        Con dispersione=True anche la dispersione degli analoghi attorno al fattore (scarto pesato del rapporto):
+        misura quanto fidarsi, e l'errore relativo che resta le va dietro (prova del 25/11)."""
         x = np.array([a0 / self.sd_v, b0 / self.sd_v, sera / self.sd_ora, a925 / self.sd_925, b925 / self.sd_925])
         d2 = np.sum((self.X - x) ** 2, axis=1)
         K = min(int(self.K), self.ns)
@@ -117,7 +119,13 @@ class Libreria:
         base = (self.coef[0] + self.coef[1] * np.cos(th) + self.coef[2] * np.sin(th) + self.coef[3] * np.cos(2 * th)
                 + self.coef[4] * np.sin(2 * th))
         lam = self.k_an * self.wbar
-        return (pk @ self.wy[idx] + lam * base) / (pk @ self.ww[idx] + lam)
+        G = (pk @ self.wy[idx] + lam * base) / (pk @ self.ww[idx] + lam)
+        if not dispersione:
+            return G
+        q = np.where(self.ww[idx] > 0, self.wy[idx] / np.where(self.ww[idx] > 0, self.ww[idx], 1), 0.0)
+        w = pk[:, None] * self.ww[idx]
+        sp = np.sqrt((w * (q - G) ** 2).sum(0) / np.maximum(w.sum(0), 1e-9))
+        return G, np.where(w.sum(0) > 0, sp, np.nan)
 
 
 def _aree(T, nomi):
@@ -171,12 +179,13 @@ def main():
                 dirc = np.zeros(L.nc, "f4")
                 k = np.array([pos.get(c, -1) for c in cc]); ok = k >= 0
                 dirc[k[ok]] = T["dir"][rr[ok]]
-                G = L.fattore(*f_, dirc)
+                G, SP = L.fattore(*f_, dirc, dispersione=True)
                 pred[rr[ok]] = G[k[ok]]
                 if cmd == "casi" and len([c for c in casi if c["area"] == L.area]) < 3:
                     sel = np.nonzero(ok)[0][:: max(1, ok.sum() // 40)][:40]
                     casi.append({"libreria": f, "area": L.area, "dati": f_, "celle": [int(k[i]) for i in sel],
                                  "direzioni": [float(dirc[k[i]]) for i in sel], "atteso": [float(G[k[i]]) for i in sel],
+                                 "dispersione": [float(SP[k[i]]) for i in sel],
                                  "dir_tutte": [round(float(x), 2) for x in dirc]})
         ix = np.nonzero(np.isfinite(pred))[0]
         r = misure(T, ix, pred[ix], "ass"); r0 = misure(T, ix, np.ones(len(ix), "f4"), "ass")
