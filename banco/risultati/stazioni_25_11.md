@@ -91,7 +91,7 @@ Errore medio / quadratico in nodi, ECMWF grezzo → corretto:
 | Capo Carbonara | 0,88 | +0,70 / 3,67 → −0,43 / 3,52 | peggiora: −0,57 → −1,98 di errore medio |
 | Paros | 0,92 | +0,57 / 4,29 → −0,56 / 4,08 | |
 
-Il pomeriggio di Reggio Calabria e Trapani viene dalla prova a 5 km.
+Il pomeriggio di Reggio Calabria, Trapani e Genova viene dalla prova a 5 km.
 
 - **Lo Stretto è la conferma più forte.** La correzione toglie quasi tutto l'errore medio a ogni ora, e l'errore quadratico scende di oltre un quinto, nel pomeriggio di quasi un terzo.
 - **Dove la correzione alza il vento,** ad aeroporti e isole esposte, la prova le dà ragione dappertutto.
@@ -104,7 +104,7 @@ Il pomeriggio di Reggio Calabria e Trapani viene dalla prova a 5 km.
 
 ### Il pomeriggio: il limite che resta
 
-Anche corretti, i modelli sottovalutano il vento vicino alla costa nel pomeriggio: −2 nodi in media, fino a −4 nello Stretto, a Trapani e a Genova. È la brezza e il riscaldamento del giorno, che il radar delle 05 e delle 17 non vede.
+Anche corretti, i modelli sottovalutano il vento vicino alla costa nel pomeriggio: −2 nodi in media, fino a −4 nello Stretto e a Trapani, da −2 a −3 a Genova. È la brezza e il riscaldamento del giorno, che il radar delle 05 e delle 17 non vede.
 
 C'è però un'avvertenza onesta. Una stazione a terra di giorno sente anche il rimescolamento sopra la terra calda, quindi una parte di quei 2 nodi può essere della stazione e non del mare. I fari e le isole mostrano un errore del pomeriggio molto più piccolo degli aeroporti, dopo la correzione:
 - fari e isole (Cap Pertusato, Cap Corse, Ponza, Capo Carbonara, La Garoupe): da −1,4 a +0,6 nodi;
