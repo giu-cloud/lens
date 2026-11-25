@@ -21,7 +21,9 @@ Parametri (variabili d'ambiente, tutte facoltative; senza, calcola i golfi di Pa
   LENS_ID       nome del calcolo: il GRIB si chiama lens_<ID>.grb2 (senza, lens.grb2)
   LENS_PAGINA   "1" per fare anche la pagina HTML (carta di base e nomi da OpenStreetMap): Shift non la chiede
   LENS_RILIEVO, LENS_RIDOSSO, LENS_RIDOSSO_S, LENS_COSTA: quanto pesano i pezzi di Lens (0.54, banco col radar dei
-                Sentinel-1, routing/atlante_costa_risultati.md); i valori di prima sono 1, 0.65, 3, 1"""
+                Sentinel-1, routing/atlante_costa_risultati.md); i valori di prima sono 1, 0.65, 3, 1
+  LENS_RIVA     "d1,d2" in km: rilievo pieno entro d1 dalla costa, sfumato fino al peso 0.54 a d2 (vuoto: come la 0.54)
+  LENS_DIR_RILIEVO  quanta rotazione del rilievo pieno sulla direzione, con la forza della 0.54 (0 = come la 0.54, 1 = tutta)"""
 import base64, datetime as dt, gzip, io, json, math, os, sys, time
 import numpy as np
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
@@ -36,6 +38,13 @@ RILIEVO = float(os.environ.get("LENS_RILIEVO") or 0.0)
 RIDOSSO = float(os.environ.get("LENS_RIDOSSO") or 0.2)
 RIDOSSO_S = float(os.environ.get("LENS_RIDOSSO_S") or 1.0)
 COSTA = float(os.environ.get("LENS_COSTA") or 0.0)
+# Vicino alla riva il radar non vede (i primi 1,5-2 km): lì la taratura 0.54 non ha voce. Con LENS_RIVA "d1,d2" (km) il
+# rilievo torna pieno entro d1 dalla costa e sfuma fino al peso 0.54 a d2 (prova del 25/11, banco/cfd). Vuoto = 0.54.
+RIVA = [float(x) for x in (os.environ.get("LENS_RIVA") or "").split(",") if x.strip()]
+# La direzione del rilievo pieno con la forza della 0.54: il radar non misura la direzione, le stazioni sulla costa
+# (Reggio, Messina, Mentone, Cap Corse) dicono che la rotazione del rilievo pieno la migliora (prova del 25/11,
+# banco/cfd/stazioni_cfd.py). LENS_DIR_RILIEVO = quanta rotazione (0 = come la 0.54, 1 = tutta).
+DIR_RIL = float(os.environ.get("LENS_DIR_RILIEVO") or 0.0)
 ID = "".join(c for c in (os.environ.get("LENS_ID") or "") if c.isalnum() or c in "-_")[:80]
 os.environ.setdefault("GDAL_DISABLE_READDIR_ON_OPEN", "EMPTY_DIR")
 os.environ.setdefault("AWS_NO_SIGN_REQUEST", "YES")
@@ -629,7 +638,14 @@ def main():
     fy = lambda la: (n_ - la) / (n_ - s_)
     # le celle di mare lontane piu' di 5 km dalla costa, per tarare le raffiche sul modello
     from scipy.ndimage import distance_transform_edt
-    largo = distance_transform_edt(mare) * A.dx > 5000
+    d_costa = distance_transform_edt(mare) * A.dx / 1000.0        # km dalla costa, sul mare (0 a terra)
+    largo = d_costa > 5.0
+    peso_ril = RILIEVO
+    if len(RIVA) == 2 and RIVA[1] > RIVA[0] >= 0:
+        x = np.clip((d_costa - RIVA[0]) / (RIVA[1] - RIVA[0]), 0.0, 1.0)
+        w = 0.5 + 0.5 * np.cos(np.pi * x)                          # 1 entro d1, 0 oltre d2
+        peso_ril = np.where(mare, RILIEVO + (1.0 - RILIEVO) * w, RILIEVO)
+        print(f"rilievo pieno entro {RIVA[0]:g} km dalla costa, sfumato fino a {RIVA[1]:g} km (oltre: {RILIEVO:g})")
     ore, memoria, campi_grib, passi = [], {}, [], []
     for passo in range(int(os.environ.get("LENS_ORE") or 15)):
         i = i0 + passo
@@ -655,8 +671,14 @@ def main():
         us, vs = al_suolo(u, v, aria, h, zc, z0)
         del u, v, w, aria
         us, vs = gaussian_filter(us, 1.0), gaussian_filter(vs, 1.0)   # toglie il rumore da gradino della griglia a scalini
-        if RILIEVO != 1.0:
-            us, vs = u10 + (us - u10) * RILIEVO, v10 + (vs - v10) * RILIEVO
+        if RILIEVO != 1.0 or not np.isscalar(peso_ril):
+            uf, vf = us, vs                                            # il rilievo pieno
+            us, vs = u10 + (us - u10) * peso_ril, v10 + (vs - v10) * peso_ril
+            if DIR_RIL > 0:
+                a0 = np.arctan2(us, vs); d_a = (np.arctan2(uf, vf) - a0 + np.pi) % (2 * np.pi) - np.pi
+                sp = np.hypot(us, vs); a1 = a0 + DIR_RIL * d_a
+                us, vs = sp * np.sin(a1), sp * np.cos(a1)
+            del uf, vf
         fatt, sx = scia(h, us, vs, A.dx, fr_b, profondita=RIDOSSO, s_max=RIDOSSO_S)
         c_ibl = 0.9 if fr_b >= 1.0 else (0.6 if fr_b >= 0.5 else 0.35)
         fcosta, _, rec, z0l = costa(mare, z0, us, vs, A.dx, c=c_ibl)
