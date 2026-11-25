@@ -1,0 +1,22 @@
+# Toglie dalla release "lens-atlante" gli atlanti che non servono più (nomi separati da spazi, senza "atlante_" e ".lna").
+name: Pulizia atlanti
+on:
+  workflow_dispatch:
+    inputs:
+      aree:
+        description: "id delle aree da togliere, separati da spazi"
+        required: true
+permissions:
+  contents: write
+jobs:
+  togli:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      AREE: ${{ inputs.aree }}
+    steps:
+      - run: |
+          for a in $AREE; do
+            case "$a" in *[!a-z0-9-]*) echo "nome non valido: $a"; exit 1;; esac
+            gh release delete-asset lens-atlante "atlante_$a.lna" -y -R "$GITHUB_REPOSITORY" && echo "tolto $a" || echo "non c'era: $a"
+          done
