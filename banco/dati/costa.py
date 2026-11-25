@@ -33,6 +33,18 @@ AREE = {
     "corsica-nord": (42.45, 43.10, 8.25, 9.65),   # fino a 8,25 E per la boa di Calvi
     "monaco": (43.45, 43.85, 7.15, 8.00),
     "cicladi": (36.85, 37.70, 24.85, 25.65),
+    # 25/11 pomeriggio: le altre aree di Lens nell'app (gli stessi riquadri di lens/aree.py)
+    "venezia": (45.15, 45.60, 12.10, 12.75),
+    "kvarner": (44.40, 45.35, 14.00, 15.05),
+    "kornati": (43.55, 44.30, 14.85, 15.75),
+    "dalmazia": (42.85, 43.55, 15.95, 17.25),
+    "maiorca": (39.05, 40.03, 2.22, 3.57),
+    "minorca": (39.70, 40.15, 3.50, 4.45),
+    "ibiza": (38.55, 39.18, 1.08, 1.78),
+    "pireo": (37.45, 38.00, 23.55, 24.55),
+    "saronico": (37.15, 37.95, 22.75, 23.75),
+    "capi": (36.10, 36.90, 22.20, 23.30),
+    "ionio": (37.95, 38.95, 20.30, 21.20),
 }
 
 # I prodotti SAR del Mediterraneo (manuale CMEMS-WIND-PUM-012-100); i dataset si cercano dentro.
