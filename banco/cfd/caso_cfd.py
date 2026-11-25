@@ -1,7 +1,7 @@
 """Un caso di fluidodinamica vera (OpenFOAM, RANS k-epsilon, aria neutra) sul rilievo di un atlante di Lens, per
 confrontarlo con Lens (conservazione della massa) su una direzione del vento.
 
-  python3 caso_cfd.py <atlante .lna> <cartella del caso> --centro LAT,LON --da GRADI [--vento M/S]
+  python3 caso_cfd.py <atlante .lna, o terreno .npz di terreno_cfd.py> <cartella del caso> --centro LAT,LON --da GRADI [--vento M/S]
          [--x -14,10] [--y -10,8] [--dx 150] [--alto 3000] [--strati 30] [--primo 10]
 
 Il dominio è ruotato: l'asse x va dove va il vento (ingresso a ovest per un vento da ovest), y a sinistra. Il rilievo e
@@ -22,6 +22,9 @@ import numpy as np
 
 
 def leggi_atlante(p):
+    if p.endswith(".npz"):                      # terreno di un sito (terreno_cfd.py)
+        z = np.load(p)
+        return dict(h=z["h"].astype("f8"), z0=z["z0"].astype("f8"), mare=z["mare"].astype(bool), lat=z["lat"], lon=z["lon"])
     b = gzip.open(p).read(); o = 4
     NX, NY, nx, ny, m, k = struct.unpack_from("<6i", b, o); o += 24
     S, N, O, E, s, n, w, e = struct.unpack_from("<8d", b, o); o += 64
