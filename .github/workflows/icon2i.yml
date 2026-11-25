@@ -1,0 +1,42 @@
+# Storia di ICON-2I (Open-Meteo, archivio aperto su AWS) sulle aree del banco di Lens, nelle ore dei passaggi del radar.
+name: icon2i
+on:
+  workflow_dispatch:
+    inputs:
+      aree: {description: "aree separate da virgole", default: "palermo"}
+      da: {description: "primo giorno AAAA-MM-GG", default: "2025-04-10"}
+      a: {description: "ultimo giorno AAAA-MM-GG (vuoto = oggi)", default: ""}
+      ore: {description: "ore UTC da tenere", default: "4,5,6,16,17,18"}
+permissions:
+  contents: write
+jobs:
+  prepara:
+    runs-on: ubuntu-latest
+    outputs:
+      aree: ${{ steps.m.outputs.aree }}
+    steps:
+      - id: m
+        run: |
+          echo "aree=$(echo '${{ github.event.inputs.aree }}' | python3 -c 'import sys,json; print(json.dumps(sys.stdin.read().strip().split(",")))')" >> $GITHUB_OUTPUT
+  area:
+    needs: prepara
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        area: ${{ fromJson(needs.prepara.outputs.aree) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -q omfiles fsspec aiohttp requests numpy
+      - run: |
+          A="${{ github.event.inputs.a }}"
+          python banco/dati/icon2i_storia.py --aree ${{ matrix.area }} --da ${{ github.event.inputs.da }} --a ${A:-$(date -u +%F)} --ore "${{ github.event.inputs.ore }}" --out icon2i
+          ls -la icon2i
+      - env: {GH_TOKEN: "${{ github.token }}"}
+        run: |
+          gh release view icon2i-storia > /dev/null 2>&1 || gh release create icon2i-storia --title "Storia di ICON-2I per il banco" --notes "Open-Meteo (CC BY 4.0), modello ItaliaMeteo-Arpae ICON-2I: vento a 10 m nelle ore dei passaggi del radar, ritagliato sulle aree del banco di Lens." || true
+          gh release upload icon2i-storia icon2i/* --clobber
