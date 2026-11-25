@@ -3,7 +3,7 @@ name: stazioni
 on:
   workflow_dispatch:
     inputs:
-      modo: {description: "isd, francia, sonda (anche più di uno, separati da spazi)", default: "ghcnh rmn francia"}
+      modo: {description: "ghcnh, rmn, iem, francia, sonda (anche più di uno, separati da spazi)", default: "ghcnh rmn iem francia sonda"}
 permissions:
   contents: write
 jobs:

@@ -134,6 +134,7 @@ def isd(out):
 # ---------------------------------------------------------------- NOAA GHCNh (ha preso il posto di ISD nel 2025)
 
 GH = "https://www.ncei.noaa.gov/oa/global-historical-climatology-network/hourly"
+BUONI = ("", "0", "1", "4", "5", "9")      # codici di qualità ereditati da ISD che vogliono dire "controllo passato"
 
 
 def ghcnh(out):
@@ -178,7 +179,7 @@ def ghcnh(out):
                 if not ff:
                     continue
                 q = (r.get("wind_speed_Quality_Code") or "").strip()
-                if q:
+                if q not in BUONI:
                     scartate[q] = scartate.get(q, 0) + 1; continue
                 try:
                     t = time.mktime((int(r["Year"]), int(r["Month"]), int(r["Day"]), int(r["Hour"]), int(r["Minute"] or 0),
@@ -190,14 +191,14 @@ def ghcnh(out):
                 dd = (r.get("wind_direction") or "").strip()
                 qd = (r.get("wind_direction_Quality_Code") or "").strip()
                 try:
-                    d = float(dd) if dd and not qd else np.nan
+                    d = float(dd) if dd and qd in BUONI else np.nan
                 except ValueError:
                     d = np.nan
                 if np.isfinite(d) and (d < 0 or d > 360):
                     d = np.nan
                 gg = (r.get("wind_gust") or "").strip()
                 try:
-                    g = float(gg) if gg and not (r.get("wind_gust_Quality_Code") or "").strip() else np.nan
+                    g = float(gg) if gg and (r.get("wind_gust_Quality_Code") or "").strip() in BUONI else np.nan
                 except ValueError:
                     g = np.nan
                 try:
@@ -234,8 +235,7 @@ GRAPH <https://w3id.org/italia/env/ld/rmn/> {
 ?coll ispra-top:isPartOf <https://w3id.org/italia/env/ld/rmn/dataset>; ispra-top:isCollectionOf ?place . }
 ?place rdfs:label ?placelabel.
 FILTER (str(?labelpar) = "Wind")
-FILTER (langMatches(lang(?placelabel),"it")) FILTER (langMatches(lang(?station),"it"))
-FILTER (?endtime >= "%s"^^xsd:dateTime) } ORDER BY ?csvUrl"""
+FILTER (langMatches(lang(?placelabel),"it")) FILTER (langMatches(lang(?station),"it")) } ORDER BY ?csvUrl"""
 
 
 def sparql(q):
@@ -258,10 +258,15 @@ def rmn(out):
         pos[r["stat"]] = (r["statname"], r["network"], lat, lon, area_di(lat, lon))
     log(f"RMN/RON/RMLV: {len(pos)} piattaforme; nelle aree: "
         f"{sorted(set((v[0], v[4]) for v in pos.values() if v[4]))}")
-    righe = sparql(Q_VENTO % (DA + "T00:00:00Z"))
+    righe = sparql(Q_VENTO)
     if righe is None:
         log("SPARQL del vento non riuscito"); return
-    log(f"file del vento dal {DA}: {len(righe)}; esempio {righe[:2]}")
+    fine = {}
+    for r in righe:
+        fine[r["station"]] = max(fine.get(r["station"], ""), r["endtime"])
+    log(f"file del vento in tutto: {len(righe)}; ultima data per stazione: {fine}; esempio {righe[:2]}")
+    righe = [r for r in righe if r["endtime"] >= DA]
+    log(f"file del vento dal {DA}: {len(righe)}")
     scelte, serie = {}, {}
     for r in righe:
         p = pos.get(r["stat"])
@@ -304,6 +309,53 @@ def rmn(out):
     json.dump(list(scelte.values()), open(os.path.join(out, "stazioni_rmn.json"), "w"), indent=1, ensure_ascii=False)
 
 
+# ---------------------------------------------------------------- IEM (Iowa State): METAR degli aeroporti
+
+AEROPORTI = {"palermo": ["LICJ"], "egadi": ["LICT"], "messina": ["LICR"], "malta": ["LMML"], "napoli": ["LIRN"],
+             "cagliari": ["LIEE"], "maddalena-bonifacio": ["LIEO", "LFKF"], "toscano": ["LIRJ", "LIRS"], "genova": ["LIMJ"],
+             "corsica-nord": ["LFKB", "LFKC"], "monaco": ["LFMN", "LFMD"], "cicladi": ["LGMK", "LGNX", "LGPA", "LGSO"]}
+KN = 0.514444
+
+
+def iem(out):
+    oggi = time.gmtime()
+    scelte = []
+    for area, codici in AEROPORTI.items():
+        for c in codici:
+            q = urllib.parse.urlencode([("station", c), ("data", "drct"), ("data", "sknt"), ("data", "gust"),
+                                        ("year1", DA[:4]), ("month1", int(DA[5:7])), ("day1", int(DA[8:10])),
+                                        ("year2", oggi.tm_year), ("month2", oggi.tm_mon), ("day2", oggi.tm_mday),
+                                        ("tz", "Etc/UTC"), ("format", "onlycomma"), ("latlon", "yes"), ("elev", "yes"),
+                                        ("missing", "M"), ("trace", "T"), ("direct", "no"), ("report_type", "3"), ("report_type", "4")])
+            b = scarica("https://mesonet.agron.iastate.edu/cgi-bin/request/asos.py?" + q, tentativi=3, attesa=20)
+            time.sleep(5)                     # IEM chiede di non affollare il servizio
+            if not b:
+                log(f"  {c}: nessuna risposta"); continue
+            T, D, V, G = [], [], [], []
+            lat = lon = quota = np.nan
+            for r in csv.DictReader(io.StringIO(b.decode("utf-8", errors="replace"))):
+                try:
+                    t = time.mktime(time.strptime(r["valid"][:16], "%Y-%m-%d %H:%M")) - time.timezone
+                    v = float(r["sknt"]) * KN
+                except (ValueError, KeyError):
+                    continue
+                try:
+                    lat, lon, quota = float(r["lat"]), float(r["lon"]), float(r.get("elevation") or "nan")
+                except (ValueError, KeyError):
+                    pass
+                d = float(r["drct"]) if r.get("drct") not in (None, "", "M") else np.nan
+                g = float(r["gust"]) * KN if r.get("gust") not in (None, "", "M") else np.nan
+                T.append(t); D.append(d if v > 0 else np.nan); V.append(v); G.append(g)
+            if not T:
+                log(f"  {c}: nessun dato"); continue
+            s_ = dict(codice=c, nome=c, lat=lat, lon=lon, quota=quota, area=area)
+            s_["misure"] = salva(out, "iem", c, np.array(T, float), np.array(D, np.float32), np.array(V, np.float32),
+                                 np.array(G, np.float32), np.array(["METAR"] * len(T)))
+            log(f"  {c} ({area}) {lat:.3f} {lon:.3f}: {s_['misure']} misure")
+            scelte.append(s_)
+    json.dump(scelte, open(os.path.join(out, "stazioni_iem.json"), "w"), indent=1, ensure_ascii=False)
+
+
 # ---------------------------------------------------------------- Météo-France (orarie)
 
 def francia(out, dipartimenti=("20", "06")):
@@ -327,8 +379,9 @@ def francia(out, dipartimenti=("20", "06")):
     for r in ris:
         if any(f"_{d}_" in r["title"] for d in dipartimenti):
             log(f"risorsa: {r['title']}  {r['url']}")
-    scelte = [r for r in ris if any(f"H_{d}_" in r["title"] for d in dipartimenti)
-              and r["title"].endswith(".csv.gz") and re.search(r"(latest|2024|2025|2026)", r["title"])]
+    scelte = [r for r in ris if any(f"/H_{d}_" in r["url"] for d in dipartimenti)
+              and r["url"].endswith(".csv.gz") and re.search(r"(latest|previous-2020)", r["url"])]
+    log(f"file scelti: {[r['url'] for r in scelte]}")
     t0 = DA.replace("-", "") + "00"
     serie, info = {}, {}
     for r in scelte:
@@ -372,6 +425,9 @@ def francia(out, dipartimenti=("20", "06")):
 # ---------------------------------------------------------------- sonda delle altre fonti
 
 SONDE = {
+    "meteonetwork_v3_a.html": "https://api.meteonetwork.it/v3/docs",
+    "meteonetwork_v3_b.html": "https://api.meteonetwork.it/docs/v3",
+    "meteonetwork_api_pagina.html": "https://www.meteonetwork.it/api/",
     "meteonetwork_docs.html": "http://api.meteonetwork.it/docs/",
     "meteonetwork_stazioni_senza_chiave.txt": "https://api.meteonetwork.it/v3/stations",
     "ispra_lod.html": "https://dati.isprambiente.it/?p=33",
@@ -401,6 +457,7 @@ if __name__ == "__main__":
     ap.add_argument("--francia", action="store_true")
     ap.add_argument("--ghcnh", action="store_true")
     ap.add_argument("--rmn", action="store_true")
+    ap.add_argument("--iem", action="store_true")
     ap.add_argument("--sonda", action="store_true")
     ap.add_argument("--out", default="stazioni")
     a = ap.parse_args()
@@ -414,7 +471,10 @@ if __name__ == "__main__":
             ghcnh(a.out)
         if a.rmn:
             rmn(a.out)
+        if a.iem:
+            iem(a.out)
         if a.francia:
             francia(a.out)
     finally:
-        open(os.path.join(a.out, f"registro_{int(time.time())}.txt"), "w").write("\n".join(LOG))
+        modi = "_".join(k for k in ("sonda", "isd", "ghcnh", "rmn", "iem", "francia") if getattr(a, k))
+        open(os.path.join(a.out, f"registro_{modi}.txt"), "w").write("\n".join(LOG))
