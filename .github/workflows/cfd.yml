@@ -1,0 +1,60 @@
+# CFD vera (OpenFOAM, RANS k-epsilon, aria neutra) sul rilievo di un atlante di Lens, una direzione del vento per
+# macchina: il vento a 10 m sulla griglia dell'atlante (banco/cfd). Prima prova: i golfi di Palermo e Mondello.
+name: cfd
+on:
+  workflow_dispatch:
+    inputs:
+      area: {description: "area di Lens (l'atlante va nella release lens-atlante)", default: "palermo"}
+      centro: {description: "centro del dominio lat,lon", default: "38.160,13.390"}
+      direzioni: {description: "direzioni di provenienza, separate da virgole", default: "0,22.5,45,67.5,90,112.5,135,157.5,180,202.5,225,247.5,270,292.5,315,337.5"}
+      x: {description: "dominio lungo il vento, km", default: "-16,16"}
+      y: {description: "dominio di traverso, km", default: "-16,16"}
+      dx: {description: "maglia orizzontale, m", default: "150"}
+      iter: {description: "iterazioni", default: "1000"}
+permissions:
+  contents: write
+jobs:
+  prepara:
+    runs-on: ubuntu-latest
+    outputs: {direzioni: "${{ steps.m.outputs.d }}"}
+    steps:
+      - id: m
+        run: echo "d=$(echo '${{ github.event.inputs.direzioni }}' | python3 -c 'import sys,json; print(json.dumps([x.strip() for x in sys.stdin.read().split(",") if x.strip()]))')" >> $GITHUB_OUTPUT
+  cfd:
+    needs: prepara
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix:
+        da: ${{ fromJson(needs.prepara.outputs.direzioni) }}
+    env:
+      WM_PROJECT_DIR: /usr/share/openfoam
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          sudo apt-get update -q && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -q openfoam > /dev/null
+          pip install -q numpy matplotlib
+      - name: atlante
+        run: gh release download lens-atlante -p "atlante_${{ github.event.inputs.area }}.lna" -D atl
+      - name: caso
+        run: |
+          A=atl/atlante_${{ github.event.inputs.area }}.lna; C=caso
+          ARGS="--centro ${{ github.event.inputs.centro }} --da ${{ matrix.da }} --x=${{ github.event.inputs.x }} --y=${{ github.event.inputs.y }} --dx ${{ github.event.inputs.dx }} --iter ${{ github.event.inputs.iter }} --processori 4"
+          python3 banco/cfd/caso_cfd.py $A $C $ARGS
+          (cd $C && blockMesh > log.blockMesh)
+          python3 banco/cfd/caso_cfd.py $A $C $ARGS --solo-punti
+          (cd $C && checkMesh > log.checkMesh; grep -E "cells:|non-orthogonality Max|Mesh OK|Failed" log.checkMesh)
+      - name: calcolo
+        run: |
+          cd caso && decomposePar > log.decompose && mpirun --oversubscribe -np 4 simpleFoam -parallel > log.simpleFoam 2>&1 || true
+          tail -5 log.simpleFoam; reconstructPar -latestTime > log.reconstruct; ls
+      - name: campo e pubblicazione
+        run: |
+          n=cfd_${{ github.event.inputs.area }}_$(printf '%05.1f' ${{ matrix.da }}).npz
+          python3 banco/cfd/campo_cfd.py atl/atlante_${{ github.event.inputs.area }}.lna caso $n --centro ${{ github.event.inputs.centro }} --da ${{ matrix.da }}
+          cp caso/log.simpleFoam log_$n.txt
+          gh release view cfd-${{ github.event.inputs.area }} > /dev/null 2>&1 || gh release create cfd-${{ github.event.inputs.area }} --title "CFD su ${{ github.event.inputs.area }}" --notes "OpenFOAM, RANS k-epsilon, aria neutra: vento a 10 m per 1 m/s all'ingresso, una direzione per file, sulla griglia dell'atlante di Lens." || true
+          gh release upload cfd-${{ github.event.inputs.area }} $n log_$n.txt --clobber
