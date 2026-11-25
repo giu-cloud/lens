@@ -1,0 +1,18 @@
+# Pubblica le librerie di Lens 2 (librerie/lra1) nella release librerie-lra1, scaricabili senza credenziali.
+name: librerie
+on:
+  workflow_dispatch:
+  push:
+    paths: [librerie/**]
+permissions:
+  contents: write
+jobs:
+  pubblica:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - env: {GH_TOKEN: "${{ github.token }}"}
+        run: |
+          gh release view librerie-lra1 > /dev/null 2>&1 || gh release create librerie-lra1 --title "Lens 2: librerie degli analoghi del radar (LRA1)" --notes "Una libreria per area e modello. Dati: E.U. Copernicus Marine Service (vento SAR dei Sentinel-1), ECMWF open data (CC BY 4.0), Open-Meteo ICON-2I di ItaliaMeteo-Arpae (CC BY 4.0). Formato e metodo: banco/strumenti/libreria_radar.py; indice in indice.json."
+          tar cf librerie-lra1.tar -C librerie/lra1 .
+          gh release upload librerie-lra1 librerie/lra1/indice.json librerie-lra1.tar --clobber

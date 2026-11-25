@@ -1,0 +1,416 @@
+{
+ "formato": "LRA1",
+ "costruite": "2026-11-25",
+ "radar_fino_a": "2026-11-24",
+ "pesi_insieme": {
+  "ecmwf": 0.7,
+  "icon-2i": 0.3
+ },
+ "librerie": [
+  {
+   "file": "lra1_ecmwf_cagliari.lra",
+   "area": "cagliari",
+   "modello": "ecmwf",
+   "celle": 1462,
+   "passaggi": 368,
+   "byte": 342678,
+   "sha256": "a024c7c5cf323aa59b28cd3ea10572c076848ec98f1bebd472cf65e2d13dd879",
+   "riquadro": [
+    38.85,
+    39.246,
+    8.856,
+    9.648
+   ]
+  },
+  {
+   "file": "lra1_ecmwf_cicladi.lra",
+   "area": "cicladi",
+   "modello": "ecmwf",
+   "celle": 3596,
+   "passaggi": 390,
+   "byte": 925283,
+   "sha256": "a0874c5682cb07dc14d8a014cae464db0ec5f02f28fdca71b2d961abb9ca42cc",
+   "riquadro": [
+    36.858,
+    37.6978,
+    24.852,
+    25.6441
+   ]
+  },
+  {
+   "file": "lra1_ecmwf_corsica-nord.lra",
+   "area": "corsica-nord",
+   "modello": "ecmwf",
+   "celle": 2680,
+   "passaggi": 381,
+   "byte": 690291,
+   "sha256": "931c7074323fd7ed1415e016c0872973d1309979dc4f4894f47c209147ca3e6b",
+   "riquadro": [
+    42.45,
+    43.0981,
+    8.508,
+    9.648
+   ]
+  },
+  {
+   "file": "lra1_ecmwf_egadi.lra",
+   "area": "egadi",
+   "modello": "ecmwf",
+   "celle": 1587,
+   "passaggi": 380,
+   "byte": 461421,
+   "sha256": "2d6006a517d089b9789435c08ce52b6b0edd786872321176d51058bcf6a17c6a",
+   "riquadro": [
+    37.71,
+    38.142,
+    11.952,
+    12.6
+   ]
+  },
+  {
+   "file": "lra1_ecmwf_eolie.lra",
+   "area": "eolie",
+   "modello": "ecmwf",
+   "celle": 4885,
+   "passaggi": 330,
+   "byte": 717484,
+   "sha256": "6f80289bd5a3b46603de6310f9438e7c5af930e2e9018c307ea8815b2bb0b6a0",
+   "riquadro": [
+    38.01,
+    38.8501,
+    14.256,
+    15.3
+   ]
+  },
+  {
+   "file": "lra1_ecmwf_genova.lra",
+   "area": "genova",
+   "modello": "ecmwf",
+   "celle": 2047,
+   "passaggi": 338,
+   "byte": 461582,
+   "sha256": "20089fb37c712e37f9c65c8b04031acd7576c402737f946907727a0c4e5b939c",
+   "riquadro": [
+    44.01,
+    44.466,
+    8.4,
+    9.492
+   ]
+  },
+  {
+   "file": "lra1_ecmwf_maddalena-bonifacio.lra",
+   "area": "maddalena-bonifacio",
+   "modello": "ecmwf",
+   "celle": 1574,
+   "passaggi": 296,
+   "byte": 405357,
+   "sha256": "1dc47246b20d64b0d0e6c4205d03cfc174a6fa296670c44342020ea2b36ede53",
+   "riquadro": [
+    41.01,
+    41.49,
+    8.952,
+    9.744
+   ]
+  },
+  {
+   "file": "lra1_ecmwf_malta.lra",
+   "area": "malta",
+   "modello": "ecmwf",
+   "celle": 2097,
+   "passaggi": 267,
+   "byte": 414659,
+   "sha256": "7e9916301dbf1c6fc0ed68dc471bce6afca77a51ac100e5c66c360512d61874a",
+   "riquadro": [
+    35.682,
+    36.198,
+    14.052,
+    14.748
+   ]
+  },
+  {
+   "file": "lra1_ecmwf_messina.lra",
+   "area": "messina",
+   "modello": "ecmwf",
+   "celle": 583,
+   "passaggi": 279,
+   "byte": 135250,
+   "sha256": "70bb327e8ec74ab74729757a900a848d8933efddb131d8360a8d7c20070f716e",
+   "riquadro": [
+    37.902,
+    38.346,
+    15.408,
+    15.744
+   ]
+  },
+  {
+   "file": "lra1_ecmwf_monaco.lra",
+   "area": "monaco",
+   "modello": "ecmwf",
+   "celle": 1406,
+   "passaggi": 280,
+   "byte": 220533,
+   "sha256": "ab8e7af2d887605084d1717f6f6e103d644e60d2fd5bfa803e22737ac157e14a",
+   "riquadro": [
+    43.458,
+    43.842,
+    7.152,
+    7.992
+   ]
+  },
+  {
+   "file": "lra1_ecmwf_napoli.lra",
+   "area": "napoli",
+   "modello": "ecmwf",
+   "celle": 1504,
+   "passaggi": 345,
+   "byte": 388168,
+   "sha256": "5280bc94c7e61e3b436ca099697e06139bcdec35f0af06b1a6606b809fa4939d",
+   "riquadro": [
+    40.506,
+    40.89,
+    13.8,
+    14.616
+   ]
+  },
+  {
+   "file": "lra1_ecmwf_palermo.lra",
+   "area": "palermo",
+   "modello": "ecmwf",
+   "celle": 500,
+   "passaggi": 197,
+   "byte": 93169,
+   "sha256": "f8e2c0af4b33adca055cfa4ca83092f28a25379e88673ef2978ecd8353b6d4a8",
+   "riquadro": [
+    37.95,
+    38.286,
+    13.116,
+    13.608
+   ]
+  },
+  {
+   "file": "lra1_ecmwf_pontine.lra",
+   "area": "pontine",
+   "modello": "ecmwf",
+   "celle": 3675,
+   "passaggi": 352,
+   "byte": 721787,
+   "sha256": "0e1e45eb46fa98a59702e903eb6807ea1f71ea30deabe534660d078d7fc0f283",
+   "riquadro": [
+    40.71,
+    41.3101,
+    12.708,
+    13.644
+   ]
+  },
+  {
+   "file": "lra1_ecmwf_toscano.lra",
+   "area": "toscano",
+   "modello": "ecmwf",
+   "celle": 7908,
+   "passaggi": 376,
+   "byte": 1625504,
+   "sha256": "bb74886dcecbd94739d91cecd87e133280746dee9d74f1295fc151be0b40acc4",
+   "riquadro": [
+    42.21,
+    43.3501,
+    9.756,
+    11.292
+   ]
+  },
+  {
+   "file": "lra1_icon-2i_cagliari.lra",
+   "area": "cagliari",
+   "modello": "icon-2i",
+   "celle": 1457,
+   "passaggi": 272,
+   "byte": 305920,
+   "sha256": "68fdd40614a6c8e34bfb32ea03c6d4cc964d12ee32da5df49fbbcb3957f27c32",
+   "riquadro": [
+    38.85,
+    39.246,
+    8.856,
+    9.648
+   ]
+  },
+  {
+   "file": "lra1_icon-2i_corsica-nord.lra",
+   "area": "corsica-nord",
+   "modello": "icon-2i",
+   "celle": 2663,
+   "passaggi": 284,
+   "byte": 563973,
+   "sha256": "8f6e92ce75f85154a74d394833a82c41a9aba656ee1e6a29752840065b09c478",
+   "riquadro": [
+    42.45,
+    43.0981,
+    8.508,
+    9.648
+   ]
+  },
+  {
+   "file": "lra1_icon-2i_egadi.lra",
+   "area": "egadi",
+   "modello": "icon-2i",
+   "celle": 1583,
+   "passaggi": 284,
+   "byte": 403966,
+   "sha256": "787f229efbf329b9bb5b93f4c4e23bdc9e09ec1cdc486e4dd821c10a80250c47",
+   "riquadro": [
+    37.71,
+    38.142,
+    11.952,
+    12.6
+   ]
+  },
+  {
+   "file": "lra1_icon-2i_eolie.lra",
+   "area": "eolie",
+   "modello": "icon-2i",
+   "celle": 4876,
+   "passaggi": 235,
+   "byte": 649131,
+   "sha256": "32fc85bf4ae9bb7f8768e039402eaf7fd87c259fa56be39e84c819f36a039abd",
+   "riquadro": [
+    38.01,
+    38.8501,
+    14.256,
+    15.3
+   ]
+  },
+  {
+   "file": "lra1_icon-2i_genova.lra",
+   "area": "genova",
+   "modello": "icon-2i",
+   "celle": 2022,
+   "passaggi": 251,
+   "byte": 410268,
+   "sha256": "52ddc1933f6ebac72047d62c60ec27305cbd58c58cc771b6fe69ecde6ddfcbd4",
+   "riquadro": [
+    44.01,
+    44.466,
+    8.4,
+    9.492
+   ]
+  },
+  {
+   "file": "lra1_icon-2i_maddalena-bonifacio.lra",
+   "area": "maddalena-bonifacio",
+   "modello": "icon-2i",
+   "celle": 1568,
+   "passaggi": 224,
+   "byte": 350054,
+   "sha256": "4a92061b68a32936338d5684beb3f72272014dbb857f007b56d675217dd1214d",
+   "riquadro": [
+    41.01,
+    41.49,
+    8.952,
+    9.744
+   ]
+  },
+  {
+   "file": "lra1_icon-2i_malta.lra",
+   "area": "malta",
+   "modello": "icon-2i",
+   "celle": 2094,
+   "passaggi": 206,
+   "byte": 371635,
+   "sha256": "90f682947f69cafe037d7f699ff7f0c30ca05b277e1f15b94ea627ad302e85b5",
+   "riquadro": [
+    35.682,
+    36.198,
+    14.052,
+    14.748
+   ]
+  },
+  {
+   "file": "lra1_icon-2i_messina.lra",
+   "area": "messina",
+   "modello": "icon-2i",
+   "celle": 580,
+   "passaggi": 209,
+   "byte": 129825,
+   "sha256": "1a2e722cea7a87900fee3ec0c2f1f9a8efd8f8c0a3e9185660e2d2b22067e55b",
+   "riquadro": [
+    37.902,
+    38.346,
+    15.408,
+    15.744
+   ]
+  },
+  {
+   "file": "lra1_icon-2i_monaco.lra",
+   "area": "monaco",
+   "modello": "icon-2i",
+   "celle": 1389,
+   "passaggi": 209,
+   "byte": 185877,
+   "sha256": "424bf2e821f1a8ded7b18d262edc1319ddacfc376952add01d36c0358adbfbe8",
+   "riquadro": [
+    43.458,
+    43.842,
+    7.152,
+    7.992
+   ]
+  },
+  {
+   "file": "lra1_icon-2i_napoli.lra",
+   "area": "napoli",
+   "modello": "icon-2i",
+   "celle": 1495,
+   "passaggi": 263,
+   "byte": 344926,
+   "sha256": "3ee9fc4cf467f53bdb319a14eedcfec957aaa4667f35ceb04de1ade11e36c7cb",
+   "riquadro": [
+    40.506,
+    40.89,
+    13.8,
+    14.616
+   ]
+  },
+  {
+   "file": "lra1_icon-2i_palermo.lra",
+   "area": "palermo",
+   "modello": "icon-2i",
+   "celle": 498,
+   "passaggi": 145,
+   "byte": 80606,
+   "sha256": "744e4b968a84ce954e3273bc406aca8563ac53ebeef66fb577ab6d3a3101cdf0",
+   "riquadro": [
+    37.95,
+    38.286,
+    13.116,
+    13.608
+   ]
+  },
+  {
+   "file": "lra1_icon-2i_pontine.lra",
+   "area": "pontine",
+   "modello": "icon-2i",
+   "celle": 3669,
+   "passaggi": 265,
+   "byte": 635465,
+   "sha256": "ed518eb5f3796ac6fc9384e7a538b393930bee1319ccef7c35be238b2d18c952",
+   "riquadro": [
+    40.71,
+    41.3101,
+    12.708,
+    13.644
+   ]
+  },
+  {
+   "file": "lra1_icon-2i_toscano.lra",
+   "area": "toscano",
+   "modello": "icon-2i",
+   "celle": 7859,
+   "passaggi": 281,
+   "byte": 1426608,
+   "sha256": "77fb72f1599a6bff6b0372a4b03df81e7e44fb397a94a3b2fc9c05105b307c44",
+   "riquadro": [
+    42.21,
+    43.3501,
+    9.756,
+    11.292
+   ]
+  }
+ ]
+}
