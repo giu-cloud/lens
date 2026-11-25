@@ -1,0 +1,22 @@
+# Pubblica nella release "mappe" le mappe di Shift che servono per leggere i modelli dai soli punti di mare come fa l'app
+# (contorni della costa .rgm e rilievo .rgr, fatti da dati pubblici). Giano, 25/11: "sì, mettilo".
+# Le mappe arrivano su un ramo a parte (da qui non si possono caricare file nelle release): il flusso le prende da lì.
+name: mappe
+on:
+  workflow_dispatch:
+    inputs:
+      ramo: {description: "ramo con le mappe", default: "mappe-caricamento"}
+permissions:
+  contents: write
+jobs:
+  pubblica:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: "${{ github.event.inputs.ramo }}"}
+      - env: {GH_TOKEN: "${{ github.token }}"}
+        run: |
+          ls -la mappe
+          sha256sum mappe/* | tee SHA256SUMS
+          gh release view mappe > /dev/null 2>&1 || gh release create mappe --title "Mappe di Shift" --notes "Contorni della costa (europa.rgm, world.rgm, atlantico.rgm) e rilievo (europa-0a8ea255f235.rgr, atlantico.rgr) di Shift, fatti da dati pubblici: servono al flusso di Lens 2 per leggere i modelli dai soli punti di mare come l'app."
+          gh release upload mappe mappe/* SHA256SUMS --clobber
