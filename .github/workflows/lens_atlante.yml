@@ -18,6 +18,10 @@ on:
         description: "Nome dell'area tracciata"
         required: false
         default: ""
+      dx:
+        description: "Maglia in metri (vuoto = la più fitta che sta in memoria, non sotto 150 m)"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -56,6 +60,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       LENS_AREA: ${{ matrix.box }}
       LENS_ATLANTE_ID: ${{ matrix.id }}
+      LENS_DX: ${{ inputs.dx }}
     steps:
       - uses: actions/checkout@v4
       - run: pip install --quiet numpy scipy pyamg rasterio pillow
