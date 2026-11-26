@@ -1,0 +1,29 @@
+# Corrente di superficie ogni ora (Copernicus Marine, Mediterraneo con le maree) su un riquadro.
+name: correnti
+on:
+  workflow_dispatch:
+    inputs:
+      box: {description: "sud,nord,ovest,est", default: "37.9,38.35,15.4,15.75"}
+      da: {description: "primo giorno", default: "2024-04-01"}
+      a: {description: "ultimo giorno", default: "2026-11-25"}
+      nome: {description: "nome", default: "stretto"}
+permissions:
+  contents: write
+jobs:
+  correnti:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -q copernicusmarine numpy xarray netCDF4 h5netcdf
+      - env: {CMEMS_USER: "${{ secrets.CMEMS_USER }}", CMEMS_PASS: "${{ secrets.CMEMS_PASS }}", BOX: "${{ inputs.box }}", DA: "${{ inputs.da }}", A: "${{ inputs.a }}", NOME: "${{ inputs.nome }}"}
+        run: |
+          python banco/dati/correnti.py --box "$BOX" --da "$DA" --a "$A" --nome "$(printf '%s' "$NOME" | tr -cd 'a-z0-9-')" --out correnti 2>&1 | tail -60
+          ls -la correnti
+      - env: {GH_TOKEN: "${{ github.token }}"}
+        continue-on-error: true
+        run: |
+          gh release view correnti > /dev/null 2>&1 || gh release create correnti --title "Corrente di superficie (Copernicus Marine)" --notes "E.U. Copernicus Marine Service Information: MEDSEA_ANALYSISFORECAST_PHY_006_013, corrente di superficie ogni ora, con le maree."
+          gh release upload correnti correnti/*.npz --clobber
