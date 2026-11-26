@@ -26,7 +26,7 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from rilievo import Rilievo
 
-AREE_TUTTE = ["egadi", "eolie", "palermo", "messina", "malta", "napoli", "cagliari", "maddalena-bonifacio", "toscano", "genova", "pontine", "corsica-nord", "monaco", "cicladi", "venezia", "kvarner", "kornati", "dalmazia", "maiorca", "minorca", "ibiza", "pireo", "saronico", "capi", "ionio"]
+AREE_TUTTE = ["egadi", "eolie", "palermo", "messina", "malta", "napoli", "cagliari", "maddalena-bonifacio", "toscano", "genova", "pontine", "corsica-nord", "monaco", "cicladi", "venezia", "kvarner", "kornati", "dalmazia", "maiorca", "minorca", "ibiza", "pireo", "saronico", "capi", "ionio", "canarie"]
 AREE = os.environ.get("AREE", " ".join(AREE_TUTTE)).split()
 NSET = 16
 PASSO = 0.25
@@ -159,7 +159,7 @@ def main():
     varianti = dict(a.split("=", 1) for a in sys.argv[5:])
     strato = varianti.pop("strato", None)
     stab = varianti.pop("stab", None)
-    ril = Rilievo(ril_p)
+    ril = Rilievo(ril_p) if ril_p != "-" else None   # "-": nessun rilievo (Canarie: le mappe di Shift non ci arrivano)
     righe = {}
     nscena = 0
 
@@ -189,7 +189,7 @@ def main():
         k0 = np.where(okl.sum(axis=1) >= 10, np.nansum(np.where(okl, Rl * Ml, 0), axis=1) /
                       np.maximum(np.nansum(np.where(okl, Ml * Ml, 0), axis=1), 1e-6), np.nan)
         nlargo = okl.sum(axis=1)
-        st, fisse = statiche(lat, lon, ril)
+        st, fisse = statiche(lat, lon, ril) if ril is not None else ({}, {})
         ok = np.isfinite(R) & np.isfinite(M) & (M > VMIN) & (D <= DMAX)
         si, sj, sk = np.nonzero(ok)
         print(f"{area}: {ns} passaggi, {len(si)} celle", flush=True)

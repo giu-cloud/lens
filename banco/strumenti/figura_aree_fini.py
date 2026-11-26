@@ -2,7 +2,7 @@
 Le aree fini sono messe sopra l'area grande come le mette l'app (LensWind una sopra l'altra: raccordo di 1,5 miglia
 sui bordi di ognuna). Campi da banco/cfd/Campi.kt: <pref_fini><id>.bin e <pref_madri><area>.bin, due venti (315°, 270°).
 Uso: python3 figura_aree_fini.py <cartella campi> <pref_fini> <pref_madri> <atlanti fini> <atlanti grandi> <png> <aree,...> <venti: 0,1>"""
-import numpy as np, sys, os, matplotlib; matplotlib.use('Agg'); import matplotlib.pyplot as plt
+import json, numpy as np, sys, os, matplotlib; matplotlib.use('Agg'); import matplotlib.pyplot as plt
 from scipy.interpolate import RegularGridInterpolator
 qui = os.path.dirname(os.path.abspath(__file__))
 sys.path[:0] = [qui, os.path.join(qui, '..', 'cfd'), os.path.join(qui, '..', '..', 'lens')]
@@ -12,6 +12,8 @@ import aree
 C, PF, PM, AF, AG, png, madri, venti = sys.argv[1:9]
 madri = madri.split(','); venti = [int(x) for x in venti.split(',')]
 NOMI_VENTI = ["da 315°", "da 270°"]
+# VENTI=<json {area: [da1, da2]}>: le direzioni con cui sono stati calcolati i campi di quell'area (default 315 e 270)
+VENTI = json.load(open(os.environ["VENTI"])) if os.environ.get("VENTI") else {}
 RACCORDO_KM = 1.5 * 1.852
 def mare_di(p):
     A = leggi_lna(p); m = A['m']; return A['mare'][m:A['NY'] - m, m:A['NX'] - m]
@@ -55,15 +57,16 @@ def riquadro(a, b, **kw):
 righe = [(p, r) for p in madri for r in venti]
 fig, ax = plt.subplots(len(righe), 2, figsize=(22, 8.5 * len(righe)), squeeze=False)
 for i, (p, r) in enumerate(righe):
-    gl, go, F = leggi(f"{C}/{PM}{p}.bin", 2); (u0, v0) = F[r][0]
-    im = pannello(ax[i, 0], gl, go, u0, v0, mare_di(f"{AG}/atlante_{p}.lna"), 2.5)
+    gl, go, F = leggi(f"{C}/{PM}{p}.bin", 2); (u0, v0) = F[r][0] if os.environ.get("SINISTRA") == "0.56" else F[r][1]
+    S_, N_, O_, E_ = aree.AREE[p]; passo = max(1.2, (E_ - O_) * 111.19 * np.cos(np.radians((S_ + N_) / 2)) / 40)
+    im = pannello(ax[i, 0], gl, go, u0, v0, mare_di(f"{AG}/atlante_{p}.lna"), passo)
     la, lo, U, V, M = mosaico(p, r)
-    pannello(ax[i, 1], la, lo, U, V, M, 1.2)
+    pannello(ax[i, 1], la, lo, U, V, M, passo)
     for k in [k for k, q in aree.PADRE.items() if q == p]:
         riquadro(ax[i, 1], aree.FINI[k], color='w', lw=0.8, ls=':')
     S, N, O, E = aree.AREE[p]
-    ax[i, 0].set_title(f"{p}, {NOMI_VENTI[r]}, 15 nodi, Fr 0,7 — Lens 0.56 sull'area grande (quello di oggi)", fontsize=10)
-    ax[i, 1].set_title(f"{p} — Lens 0.57.1: primo Lens a 100 m nelle aree fini (puntini bianchi), raccordate come nell'app", fontsize=10)
+    ax[i, 0].set_title(f"{p}, {('da %g°' % VENTI[p][r]) if p in VENTI else NOMI_VENTI[r]}, 15 nodi inventati, aria stabile — Lens sull'area grande, maglia grossa" if os.environ.get("SINISTRA") != "0.56" else "15 nodi, Fr 0,7 — Lens 0.56 sull'area grande", fontsize=10)
+    ax[i, 1].set_title(f"{p} — lo stesso Lens con le aree fini (puntini bianchi), raccordate come nell'app", fontsize=10)
     for a in ax[i]:
         a.set_xlim(O, E); a.set_ylim(S, N); a.set_aspect(1 / np.cos(np.radians((S + N) / 2)))
 plt.colorbar(im, ax=ax.ravel().tolist(), shrink=0.4, label='nodi', pad=0.01)

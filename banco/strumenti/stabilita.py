@@ -25,7 +25,7 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from rilievo import Rilievo
 
-AREE = ["egadi", "eolie", "palermo", "messina", "malta", "napoli", "cagliari", "maddalena-bonifacio", "toscano", "genova", "pontine", "corsica-nord", "monaco", "cicladi", "venezia", "kvarner", "kornati", "dalmazia", "maiorca", "minorca", "ibiza", "pireo", "saronico", "capi", "ionio"]
+AREE = ["egadi", "eolie", "palermo", "messina", "malta", "napoli", "cagliari", "maddalena-bonifacio", "toscano", "genova", "pontine", "corsica-nord", "monaco", "cicladi", "venezia", "kvarner", "kornati", "dalmazia", "maiorca", "minorca", "ibiza", "pireo", "saronico", "capi", "ionio", "canarie"]
 NOMI = ["sst", "dTam", "dT925", "dT850", "terra_mare", "taglio", "raff", "v925", "d925", "v850", "d850", "umid"]
 
 
@@ -77,7 +77,21 @@ def main():
     cart, metro, ril_p, usc = sys.argv[1:5]
     vento = sys.argv[5] if len(sys.argv) > 5 else None
     os.makedirs(usc, exist_ok=True)
-    ril = Rilievo(ril_p)
+    if ril_p.endswith(".lna"):                       # 26/11: le Canarie, dove le mappe di Shift non arrivano, dal rilievo dell'atlante
+        from controlla_atlante import leggi as leggi_lna
+
+        class _DaAtlante:
+            def __init__(self, p):
+                A = leggi_lna(p); S, N, O, E = A["dominio"]
+                self.h = A["h"].reshape(A["NY"], A["NX"]) if A["h"].ndim == 1 else A["h"]
+                self.lat = N - (np.arange(A["NY"]) + 0.5) * (N - S) / A["NY"]; self.lon = O + (np.arange(A["NX"]) + 0.5) * (E - O) / A["NX"]
+
+            def griglia(self, lv, s, n, w, e):
+                jj = np.nonzero((self.lat >= s) & (self.lat <= n))[0]; ii = np.nonzero((self.lon >= w) & (self.lon <= e))[0]
+                return self.lat[jj], self.lon[ii], self.h[np.ix_(jj, ii)]
+        ril = _DaAtlante(ril_p)
+    else:
+        ril = Rilievo(ril_p)
     disp = set(os.listdir(cart))
     cache = {}
     for area in AREE:

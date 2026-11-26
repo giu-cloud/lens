@@ -21,7 +21,7 @@ import time
 import numpy as np
 
 KN = 1.943844
-AREE = ["egadi", "eolie", "palermo", "messina", "malta", "napoli", "cagliari", "maddalena-bonifacio", "toscano", "genova", "pontine", "corsica-nord", "monaco", "cicladi", "venezia", "kvarner", "kornati", "dalmazia", "maiorca", "minorca", "ibiza", "pireo", "saronico", "capi", "ionio"]
+AREE = ["egadi", "eolie", "palermo", "messina", "malta", "napoli", "cagliari", "maddalena-bonifacio", "toscano", "genova", "pontine", "corsica-nord", "monaco", "cicladi", "venezia", "kvarner", "kornati", "dalmazia", "maiorca", "minorca", "ibiza", "pireo", "saronico", "capi", "ionio", "canarie"]
 DBIN = [0, 1.5, 3, 5, 10, 99]
 SETTIMANA = 7 * 86400
 NSUB = int(os.environ.get("NSUB", "500000"))
@@ -37,8 +37,9 @@ def carica(p):
     T["y"] = (T["radar"] / T["mod"]).astype("f4")
     for k in [k for k in T if k.startswith("q_") or k.startswith("sw_")]:
         T[k] = np.nan_to_num(T[k], nan=1.0)
-    T["lmin"] = np.minimum(T["lsx"], T["ldx"])
-    T["canale"] = np.minimum(T["lsx"] + T["ldx"], 60.0)
+    if "lsx" in T:                                   # le Canarie non hanno il rilievo di Shift: niente caratteristiche del rilievo
+        T["lmin"] = np.minimum(T["lsx"], T["ldx"])
+        T["canale"] = np.minimum(T["lsx"] + T["ldx"], 60.0)
     T["sera"] = (T["ora"] >= 12).astype("f4")
     T["msin"] = np.sin(2 * np.pi * T["mese"] / 12).astype("f4")
     T["mcos"] = np.cos(2 * np.pi * T["mese"] / 12).astype("f4")
@@ -283,7 +284,10 @@ def misure(T, ix, g, bers):
             out[nome] = float(np.sqrt(max(np.sum(nn[m] * (mu[m] ** 2 - var[m] / nn[m])) / np.sum(nn[m]), 0)))
     # classi del rilievo (entro 10 km): scarto medio
     v = d < 10
-    classi = {
+    if "ang" not in T:                               # senza rilievo (Canarie): solo le classi dell'ora
+        classi = {"sera (17 UTC)": T["sera"][ix] > 0, "mattina (05 UTC)": T["sera"][ix] == 0}
+    else:
+      classi = {
         "ridosso alto (ang>4)": T["ang"][ix] > 4,
         "ridosso medio (1-4)": (T["ang"][ix] > 1) & (T["ang"][ix] <= 4),
         "da terra bassa": (T["terra"][ix] < 29.9) & (T["ang"][ix] <= 1),

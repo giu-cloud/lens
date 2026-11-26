@@ -149,6 +149,15 @@ def main():
         ris["varianti"][nome] = d
         print(f"  {nome:28s} rmse {d['rmse']:.2f}  sist {d['sist']:.2f}  media {d['media']:+.2f}  | <3 km sist "
               f"{d['sist_3km']:.2f} media {d['media_3km']:+.2f}  | disegno {d['disegno']:.2f}", flush=True)
+    if os.environ.get("SETTORI"):
+        # per direzione del vento al largo (8 settori): errore medio entro 3 km, nodi
+        print("  entro 3 km, errore medio per direzione del vento al largo (nodi): settore, righe, " + ", ".join(varianti))
+        sett = (np.round(D0 / 45.0).astype(int) % 8)
+        for k in range(8):
+            m = use & vic & (sett == k)
+            if m.sum() < 200:
+                continue
+            print(f"   da {k * 45:3d}°  {m.sum():6d}  " + "  ".join(f"{np.mean((pred[m] - vero[m]) / 0.5144):+5.2f}" for pred in varianti.values()))
     json.dump(ris, open(uscita, "w"), indent=1)
 
 

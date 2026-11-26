@@ -6,7 +6,7 @@
   "ecmwf": 0.6,
   "icon-2i": 0.4
  },
- "nota": "una libreria vale solo per il suo modello; vale anche per previsioni a 1-2 giorni (prova del 25/11). Aree del 25/11 pomeriggio: Venezia e Maiorca senza libreria ICON-2I (lì peggiorava).",
+ "nota": "una libreria vale solo per il suo modello; vale anche per previsioni a 1-2 giorni (prova del 25/11). Aree del 25/11 pomeriggio: Venezia e Maiorca senza libreria ICON-2I (lì peggiorava). Canarie (26/11): solo ECMWF, dal prodotto radar dell'Atlantico (WIND_ATL_PHY_HR_L3_NRT_012_101), con le corse a 6-9 ore perché i passaggi lì sono alle 07 e alle 19 UTC; sulla cassaforte errore quadratico da 3,74 a 2,95 nodi, sistematico da 1,93 a 0,40, entro 3 km da 2,51 a 0,63.",
  "librerie": [
   {
    "file": "lra1_ecmwf_cagliari.lra",
@@ -21,6 +21,22 @@
     39.246,
     8.856,
     9.648
+   ],
+   "attiva": true
+  },
+  {
+   "file": "lra1_ecmwf_canarie.lra",
+   "area": "canarie",
+   "modello": "ecmwf",
+   "celle": 5924,
+   "passaggi": 495,
+   "byte": 1551043,
+   "sha256": "f3fea565111e883bf0bc2231e248a306812a0222e5f4e6c85c20493aca351935",
+   "riquadro": [
+    27.71,
+    28.6461,
+    -16.946,
+    -15.3021
    ],
    "attiva": true
   },
