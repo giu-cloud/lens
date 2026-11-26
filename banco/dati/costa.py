@@ -45,12 +45,18 @@ AREE = {
     "saronico": (37.15, 37.95, 22.75, 23.75),
     "capi": (36.10, 36.90, 22.20, 23.30),
     "ionio": (37.95, 38.95, 20.30, 21.20),
+    # 26/11: fuori dal Mediterraneo, con il prodotto dell'Atlantico
+    "canarie": (27.70, 28.65, -16.95, -15.30),
 }
+ATLANTICO = {"canarie"}
 
 # I prodotti SAR del Mediterraneo (manuale CMEMS-WIND-PUM-012-100); i dataset si cercano dentro.
 PRODOTTI = ["WIND_MED_PHY_HR_L3_NRT_012_104", "WIND_MED_PHY_HR_L3_MY_012_104"]
 # Se la ricerca non trova niente, questi (gli unici scritti nel manuale).
 NOTI = ["cmems_obs-wind_med_phy_nrt_l3-s1a-sar-asc-0.01deg_P1D-i", "cmems_obs-wind_med_phy_nrt_l3-s1a-sar-desc-0.01deg_P1D-i"]
+# L'Atlantico (Canarie): stesso formato, prodotto NRT come nel Mediterraneo
+PRODOTTI_ATL = ["WIND_ATL_PHY_HR_L3_NRT_012_101"]
+NOTI_ATL = ["cmems_obs-wind_atl_phy_nrt_l3-s1a-sar-asc-0.01deg_P1D-i", "cmems_obs-wind_atl_phy_nrt_l3-s1a-sar-desc-0.01deg_P1D-i"]
 
 LOG = []
 
@@ -88,10 +94,11 @@ def come_dizionario(x):
     return x
 
 
-def descrivi(out):
+def descrivi(out, prodotti=None, noti=None):
+    prodotti = prodotti or PRODOTTI; noti = noti or NOTI
     import copernicusmarine as cm
     trovati, varianti = [], {}
-    for pid in PRODOTTI:
+    for pid in prodotti:
         cat = None
         for kw in (dict(product_id=pid, disable_progress_bar=True), dict(product_id=pid), dict(contains=[pid])):
             try:
@@ -115,7 +122,7 @@ def descrivi(out):
     sar = sorted({i for i in trovati if "sar" in i.lower()})
     if not sar:
         log("nessun dataset SAR dalla ricerca: uso quelli del manuale")
-        sar = NOTI
+        sar = noti
     log("dataset SAR:", ", ".join(sar))
     return sar
 
@@ -172,7 +179,7 @@ def compatta(path, area, did, out):
     ref = next((arr[k] for k in ("wind_speed", "eastward_wind") if k in arr), next(iter(arr.values())))
     ok = np.isfinite(ref).sum(axis=(1, 2)) >= 20
     log(f"{area} {did}: {int(ok.sum())} scene su {len(ok)} giorni")
-    tag = did.replace("cmems_obs-wind_med_phy_", "").replace("-0.01deg_P1D-i", "")
+    tag = did.replace("cmems_obs-wind_med_phy_", "").replace("cmems_obs-wind_atl_phy_", "").replace("-0.01deg_P1D-i", "")
     dst = os.path.join(out, f"costa_{area}_{tag}.npz")
     np.savez_compressed(dst, lat=lat, lon=lon, time=tim[ok], **{k: v[ok] for k, v in arr.items()},
                         meta=np.array(json.dumps({"area": area, "box": AREE[area], "dataset": did,
@@ -192,13 +199,15 @@ def main():
     os.makedirs(o.out, exist_ok=True)
     fatti = []
     try:
-        sar = descrivi(o.out)
+        aree = [x.strip() for x in o.area.split(",") if x.strip()]
+        sar = descrivi(o.out) if (not aree or any(a not in ATLANTICO for a in aree)) else []
+        sar_atl = descrivi(o.out, PRODOTTI_ATL, NOTI_ATL) if any(a in ATLANTICO for a in aree) else []
         if o.area:
-            for area in [x.strip() for x in o.area.split(",") if x.strip()]:
+            for area in aree:
                 if area not in AREE:
                     log(f"area sconosciuta: {area}")
                     continue
-                for did in sar:
+                for did in (sar_atl if area in ATLANTICO else sar):
                     p = scarica(did, area, o.da, o.a, o.out)
                     if p:
                         try:
