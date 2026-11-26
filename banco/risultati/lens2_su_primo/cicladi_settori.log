@@ -1,0 +1,15 @@
+cicladi: 151268 righe della cassaforte, 72 passaggi
+  modello                      rmse 4.61  sist 1.13  media -0.36  | <3 km sist 1.50 media -0.50  | disegno 0.00
+  0.54                         rmse 4.61  sist 1.13  media -0.36  | <3 km sist 1.50 media -0.50  | disegno 0.00
+  primo (terza colonna)        rmse 4.80  sist 1.69  media -0.83  | <3 km sist 2.82 media -1.90  | disegno 1.00
+  lens2 (relativo per cella)   rmse 4.47  sist 0.99  media -0.60  | <3 km sist 1.01 media -0.44  | disegno -0.10
+  scala 30 km                  rmse 4.60  sist 1.20  media -0.28  | <3 km sist 2.08 media -0.96  | disegno 0.65
+  entro 3 km, errore medio per direzione del vento al largo (nodi): settore, righe, modello, 0.54, primo (terza colonna), lens2 (relativo per cella), scala 30 km
+   da   0°   14973  -0.65  -0.65  -2.22  -0.33  -1.05
+   da  45°     634  +0.41  +0.41  -0.03  +0.01  +0.51
+   da  90°     789  -7.71  -7.71  -8.39  -7.54  -7.62
+   da 135°     630  +0.53  +0.53  -1.12  +0.59  +0.39
+   da 180°    2431  -0.06  -0.06  -1.16  -0.51  -0.74
+   da 225°    1685  +0.96  +0.96  -0.46  +0.01  -0.18
+   da 270°     687  +0.01  +0.01  -0.98  -0.58  -0.53
+   da 315°    3647  +0.27  +0.27  -1.01  +0.24  -0.23

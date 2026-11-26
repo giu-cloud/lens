@@ -1,0 +1,8 @@
+genova: 67196 righe della cassaforte, 60 passaggi
+  modello                      rmse 3.92  sist 1.37  media -0.57  | <3 km sist 2.73 media -0.78  | disegno 0.00
+  0.54                         rmse 3.90  sist 1.36  media -0.72  | <3 km sist 2.85 media -1.44  | disegno 0.08
+  primo (terza colonna)        rmse 4.27  sist 2.08  media -1.37  | <3 km sist 5.46 media -4.58  | disegno 1.00
+  lens2 (relativo per cella)   rmse 3.66  sist 0.48  media +0.01  | <3 km sist 1.76 media +0.22  | disegno 0.11
+  scala 30 km                  rmse 3.97  sist 1.39  media -0.05  | <3 km sist 4.31 media -3.13  | disegno 0.76
+  entro 3 km, errore medio per direzione del vento al largo (nodi): settore, righe, modello, 0.54, primo (terza colonna), lens2 (relativo per cella), scala 30 km
+   da   0°     489  -1.09  -2.05  -5.77  +0.13  -3.92

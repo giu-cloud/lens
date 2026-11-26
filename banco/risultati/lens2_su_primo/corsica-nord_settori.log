@@ -1,0 +1,12 @@
+corsica-nord: 102759 righe della cassaforte, 67 passaggi
+  modello                      rmse 4.13  sist 1.20  media -0.18  | <3 km sist 2.18 media -0.10  | disegno 0.00
+  0.54                         rmse 4.13  sist 1.20  media -0.18  | <3 km sist 2.18 media -0.10  | disegno 0.00
+  primo (terza colonna)        rmse 4.53  sist 1.86  media -0.71  | <3 km sist 3.80 media -1.91  | disegno 1.00
+  lens2 (relativo per cella)   rmse 3.73  sist 0.63  media -0.15  | <3 km sist 1.08 media +0.28  | disegno -0.26
+  scala 30 km                  rmse 3.98  sist 1.20  media +0.09  | <3 km sist 2.68 media -0.59  | disegno 0.46
+  entro 3 km, errore medio per direzione del vento al largo (nodi): settore, righe, modello, 0.54, primo (terza colonna), lens2 (relativo per cella), scala 30 km
+   da  45°    1509  +0.93  +0.93  -0.61  +0.73  +0.24
+   da  90°    1062  +0.48  +0.48  -1.89  +0.70  -0.41
+   da 180°     597  -0.93  -0.93  -1.89  -1.09  -1.45
+   da 225°    2161  -0.23  -0.23  -1.99  +0.34  -0.58
+   da 270°     642  -3.26  -3.26  -6.28  -1.42  -3.33

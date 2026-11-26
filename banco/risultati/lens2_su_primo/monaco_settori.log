@@ -1,0 +1,7 @@
+monaco: 26675 righe della cassaforte, 55 passaggi
+  modello                      rmse 4.21  sist 1.51  media -0.61  | <3 km sist 2.09 media -0.04  | disegno 0.00
+  0.54                         rmse 4.21  sist 1.51  media -0.61  | <3 km sist 2.09 media -0.04  | disegno 0.00
+  primo (terza colonna)        rmse 4.27  sist 1.58  media -0.70  | <3 km sist 2.56 media -1.16  | disegno 1.00
+  lens2 (relativo per cella)   rmse 3.58  sist 1.08  media +0.79  | <3 km sist 1.85 media +1.17  | disegno -0.29
+  scala 30 km                  rmse 3.86  sist 1.43  media +1.05  | <3 km sist 2.08 media +0.56  | disegno 0.73
+  entro 3 km, errore medio per direzione del vento al largo (nodi): settore, righe, modello, 0.54, primo (terza colonna), lens2 (relativo per cella), scala 30 km

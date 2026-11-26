@@ -1,0 +1,11 @@
+palermo: 10746 righe della cassaforte, 31 passaggi
+  modello                      rmse 4.06  sist 1.69  media -0.64  | <3 km sist 2.86 media -1.20  | disegno 0.00
+  0.54                         rmse 4.05  sist 1.73  media -0.74  | <3 km sist 2.96 media -1.50  | disegno 0.12
+  primo (terza colonna)        rmse 4.37  sist 2.21  media -1.23  | <3 km sist 4.15 media -3.01  | disegno 1.00
+  lens2 (relativo per cella)   rmse 3.78  sist 0.84  media -0.26  | <3 km sist 1.70 media -0.61  | disegno -0.05
+  scala 30 km                  rmse 4.12  sist 1.75  media +0.02  | <3 km sist 3.31 media -1.73  | disegno 0.89
+  entro 3 km, errore medio per direzione del vento al largo (nodi): settore, righe, modello, 0.54, primo (terza colonna), lens2 (relativo per cella), scala 30 km
+   da 135°     201  +0.39  +0.10  -1.18  +1.10  +0.06
+   da 225°     296  -3.27  -3.66  -6.02  -3.59  -4.96
+   da 270°     487  +0.07  -0.24  -1.69  +0.32  -0.33
+   da 315°     228  -0.57  -0.82  -1.81  +1.03  -0.15

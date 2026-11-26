@@ -1,0 +1,13 @@
+canarie: 226392 righe della cassaforte, 95 passaggi
+  modello                      rmse 3.71  sist 1.73  media -0.68  | <3 km sist 2.27 media -0.89  | disegno 0.00
+  0.54                         rmse 3.71  sist 1.73  media -0.68  | <3 km sist 2.27 media -0.89  | disegno 0.00
+  primo (terza colonna)        rmse 3.79  sist 1.92  media -1.19  | <3 km sist 3.14 media -2.34  | disegno 1.00
+  lens2 (relativo per cella)   rmse 2.93  sist 0.55  media -0.28  | <3 km sist 0.83 media -0.25  | disegno 0.42
+  scala 30 km                  rmse 3.20  sist 1.10  media -0.10  | <3 km sist 2.30 media -1.11  | disegno 0.83
+  entro 3 km, errore medio per direzione del vento al largo (nodi): settore, righe, modello, 0.54, primo (terza colonna), lens2 (relativo per cella), scala 30 km
+   da   0°    4127  -1.49  -1.49  -2.89  -0.75  -1.55
+   da  45°   12258  -0.57  -0.57  -1.99  +0.08  -0.84
+   da  90°     262  -4.64  -4.64  -7.50  -3.62  -5.29
+   da 135°     398  +0.16  +0.16  -1.59  +0.67  +0.20
+   da 225°     896  -1.17  -1.17  -2.17  -1.29  -1.42
+   da 315°     525  -1.28  -1.28  -3.30  -0.70  -1.74

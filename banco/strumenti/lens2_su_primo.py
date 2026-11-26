@@ -34,8 +34,7 @@ from libreria_radar import Libreria                    # noqa: E402
 from stazioni_cfd import vicini                        # noqa: E402
 from taratura_radar import su_celle_radar              # noqa: E402
 
-AREE14 = ["egadi", "eolie", "palermo", "messina", "malta", "napoli", "cagliari", "maddalena-bonifacio", "toscano", "genova",
-          "pontine", "corsica-nord", "monaco", "cicladi"]
+from confronto_metodi import AREE as AREE14   # tutte le aree, nello stesso ordine della tabella
 SETTIMANA = 7 * 86400
 SCALE = tuple(float(x) for x in os.environ.get("SCALE", "3,5,10,20").split(","))
 PESI = tuple(float(x) for x in os.environ.get("PESI", "0.25,0.5,0.75").split(",") if x)
@@ -75,13 +74,14 @@ def main():
 
     T = np.load(os.environ.get("TABELLA", "/home/claude/lavoro/tabella6.npz"), mmap_mode="r")
     sel = np.asarray(T["area"]) == AREE14.index(area)
-    g = lambda k: np.asarray(T[k][sel])                                   # noqa: E731
+    g = lambda k: np.asarray(T[k][sel]) if k in T.files else np.full(int(sel.sum()), 1.0 if k.startswith("q_") else np.nan)   # noqa: E731
     j, i = g("j").astype(int), g("i").astype(int)
     vero = np.load(os.environ.get("VERO", "/home/claude/lavoro/radar_vero_tabella6.npy"), mmap_mode="r")[sel]
     mod, D0, S0, dist, t, sc = g("mod"), g("D0"), g("S0"), g("dist"), g("t"), g("scena")
     qL, dT925, dirc = g("q_lens054"), g("dT925"), g("dir")
     v925, d925, ora = g("v925"), g("d925"), g("ora")
     cass = ((t // SETTIMANA) % 5 == 2)
+    qL = np.where(np.isfinite(qL) & (qL > 0), qL, 1.0)                    # aree senza Lens 0.54 nella tabella
     neu = np.clip((4 - dT925) / 4, 0, 1)                                  # 1 = aria mescolata, 0 = stabile
     neu = np.where(np.isfinite(neu), neu, 0.5)
     k0, k1, w = vicini(DA, D0)
