@@ -55,11 +55,35 @@ FINI = {
     "toscano-giglio": (42.2, 42.5, 10.78, 11.3),
     "malta-gozo": (35.88, 36.17, 14.08, 14.5),
     "malta-valletta": (35.72, 35.96, 14.25, 14.68),
+    "corsica-capocorso": (42.75, 43.1, 9.18, 9.62),
+    "maiorca-pollenca": (39.75, 40.03, 2.95, 3.35),
+    "maiorca-tramuntana": (39.7, 39.95, 2.5, 2.95),
+    "maiorca-dragonera": (39.5, 39.75, 2.22, 2.6),
+    "maiorca-palma": (39.35, 39.6, 2.45, 2.85),
+    "dalmazia-split": (43.25, 43.55, 16.1, 16.7),
+    "dalmazia-hvar": (43.05, 43.32, 16.3, 16.9),
+    "dalmazia-vis": (42.95, 43.15, 15.95, 16.3),
+    "dalmazia-korcula": (42.85, 43.05, 16.55, 17.25),
+    "canarie-tenerife": (27.95, 28.65, -16.95, -16.1),
+    "canarie-grancanaria": (27.7, 28.25, -15.92, -15.3),
+    "cagliari-golfo": (38.95, 39.25, 9.0, 9.42),
+    "cagliari-pula": (38.85, 39.1, 8.85, 9.05),
+    "cagliari-carbonara": (38.98, 39.22, 9.4, 9.65),
+    "genova-ovest": (44.15, 44.45, 8.4, 8.85),
+    "genova-est": (44.2, 44.47, 8.85, 9.5),
+    "monaco-nizza": (43.55, 43.8, 7.15, 7.5),
+    "monaco-sanremo": (43.65, 43.85, 7.45, 7.9),
+    "cicladi-tinos-mykonos": (37.38, 37.66, 25.0, 25.48),
+    "cicladi-syros": (37.33, 37.55, 24.8, 25.05),
+    "cicladi-paros-naxos": (36.95, 37.2, 25.0, 25.6),
 }
 # 0.57.1 (Giano, 25/11 sera): allargate, circa 10 km di mare a 100 m attorno a ogni gruppo di isole, dentro l'area madre.
 # 25/11 notte (Giano): Arcipelago toscano (Capraia, Elba e canale di Piombino, Giglio e Argentario) e Malta (Gozo e Comino, Malta).
-PADRE = {"eolie-ovest": "eolie", "eolie-centro": "eolie", "eolie-est": "eolie", "eolie-milazzo": "eolie", "palermo-fine": "palermo", "egadi-ovest": "egadi", "egadi-est": "egadi", "napoli-ovest": "napoli", "napoli-est": "napoli", "bonifacio-ovest": "maddalena-bonifacio", "bonifacio-est": "maddalena-bonifacio", "pontine-ponza": "pontine", "pontine-ventotene": "pontine", "pontine-circeo": "pontine", "pontine-gaeta": "pontine", "toscano-capraia": "toscano", "toscano-elba": "toscano", "toscano-giglio": "toscano", "malta-gozo": "malta", "malta-valletta": "malta"}
+# 26/11 (Giano): Capo Corso, Maiorca, Dalmazia, Canarie, Cagliari, Genova, Nizza-Monaco, Cicladi.
+PADRE = {"eolie-ovest": "eolie", "eolie-centro": "eolie", "eolie-est": "eolie", "eolie-milazzo": "eolie", "palermo-fine": "palermo", "egadi-ovest": "egadi", "egadi-est": "egadi", "napoli-ovest": "napoli", "napoli-est": "napoli", "bonifacio-ovest": "maddalena-bonifacio", "bonifacio-est": "maddalena-bonifacio", "pontine-ponza": "pontine", "pontine-ventotene": "pontine", "pontine-circeo": "pontine", "pontine-gaeta": "pontine", "toscano-capraia": "toscano", "toscano-elba": "toscano", "toscano-giglio": "toscano", "malta-gozo": "malta", "malta-valletta": "malta", "corsica-capocorso": "corsica-nord", "maiorca-pollenca": "maiorca", "maiorca-tramuntana": "maiorca", "maiorca-dragonera": "maiorca", "maiorca-palma": "maiorca", "dalmazia-split": "dalmazia", "dalmazia-hvar": "dalmazia", "dalmazia-vis": "dalmazia", "dalmazia-korcula": "dalmazia", "canarie-tenerife": "canarie", "canarie-grancanaria": "canarie", "cagliari-golfo": "cagliari", "cagliari-pula": "cagliari", "cagliari-carbonara": "cagliari", "genova-ovest": "genova", "genova-est": "genova", "monaco-nizza": "monaco", "monaco-sanremo": "monaco", "cicladi-tinos-mykonos": "cicladi", "cicladi-syros": "cicladi", "cicladi-paros-naxos": "cicladi"}
 MAGLIA_FINI = 100
+# le isole grandi delle Canarie non stanno in 165 mila celle a 100 m
+MAGLIA = {"canarie-tenerife": 200, "canarie-grancanaria": 150}
 AREE.update(FINI)
 
 if __name__ == "__main__":
@@ -74,7 +98,7 @@ if __name__ == "__main__":
         voci = [{"id": ident, "box": box, "dx": ""}]
     else:
         ids = list(AREE) if chieste in ("", "tutte") else [x for x in chieste.split(",") if x in AREE]
-        voci = [{"id": k, "box": ",".join(str(x) for x in AREE[k]), "dx": str(MAGLIA_FINI) if k in FINI else ""} for k in ids]
+        voci = [{"id": k, "box": ",".join(str(x) for x in AREE[k]), "dx": str(MAGLIA.get(k, MAGLIA_FINI)) if k in FINI else ""} for k in ids]
     if not voci:
         sys.exit("nessuna area")
     print(json.dumps({"include": voci}))
