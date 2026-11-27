@@ -1,0 +1,145 @@
+{
+ "casi": [
+  {
+   "dx": 400,
+   "N": 0.0,
+   "da": 0.0,
+   "messina_reggio": 0.943,
+   "messina_villa": 0.923,
+   "ganzirri": 0.85,
+   "imbocco_nord": 0.932,
+   "convergenza_pct": 0.0
+  },
+  {
+   "dx": 400,
+   "N": 0.0,
+   "da": 180.0,
+   "messina_reggio": 0.947,
+   "messina_villa": 0.94,
+   "ganzirri": 0.925,
+   "imbocco_nord": 0.789,
+   "convergenza_pct": 0.01
+  },
+  {
+   "dx": 400,
+   "N": 0.005,
+   "da": 0.0,
+   "messina_reggio": 0.744,
+   "messina_villa": 0.643,
+   "ganzirri": 0.549,
+   "imbocco_nord": 0.594,
+   "convergenza_pct": 0.07
+  },
+  {
+   "dx": 400,
+   "N": 0.005,
+   "da": 180.0,
+   "messina_reggio": 0.719,
+   "messina_villa": 0.928,
+   "ganzirri": 1.026,
+   "imbocco_nord": 1.191,
+   "convergenza_pct": 0.38
+  },
+  {
+   "dx": 400,
+   "N": 0.01,
+   "da": 0.0,
+   "messina_reggio": 1.513,
+   "messina_villa": 1.431,
+   "ganzirri": 1.172,
+   "imbocco_nord": 0.757,
+   "convergenza_pct": 11.14
+  },
+  {
+   "dx": 400,
+   "N": 0.01,
+   "da": 7.5,
+   "messina_reggio": 1.512,
+   "messina_villa": 1.449,
+   "ganzirri": 1.12,
+   "imbocco_nord": 0.772,
+   "convergenza_pct": 7.18
+  },
+  {
+   "dx": 400,
+   "N": 0.01,
+   "da": 15.0,
+   "messina_reggio": 1.499,
+   "messina_villa": 1.34,
+   "ganzirri": 1.169,
+   "imbocco_nord": 0.733,
+   "convergenza_pct": 7.14
+  },
+  {
+   "dx": 400,
+   "N": 0.01,
+   "da": 180.0,
+   "messina_reggio": 1.063,
+   "messina_villa": 1.467,
+   "ganzirri": 1.917,
+   "imbocco_nord": 1.829,
+   "convergenza_pct": 6.4
+  },
+  {
+   "dx": 400,
+   "N": 0.01,
+   "da": 187.5,
+   "messina_reggio": 0.829,
+   "messina_villa": 1.377,
+   "ganzirri": 1.544,
+   "imbocco_nord": 1.701,
+   "convergenza_pct": 5.43
+  },
+  {
+   "dx": 400,
+   "N": 0.01,
+   "da": 195.0,
+   "messina_reggio": 0.911,
+   "messina_villa": 1.219,
+   "ganzirri": 1.672,
+   "imbocco_nord": 1.824,
+   "convergenza_pct": 16.01
+  },
+  {
+   "dx": 400,
+   "N": 0.02,
+   "da": 0.0,
+   "messina_reggio": 3.604,
+   "messina_villa": 2.368,
+   "ganzirri": 2.126,
+   "imbocco_nord": 1.631,
+   "convergenza_pct": 84.24
+  },
+  {
+   "dx": 400,
+   "N": 0.02,
+   "da": 180.0,
+   "messina_reggio": 2.293,
+   "messina_villa": 3.064,
+   "ganzirri": 3.639,
+   "imbocco_nord": 3.85,
+   "convergenza_pct": 68.65
+  }
+ ],
+ "interpolazione_7.5": {
+  "medio": 0.033,
+  "massimo": 0.103
+ },
+ "interpolazione_187.5": {
+  "medio": 0.167,
+  "massimo": 0.554
+ },
+ "verdetto": {
+  "400": {
+   "getto_nord": 3.604,
+   "getto_sud": 3.064,
+   "neutra": [
+    0.9432508390034227,
+    0.9395675306751861
+   ],
+   "conv_max": 84.24,
+   "passa_getto": true,
+   "passa_conv": false
+  }
+ }
+}
