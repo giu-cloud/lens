@@ -29,7 +29,9 @@ AREE = {
 CP = "/tmp/lens-motore-build/motore.jar:/tmp/rif/rif.jar:/opt/kotlin2021/kotlinc/lib/kotlin-stdlib.jar"
 MAPPE = "/home/claude/shift/app/src/main/assets/maps"
 RIL = os.environ.get("RILIEVO", "")          # la manopola del rilievo (vuoto = quella del motore, 1)
-SUF = f"_r{RIL}" if RIL else ""
+PROPS = os.environ.get("PROPS", "").split()   # altre proprietà del motore (-Dshift.lens.wake=0.65 ...), con SUFFISSO per il nome
+KM = os.environ.get("KM", "")                # la scala del livello del radar, al posto di quella dell'area
+SUF = os.environ.get("SUFFISSO", "") or (f"_r{RIL}" if RIL else "")
 
 
 def leggi_rif(p):
@@ -76,7 +78,7 @@ def area(nome):
     for k0 in range(0, len(scene), 15):
         lotto = scene[k0:k0 + 15]
         usc = f"/tmp/rif/{nome}{SUF}_{k0}.bin"
-        cmd = ["java", "-Xmx5g"] + (["-Dshift.lens.relief=" + RIL, "-Dlens.soloFast=true"] if RIL else []) + ["-cp", CP, "RiferimentiKt", c["atl"], c["lib"], MAPPE, str(c["km"]), usc] + sum([s[2] for s in lotto], [])
+        cmd = ["java", "-Xmx5g"] + (["-Dshift.lens.relief=" + RIL] if RIL else []) + PROPS + (["-Dlens.soloFast=true"] if (RIL or PROPS or KM) else []) + ["-cp", CP, "RiferimentiKt", c["atl"], c["lib"], MAPPE, KM or str(c["km"]), usc] + sum([s[2] for s in lotto], [])
         r = subprocess.run(cmd, capture_output=True, text=True)
         if r.returncode != 0:
             print(r.stderr[-2000:]); raise SystemExit(1)
