@@ -28,6 +28,8 @@ AREE = {
 }
 CP = "/tmp/lens-motore-build/motore.jar:/tmp/rif/rif.jar:/opt/kotlin2021/kotlinc/lib/kotlin-stdlib.jar"
 MAPPE = "/home/claude/shift/app/src/main/assets/maps"
+RIL = os.environ.get("RILIEVO", "")          # la manopola del rilievo (vuoto = quella del motore, 1)
+SUF = f"_r{RIL}" if RIL else ""
 
 
 def leggi_rif(p):
@@ -68,17 +70,18 @@ def area(nome):
         sp = np.nanmedian(v925[m]); dd = np.radians(np.nanmedian(d925[m]))
         u, v = (-sp * np.sin(dd), -sp * np.cos(dd)) if np.isfinite(sp) and np.isfinite(dd) else (np.nan, np.nan)
         scene.append((s, tt, [pw, pp, str(tt * 1000), f"{u:.3f}", f"{v:.3f}"]))
-    print(f"{nome}: {len(scene)} passaggi della cassaforte con GRIB e profilo", flush=True)
+    print(f"{nome}{SUF}: {len(scene)} passaggi della cassaforte con GRIB e profilo", flush=True)
     os.makedirs(f"{L}/cfd_rif", exist_ok=True)
     righe_out = {k: [] for k in ("scena", "t", "j", "i", "lat", "lon", "dist", "vero", "mod", "Fr", "rFast", "rDet", "rB", "rAf", "rAd", "dirFast", "dirDet", "dirM")}
     for k0 in range(0, len(scene), 15):
         lotto = scene[k0:k0 + 15]
-        usc = f"/tmp/rif/{nome}_{k0}.bin"
-        cmd = ["java", "-Xmx5g", "-cp", CP, "RiferimentiKt", c["atl"], c["lib"], MAPPE, str(c["km"]), usc] + sum([s[2] for s in lotto], [])
+        usc = f"/tmp/rif/{nome}{SUF}_{k0}.bin"
+        cmd = ["java", "-Xmx5g"] + (["-Dshift.lens.relief=" + RIL, "-Dlens.soloFast=true"] if RIL else []) + ["-cp", CP, "RiferimentiKt", c["atl"], c["lib"], MAPPE, str(c["km"]), usc] + sum([s[2] for s in lotto], [])
         r = subprocess.run(cmd, capture_output=True, text=True)
         if r.returncode != 0:
             print(r.stderr[-2000:]); raise SystemExit(1)
         box, nx, ny, out = leggi_rif(usc)
+        os.remove(usc)
         S, N, O, E = box
         alat = N - (np.arange(ny) + 0.5) * (N - S) / ny; alon = O + (np.arange(nx) + 0.5) * (E - O) / nx
         LA, LO = np.meshgrid(alat, alon, indexing="ij")
@@ -107,7 +110,7 @@ def area(nome):
                 righe_out[kk].append(np.asarray(vv))
         print(f"  {min(k0 + 15, len(scene))}/{len(scene)}", flush=True)
     R = {k: np.concatenate(v) if v else np.zeros(0) for k, v in righe_out.items()}
-    np.savez_compressed(f"{L}/cfd_rif/rif_{nome}.npz", **R)
+    np.savez_compressed(f"{L}/cfd_rif/rif_{nome}{SUF}.npz", **R)
     # gli errori, come lo studio dello Stretto
     vero_, mod_ = R["vero"], R["mod"]
     okk = np.isfinite(vero_) & (vero_ > 0.5) & (mod_ > 2.0) & np.isfinite(R["rFast"]) & np.isfinite(R["rDet"]) & np.isfinite(R["rB"])

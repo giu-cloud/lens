@@ -9,6 +9,8 @@ import kotlin.math.*
  *  - Fast: l'atlante (LensAtlas.hour) con l'aria della scena; Detailed: l'ora risolta (LensHourly.fields) con la stessa aria;
  *  - il livello del radar (LensLivello, scala dell'area) misurato sull'uno e sull'altro;
  *  - il fattore di B (relativoALens sul Fast), come riferimento di quello che il radar sa.
+ * Con -Dshift.lens.relief=k la manopola del rilievo del motore (1 = A, 0 = la 0.54; la rotazione resta quella piena);
+ * con -Dlens.soloFast=true niente Detailed (copia di Fast).
  * Uso: Riferimenti <atlante> <libreria> <cartella mappe> <scala km> <uscita>  poi per scena: <GRIB vento> <GRIB profilo> <tempo ms> <u925> <v925>
  * Uscita (little endian): "RIF1", ns, nx, ny, box (4 double); per scena: tempo (long), Fr, N, 12 campi nx*ny float32 a righe da nord:
  *   M, M10, uFast, vFast, uDet, vDet, livFast, livDet, fattore B, mare, Fr del Detailed sotto le cime (costante), secondi del Detailed.
@@ -74,11 +76,15 @@ fun main(args: Array<String>) {
         // Fast e Detailed con l'aria della scena
         val hF = atl.hour(g, null, t, air?.n ?: LensAtlas.N_MIXED, air)!!
         val t0 = System.nanoTime()
-        val det = LensHourly.fields(atl, g, null, listOf(t), air = { air }, n = air?.n ?: LensAtlas.N_MIXED, threads = 2)
-        val sec = (System.nanoTime() - t0) / 1e9
-        val dU = det.first { it.param == "u" }.values; val dV = det.first { it.param == "v" }.values   // righe da sud
         val uD = FloatArray(nx * ny); val vD = FloatArray(nx * ny)
-        for (r in 0 until ny) for (c in 0 until nx) { uD[r * nx + c] = dU[(ny - 1 - r) * nx + c]; vD[r * nx + c] = dV[(ny - 1 - r) * nx + c] }
+        if (System.getProperty("lens.soloFast") == "true") {          // Detailed = Fast (per le prove della manopola del rilievo)
+            hF.u.copyInto(uD); hF.v.copyInto(vD)
+        } else {
+            val det = LensHourly.fields(atl, g, null, listOf(t), air = { air }, n = air?.n ?: LensAtlas.N_MIXED, threads = 2)
+            val dU = det.first { it.param == "u" }.values; val dV = det.first { it.param == "v" }.values   // righe da sud
+            for (r in 0 until ny) for (c in 0 until nx) { uD[r * nx + c] = dU[(ny - 1 - r) * nx + c]; vD[r * nx + c] = dV[(ny - 1 - r) * nx + c] }
+        }
+        val sec = (System.nanoTime() - t0) / 1e9
         // il modello sulle celle della libreria e sull'atlante (righe da sud, come Lens2Use.modelOnAtlas)
         fun vento(la: Double, lo: Double): Pair<Float, Float>? {
             val w = g.wind(la, lo, t) ?: return null
