@@ -1,0 +1,108 @@
+# CFD con l'aria stratificata (OpenFOAM 1912, buoyantBoussinesqSimpleFoam, RANS k-epsilon) sul rilievo di un sito:
+# una macchina per caso (direzione del vento : frequenza di Brunt-Vaisala N). Piano e criterio: lens/cfd_piano_26_11.md
+# nel progetto. Codice: banco/cfd/caso_cfd_s.py. Il calcolo fa due tratti (fino a iter-300, poi fino a iter) e pubblica
+# il vento a 10 m di tutti e due: la differenza dice se il campo è fermo. Uscita nella release cfd-s-<sito>.
+name: cfd_s
+on:
+  workflow_dispatch:
+    inputs:
+      sito: {description: "nome del sito", default: "stretto"}
+      centro: {description: "centro del dominio lat,lon", default: "38.200,15.620"}
+      casi: {description: "casi da:N separati da virgole (N in 1/s, 0 = neutra)", default: "0:0,0:0.01,180:0,180:0.01"}
+      x: {description: "dominio lungo il vento, km", default: "-24,24"}
+      y: {description: "dominio di traverso, km", default: "-22,22"}
+      dx: {description: "maglia orizzontale, m", default: "400"}
+      iter: {description: "iterazioni", default: "2000"}
+      vento: {description: "vento a 10 m all'ingresso, m/s", default: "8"}
+      altro: {description: "altre opzioni di caso_cfd_s.py (es. --primo 20 --liscia 150)", default: ""}
+      paralleli: {description: "macchine al massimo insieme (l'account ne ha 20 in tutto: lasciarne al server dei GRIB)", default: "8"}
+      minuti: {description: "tempo massimo per caso, minuti", default: "340"}
+permissions:
+  contents: write
+jobs:
+  prepara:
+    runs-on: ubuntu-24.04
+    outputs: {casi: "${{ steps.m.outputs.casi }}"}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: m
+        run: |
+          echo "casi=$(echo '${{ inputs.casi }}' | python3 -c 'import sys,json; print(json.dumps([dict(zip(("da","N"),c.strip().split(":"))) for c in sys.stdin.read().split(",") if c.strip()]))')" >> $GITHUB_OUTPUT
+      - name: terreno
+        run: |
+          mkdir -p atl
+          pip install -q numpy scipy pyamg rasterio
+          python3 - <<'PY' > raggio.txt
+          x0, x1 = (abs(float(v)) for v in "${{ inputs.x }}".split(","))
+          y0, y1 = (abs(float(v)) for v in "${{ inputs.y }}".split(","))
+          print(round(max(x0, x1, y0, y1) * 1.42 + 1.5, 1))
+          PY
+          T=terreno_${{ inputs.sito }}_r$(cat raggio.txt).npz
+          gh release view cfd-s-${{ inputs.sito }} > /dev/null 2>&1 || gh release create cfd-s-${{ inputs.sito }} --title "CFD stratificata su ${{ inputs.sito }}" --notes "OpenFOAM 1912, Boussinesq, RANS k-epsilon: vento a 10 m per 1 m/s all'ingresso, un file per direzione e N. Piano: lens/cfd_piano_26_11.md." || true
+          if gh release download cfd-s-${{ inputs.sito }} -p "$T" -D atl 2>/dev/null; then cp atl/$T atl/terreno.npz; else
+            python3 banco/cfd/terreno_cfd.py atl/terreno.npz --centro ${{ inputs.centro }} --raggio $(cat raggio.txt) --dx 100
+            cp atl/terreno.npz $T; gh release upload cfd-s-${{ inputs.sito }} $T --clobber || true
+          fi
+      - uses: actions/upload-artifact@v4
+        with: {name: terreno, path: atl/terreno.npz}
+  cfd:
+    needs: prepara
+    runs-on: ubuntu-24.04      # OpenFOAM (pacchetto openfoam 1912) c'è nella 24.04
+    timeout-minutes: ${{ fromJson(inputs.minuti) }}
+    strategy:
+      fail-fast: false
+      max-parallel: ${{ fromJson(inputs.paralleli) }}
+      matrix:
+        caso: ${{ fromJson(needs.prepara.outputs.casi) }}
+    env:
+      WM_PROJECT_DIR: /usr/share/openfoam
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          sudo apt-get update -q && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -q openfoam > /dev/null
+          pip install -q numpy scipy
+      - uses: actions/download-artifact@v4
+        with: {name: terreno, path: atl}
+      - name: caso
+        run: |
+          ARGS="--sito ${{ inputs.sito }} --centro ${{ inputs.centro }} --da ${{ matrix.caso.da }} --N ${{ matrix.caso.N }} --x=${{ inputs.x }} --y=${{ inputs.y }} --dx ${{ inputs.dx }} --iter ${{ inputs.iter }} --vento ${{ inputs.vento }} --processori 4 ${{ inputs.altro }}"
+          echo "$ARGS" > args.txt
+          python3 banco/cfd/caso_cfd_s.py atl/terreno.npz caso $ARGS
+          (cd caso && blockMesh > log.blockMesh)
+          python3 banco/cfd/caso_cfd_s.py atl/terreno.npz caso $ARGS --solo-punti
+          (cd caso && checkMesh > log.checkMesh; grep -E "cells:|non-orthogonality Max|skewness|Mesh OK|Failed" log.checkMesh; topoSet > log.topoSet)
+          python3 banco/cfd/caso_cfd_s.py atl/terreno.npz caso $ARGS --stratifica
+          sed -i 's/writeInterval [0-9]*;/writeInterval 100;/; s/purgeWrite 1;/purgeWrite 2;/' caso/system/controlDict
+      - name: calcolo, primo tratto (fino a iter-300)
+        run: |
+          cd caso && decomposePar > log.decompose
+          sed -i "s/endTime [0-9]*;/endTime $(( ${{ inputs.iter }} - 300 ));/" system/controlDict
+          start=$(date +%s); mpirun --oversubscribe -np 4 buoyantBoussinesqSimpleFoam -parallel > log.solver1 2>&1 || true
+          echo "secondi: $(( $(date +%s) - start ))" | tee tempo1.txt; tail -4 log.solver1; reconstructPar -latestTime > log.reconstruct1
+      - name: campo del primo tratto
+        run: |
+          N=$(printf '%s' "${{ matrix.caso.N }}" | tr '.' 'p'); D=$(printf '%05.1f' ${{ matrix.caso.da }})
+          echo "NOME=cfd_s_${{ inputs.sito }}_${{ inputs.dx }}m_N${N}_${D}" >> $GITHUB_ENV
+          python3 banco/cfd/campo_cfd.py atl/terreno.npz caso prima.npz --centro ${{ inputs.centro }} --da ${{ matrix.caso.da }} --raggio-uscita 20 --dx ${{ inputs.dx }} || true
+      - name: calcolo, secondo tratto (fino a iter)
+        run: |
+          cd caso
+          sed -i "s/endTime [0-9]*;/endTime ${{ inputs.iter }};/" system/controlDict
+          start=$(date +%s); mpirun --oversubscribe -np 4 buoyantBoussinesqSimpleFoam -parallel > log.solver2 2>&1 || true
+          echo "secondi: $(( $(date +%s) - start ))" | tee tempo2.txt; tail -4 log.solver2; reconstructPar -latestTime > log.reconstruct2
+      - name: campo e pubblicazione
+        if: always()
+        run: |
+          python3 banco/cfd/campo_cfd.py atl/terreno.npz caso $NOME.npz --centro ${{ inputs.centro }} --da ${{ matrix.caso.da }} --raggio-uscita 20 --dx ${{ inputs.dx }} || true
+          [ -f prima.npz ] && cp prima.npz ${NOME}_prima.npz
+          mkdir -p uscita
+          { cat args.txt; cat caso/tempo1.txt caso/tempo2.txt 2>/dev/null; grep -E "cells:|non-orthogonality Max|skewness" caso/log.checkMesh; echo "== primo tratto"; grep -E "^Time = |continuity|bounding|FOAM|converged" caso/log.solver1 | tail -12; echo "== secondo tratto"; grep -E "^Time = |continuity|bounding|FOAM|converged" caso/log.solver2 | tail -12; } > ${NOME}_registro.txt 2>/dev/null || true
+          for f in $NOME.npz ${NOME}_prima.npz ${NOME}_registro.txt; do [ -f $f ] && cp $f uscita/; done
+          ok=0; for k in 1 2 3 4 5; do gh release upload cfd-s-${{ inputs.sito }} uscita/* --clobber && { ok=1; break; }; sleep 30; done
+          [ $ok = 1 ] || echo "::warning::release non aggiornata: i file restano come artefatto del lavoro"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: "cfd-s-${{ inputs.sito }}-${{ inputs.dx }}-${{ matrix.caso.da }}-${{ matrix.caso.N }}", path: uscita/, retention-days: 14, if-no-files-found: ignore}
