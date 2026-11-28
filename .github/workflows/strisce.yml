@@ -1,0 +1,42 @@
+name: strisce
+# Le immagini Sentinel-1 GRD dei passaggi di un'area, ritagliate e ridotte a 40 m, nella release strisce-<area>.
+# Serve a leggere la direzione del vento dalle strisce (banco/strisce). Deposito pubblico: minuti gratuiti.
+on:
+  workflow_dispatch:
+    inputs:
+      area: {description: "area (banco/strisce/passaggi_<area>.json)", default: "corsica-nord"}
+      quanti: {description: "quanti passaggi, dall'inizio dell'elenco", default: "2"}
+      gruppi: {description: "lavori in parallelo (1-4)", default: "1"}
+permissions:
+  contents: write
+jobs:
+  elenco:
+    runs-on: ubuntu-latest
+    outputs:
+      m: ${{ steps.m.outputs.m }}
+    steps:
+      - id: m
+        run: echo "m=$(python3 -c "print(list(range(${{ inputs.gruppi }})))")" >> $GITHUB_OUTPUT
+  scarica:
+    needs: elenco
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        gruppo: ${{ fromJson(needs.elenco.outputs.m) }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      CDSE_USER: ${{ secrets.CDSE_USER }}
+      CDSE_PASS: ${{ secrets.CDSE_PASS }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -q numpy scipy requests tifffile imagecodecs
+      - name: Scarica e riduci
+        run: |
+          tag=strisce-${{ inputs.area }}
+          gh release view $tag >/dev/null 2>&1 || gh release create $tag -t "$tag" -n "Immagini Sentinel-1 GRD ridotte a 40 m per la direzione del vento (banco/strisce)." || true
+          export FATTI="$(gh release view $tag --json assets -q '.assets[].name' | tr '\n' ' ')"
+          python3 banco/strisce/scarica_grd.py banco/strisce/passaggi_${{ inputs.area }}.json usc ${{ inputs.quanti }} ${{ matrix.gruppo }} ${{ inputs.gruppi }}
+          ls -la usc | tail -n 20
+          if ls usc/*.npz >/dev/null 2>&1; then gh release upload $tag usc/*.npz --clobber; fi
