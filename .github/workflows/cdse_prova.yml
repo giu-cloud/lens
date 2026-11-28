@@ -1,0 +1,28 @@
+name: cdse_prova
+# Controlla che i segreti CDSE_USER e CDSE_PASS ci siano e che l'accesso al Copernicus Data Space funzioni.
+# Non scrive mai i segreti: solo "presente" o "manca" e l'esito dell'accesso.
+on:
+  workflow_dispatch:
+jobs:
+  prova:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Accesso
+        env:
+          CDSE_USER: ${{ secrets.CDSE_USER }}
+          CDSE_PASS: ${{ secrets.CDSE_PASS }}
+        run: |
+          [ -n "$CDSE_USER" ] && echo "CDSE_USER: presente" || echo "CDSE_USER: manca"
+          [ -n "$CDSE_PASS" ] && echo "CDSE_PASS: presente" || echo "CDSE_PASS: manca"
+          cod=$(curl -s -o /tmp/r.json -w "%{http_code}" -X POST \
+            "https://identity.dataspace.copernicus.eu/auth/realms/CDSE/protocol/openid-connect/token" \
+            --data-urlencode "grant_type=password" --data-urlencode "client_id=cdse-public" \
+            --data-urlencode "username=$CDSE_USER" --data-urlencode "password=$CDSE_PASS")
+          echo "risposta dell'accesso: $cod"
+          python3 -c "import json; d=json.load(open('/tmp/r.json')); print('gettone ricevuto' if 'access_token' in d else 'errore: ' + str(d.get('error')) + ' / ' + str(d.get('error_description')))"
+          tok=$(python3 -c "import json; print(json.load(open('/tmp/r.json')).get('access_token',''))")
+          [ -n "$tok" ] || exit 1
+          # una ricerca nel catalogo: un Sentinel-1 GRD sullo Stretto
+          curl -s "https://catalogue.dataspace.copernicus.eu/odata/v1/Products?\$filter=Collection/Name%20eq%20'SENTINEL-1'%20and%20contains(Name,'GRDH')%20and%20OData.CSC.Intersects(area=geography'SRID=4326;POINT(15.6%2038.2)')&\$top=2&\$orderby=ContentDate/Start%20desc" \
+            | python3 -c "import json,sys; d=json.load(sys.stdin); [print(p['Name'], p['ContentLength']) for p in d.get('value',[])]"
